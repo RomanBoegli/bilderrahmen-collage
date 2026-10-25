@@ -25,7 +25,7 @@ echo "budget $TOTAL_MINUTES min total, $MINUTES min per configuration, $RUNS run
 run() {
   local name=$1; shift
   echo "=== $name  ($(date))"
-  uv run collage "${COMMON[@]}" --out "out/$name" "$@" 2>&1 | grep -v '^run '
+  uv run collage "${COMMON[@]}" --out "out/$name" "$@" 2>&1 | grep --line-buffered -v '^run '
 }
 
 run free-gap                       # gap is an annealing variable in [1.5, 6]
@@ -36,5 +36,5 @@ run linear-cost   --cost-shape linear
 run free-gap-s1   --seed 1
 
 echo "=== combined ranking of all configurations"
-uv run collage --candidates "$(ls out/*/candidates.json | paste -sd, -)" --layouts 20 --out out/combined 2>&1 | grep -v '^run '
+uv run collage --candidates "$(ls out/*/candidates.json | paste -sd, -)" --layouts 20 --out out/combined 2>&1 | grep --line-buffered -v '^run '
 echo "done $(date)"
