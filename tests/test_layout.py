@@ -67,9 +67,10 @@ def test_placement_never_overlaps_random_trees():
     cfg = SearchConfig(min_frames=3)
     t = greedy_init(frames, 3.0, p, rng, 3)
     g = 3.0
-    for _ in range(300):
-        t, g = mutate(t, g, frames, cfg, rng)
+    _, e = total_cost(t, frames, g, p)
+    for _ in range(500):
+        t, g = mutate(t, g, e, frames, cfg, rng)
         rects, W, H = place(t, frames, g, p)  # asserts no overlap / inside box
         assert len(rects) == len(set(r.frame for r in rects))
         neighbour_gaps(rects)
-        total_cost(t, frames, g, p)
+        _, e = total_cost(t, frames, g, p)

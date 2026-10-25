@@ -57,17 +57,20 @@ def huber(d: float, p: Params) -> float:
 
 @dataclass
 class Eval:
+    """Annotated node: natural size plus how slack can be absorbed below it."""
+
     w: float
     h: float
-    cost: float = 0.0
-    # stretch bookkeeping per direction: cap = total gap weight that can absorb slack
-    # (0 = cannot stretch); phi = fraction of absorbed slack that lands on the worst gap
+    op: str | None = None  # None for a leaf
+    a: "Eval | None" = None
+    b: "Eval | None" = None
+    omega: float = 0.0  # weight of the gap between a and b (slack distribution)
+    # stretch capacity per direction: total gap weight that can absorb extra size (0 = rigid)
     cap_w: float = 0.0
-    phi_w: float = 0.0
     cap_h: float = 0.0
-    phi_h: float = 0.0
+    cost: float = 0.0
     max_dev: float = 0.0  # largest single-gap deviation implied by slack absorption
-    max_notch: float = 0.0  # largest unavoidable notch depth at the border
+    max_notch: float = 0.0  # largest notch depth at the border
     n: int = 1
 
 
@@ -93,6 +96,51 @@ def gap_weight(ext_a: float, ext_b: float, p: Params) -> float:
     return 1.0
 
 
+def child_flags(op: str, bt: bool, bb: bool, bl: bool, br: bool):
+    """Border flags of the two children of a node with the given flags."""
+    if op == "V":
+        return (bt, bb, bl, False), (bt, bb, False, br)
+    return (bt, False, bl, br), (False, bb, bl, br)
+
+
+def stretch_cost(e: Eval, s: float, vertical: bool, flags: tuple, p: Params) -> tuple[float, float, float]:
+    """Cost of making node ``e`` larger by ``s`` in height (vertical) or width.
+
+    Mirrors ``_place``: the extra size is spread over the node's gaps (weights ``omega``)
+    and its stretchable children; a rigid node (leaf) turns it into dead space.
+    Returns (cost, max gap deviation, max notch depth).
+    """
+    if s <= EPS:
+        return 0.0, 0.0, 0.0
+    bt, bb, bl, br = flags
+    if e.op is None:  # leaf: dead space
+        if vertical:
+            notch = (bt and bb) or bl or br
+            flush = bt or bb
+        else:
+            notch = (bl and br) or bt or bb
+            flush = bl or br
+        if notch:  # hole visible in the outer border
+            return p.w_notch * huber(s, p), 0.0, s
+        if flush:  # flush with the border, the inner gap grows by s
+            return p.w_dev * huber(s, p), s, 0.0
+        return 2 * p.w_dev * huber(s / 2, p), s / 2, 0.0  # centred: both gaps grow by s/2
+    fa, fb = child_flags(e.op, bt, bb, bl, br)
+    along = (e.op == "H") == vertical  # stretch direction follows the node's own gap
+    if along:
+        cap = e.omega + (e.a.cap_h + e.b.cap_h if vertical else e.a.cap_w + e.b.cap_w)
+        d_gap = s * e.omega / cap
+        sa = s * (e.a.cap_h if vertical else e.a.cap_w) / cap
+        sb = s * (e.b.cap_h if vertical else e.b.cap_w) / cap
+        ca, da, na = stretch_cost(e.a, sa, vertical, fa, p)
+        cb, db, nb = stretch_cost(e.b, sb, vertical, fb, p)
+        return p.w_dev * huber(d_gap, p) + ca + cb, max(d_gap, da, db), max(na, nb)
+    # across: both children must grow by s
+    ca, da, na = stretch_cost(e.a, s, vertical, fa, p)
+    cb, db, nb = stretch_cost(e.b, s, vertical, fb, p)
+    return ca + cb, max(da, db), max(na, nb)
+
+
 def evaluate(
     t: Tree,
     frames: list[Frame],
@@ -108,57 +156,30 @@ def evaluate(
         f = frames[t]
         return Eval(f.w, f.h)
     op, a, b = t
+    fa, fb = child_flags(op, bt, bb, bl, br)
+    ea = evaluate(a, frames, g, p, *fa)
+    eb = evaluate(b, frames, g, p, *fb)
     if op == "V":
-        ea = evaluate(a, frames, g, p, bt, bb, bl, False)
-        eb = evaluate(b, frames, g, p, bt, bb, False, br)
-        w = ea.w + g + eb.w
-        h = max(ea.h, eb.h)
-        s = abs(ea.h - eb.h)
-        short = ea if ea.h < eb.h else eb
-        cap_s, phi_s = short.cap_h, short.phi_h
-        both, one = (bt and bb), (bt or bb)
+        w, h = ea.w + g + eb.w, max(ea.h, eb.h)
         omega = gap_weight(ea.w, eb.w, p)
         cap_w = omega + ea.cap_w + eb.cap_w
-        phi_w = max(omega, ea.phi_w * ea.cap_w, eb.phi_w * eb.cap_w) / cap_w
-        if ea.cap_h > 0 and eb.cap_h > 0:
-            cap_h, phi_h = min(ea.cap_h, eb.cap_h), max(ea.phi_h, eb.phi_h)
-        else:
-            cap_h, phi_h = 0.0, 0.0
+        cap_h = min(ea.cap_h, eb.cap_h) if (ea.cap_h > 0 and eb.cap_h > 0) else 0.0
+        short, flags, s = (ea, fa, eb.h - ea.h) if ea.h < eb.h else (eb, fb, ea.h - eb.h)
+        c, d, nt = stretch_cost(short, s, True, flags, p)
     else:
-        ea = evaluate(a, frames, g, p, bt, False, bl, br)
-        eb = evaluate(b, frames, g, p, False, bb, bl, br)
-        h = ea.h + g + eb.h
-        w = max(ea.w, eb.w)
-        s = abs(ea.w - eb.w)
-        short = ea if ea.w < eb.w else eb
-        cap_s, phi_s = short.cap_w, short.phi_w
-        both, one = (bl and br), (bl or br)
+        w, h = max(ea.w, eb.w), ea.h + g + eb.h
         omega = gap_weight(ea.h, eb.h, p)
         cap_h = omega + ea.cap_h + eb.cap_h
-        phi_h = max(omega, ea.phi_h * ea.cap_h, eb.phi_h * eb.cap_h) / cap_h
-        if ea.cap_w > 0 and eb.cap_w > 0:
-            cap_w, phi_w = min(ea.cap_w, eb.cap_w), max(ea.phi_w, eb.phi_w)
-        else:
-            cap_w, phi_w = 0.0, 0.0
-
-    cost = ea.cost + eb.cost
-    max_dev = max(ea.max_dev, eb.max_dev)
-    max_notch = max(ea.max_notch, eb.max_notch)
-    if s > EPS:
-        if cap_s > 0:  # absorbed by inner gaps of the smaller child
-            d = s * phi_s
-            cost += p.w_dev * huber(d, p)
-            max_dev = max(max_dev, d)
-        elif both:  # touches both opposite borders -> notch unavoidable
-            cost += p.w_notch * huber(s, p)
-            max_notch = max(max_notch, s)
-        elif one:  # flush with the border, inner gap grows by s
-            cost += p.w_dev * huber(s, p)
-            max_dev = max(max_dev, s)
-        else:  # centred, both neighbouring gaps grow by s/2
-            cost += 2 * p.w_dev * huber(s / 2, p)
-            max_dev = max(max_dev, s / 2)
-    return Eval(w, h, cost, cap_w, phi_w, cap_h, phi_h, max_dev, max_notch, ea.n + eb.n)
+        cap_w = min(ea.cap_w, eb.cap_w) if (ea.cap_w > 0 and eb.cap_w > 0) else 0.0
+        short, flags, s = (ea, fa, eb.w - ea.w) if ea.w < eb.w else (eb, fb, ea.w - eb.w)
+        c, d, nt = stretch_cost(short, s, False, flags, p)
+    return Eval(
+        w, h, op, ea, eb, omega, cap_w, cap_h,
+        cost=ea.cost + eb.cost + c,
+        max_dev=max(ea.max_dev, eb.max_dev, d),
+        max_notch=max(ea.max_notch, eb.max_notch, nt),
+        n=ea.n + eb.n,
+    )
 
 
 def size_violation(w: float, h: float, p: Params) -> float:

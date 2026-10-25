@@ -1,4 +1,10 @@
-"""Simulated annealing over slicing trees (subset selection included)."""
+"""Simulated annealing over slicing trees (subset selection included).
+
+Besides the classic slicing-tree moves (flip a cut, swap leaves/subtrees, move a
+leaf) the proposals are *fit aware*: when a frame is inserted or replaced, the
+candidate is drawn with a preference for frames whose size matches the slot, and
+a "repair" move picks the node with the largest slack and tries to fix exactly that.
+"""
 from __future__ import annotations
 
 import copy
@@ -8,7 +14,7 @@ from dataclasses import dataclass
 from multiprocessing import Pool
 
 from .inventory import Frame
-from .layout import Params, Tree, is_leaf, leaves, size_violation, total_cost
+from .layout import Eval, Params, Tree, is_leaf, leaves, size_violation, total_cost
 
 
 @dataclass
@@ -20,9 +26,11 @@ class SearchConfig:
     g_max: float = 6.0
     g_step: float = 0.5
     g_fixed: float | None = None
+    g_mode: str = "free"  # "free": g is an annealing variable; "per-run": each run keeps one g from the grid
     min_frames: int = 10
     t_start: float = 10.0
     t_end: float = 0.02
+    fit_temp: float = 1.0  # softness (cm) of the fit-aware frame choice
     jobs: int | None = None
 
 
@@ -53,6 +61,12 @@ def get(t: Tree, path: tuple) -> Tree:
     return t
 
 
+def get_eval(e: Eval, path: tuple) -> Eval:
+    for i in path:
+        e = e.a if i == 1 else e.b
+    return e
+
+
 def replace(t: Tree, path: tuple, value: Tree) -> Tree:
     """Replace the subtree at ``path`` (in place); returns the (possibly new) root."""
     if not path:
@@ -64,11 +78,20 @@ def replace(t: Tree, path: tuple, value: Tree) -> Tree:
     return t
 
 
-def chain(items: list[Tree], op: str, rng: random.Random | None = None) -> Tree:
+def chain(items: list[Tree], op: str) -> Tree:
     t = items[0]
     for x in items[1:]:
         t = [op, t, x]
     return t
+
+
+def sibling_path(path: tuple) -> tuple:
+    return path[:-1] + (3 - path[-1],)
+
+
+def detach(t: Tree, path: tuple) -> Tree:
+    """Remove the subtree at ``path`` (its sibling takes the parent's place)."""
+    return replace(t, path[:-1], get(t, sibling_path(path)))
 
 
 # --------------------------------------------------------------------------- init / moves
@@ -96,13 +119,40 @@ def greedy_init(frames: list[Frame], g: float, p: Params, rng: random.Random, mi
         wsum += add
     if not rows:
         rows.append(row)
-    while sum(len(r) for r in rows) < min_frames and row:
-        rows.append(row)
-        row = []
     return chain([chain(r, "V") for r in rows], "H")
 
 
-def mutate(t: Tree, g: float, frames: list[Frame], cfg: SearchConfig, rng: random.Random) -> tuple[Tree, float]:
+def pick_by_fit(cands: list[int], score, rng: random.Random, temp: float) -> int | None:
+    """Draw a candidate with probability ~ exp(-score/temp) (score in cm, lower = better fit)."""
+    if not cands:
+        return None
+    scores = [score(i) for i in cands]
+    m = min(scores)
+    weights = [math.exp(-(s - m) / temp) for s in scores]
+    return rng.choices(cands, weights)[0]
+
+
+def _node_slack(e: Eval) -> tuple[float, bool, int]:
+    """(slack, vertical?, index of the smaller child 1|2) for an inner node."""
+    if e.op == "V":
+        s = abs(e.a.h - e.b.h)
+        return s, True, (1 if e.a.h < e.b.h else 2)
+    s = abs(e.a.w - e.b.w)
+    return s, False, (1 if e.a.w < e.b.w else 2)
+
+
+def _local_costs(e: Eval, path: tuple = (), acc: list | None = None) -> list[tuple[float, tuple]]:
+    if acc is None:
+        acc = []
+    if e.op is not None:
+        acc.append((e.cost - e.a.cost - e.b.cost, path))
+        _local_costs(e.a, path + (1,), acc)
+        _local_costs(e.b, path + (2,), acc)
+    return acc
+
+
+def mutate(t: Tree, g: float, e: Eval, frames: list[Frame], cfg: SearchConfig, rng: random.Random) -> tuple[Tree, float]:
+    """Return a mutated copy of ``t`` (and possibly a new gap)."""
     t = copy.deepcopy(t)
     r = rng.random()
     paths = node_paths(t)
@@ -111,68 +161,149 @@ def mutate(t: Tree, g: float, frames: list[Frame], cfg: SearchConfig, rng: rando
     used = set(leaves(t))
     unused = [i for i in range(len(frames)) if i not in used]
     nleaves = len(leaf_paths)
+    ft = cfg.fit_temp
 
-    if cfg.g_fixed is None and r < 0.05:
+    def slot_score(path: tuple, vertical: bool):
+        """Score function for a frame to be put at ``path``: distance to the sibling's size."""
+        if not path:
+            return lambda i: 0.0
+        sib = get_eval(e, sibling_path(path))
+        cur = get_eval(e, path)
+        if vertical:
+            return lambda i: abs(frames[i].h - max(sib.h, cur.h if cur.h < sib.h else 0.0))
+        return lambda i: abs(frames[i].w - max(sib.w, cur.w if cur.w < sib.w else 0.0))
+
+    if cfg.g_fixed is None and cfg.g_mode == "free" and r < 0.04:
         step = cfg.g_step * rng.choice((-1, 1))
         g = min(cfg.g_max, max(cfg.g_min, round(g + step, 3)))
         return t, g
-    if r < 0.22 and inner_paths:  # flip cut direction
+    if r < 0.18 and inner_paths:  # flip cut direction
         n = get(t, rng.choice(inner_paths))
         n[0] = "H" if n[0] == "V" else "V"
-    elif r < 0.30 and inner_paths:  # swap children
+    elif r < 0.24 and inner_paths:  # swap children
         n = get(t, rng.choice(inner_paths))
         n[1], n[2] = n[2], n[1]
-    elif r < 0.42 and nleaves >= 2:  # swap two leaves
+    elif r < 0.34 and nleaves >= 2:  # swap two leaves
         pa, pb = rng.sample(leaf_paths, 2)
         a, b = get(t, pa), get(t, pb)
         replace(t, pa, b)
         replace(t, pb, a)
-    elif r < 0.50 and len(paths) >= 4:  # swap two disjoint subtrees
+    elif r < 0.42 and len(paths) >= 4:  # swap two disjoint subtrees
         pa, pb = rng.sample(paths[1:], 2)
         if pa[: len(pb)] != pb and pb[: len(pa)] != pa:
             a, b = get(t, pa), get(t, pb)
             replace(t, pa, b)
             replace(t, pb, a)
-    elif r < 0.63 and nleaves >= 3:  # move a leaf somewhere else
+    elif r < 0.54 and nleaves >= 3:  # move a leaf somewhere else
         pa = rng.choice(leaf_paths)
         leaf = get(t, pa)
-        sibling = get(t, pa[:-1] + (3 - pa[-1],))
-        t = replace(t, pa[:-1], sibling)
+        t = detach(t, pa)
         q = rng.choice(node_paths(t))
         sub = get(t, q)
-        new = [rng.choice("HV"), sub, leaf] if rng.random() < 0.5 else [rng.choice("HV"), leaf, sub]
+        op = rng.choice("HV")
+        new = [op, sub, leaf] if rng.random() < 0.5 else [op, leaf, sub]
         t = replace(t, q, new)
-    elif r < 0.78 and unused:  # replace a leaf by an unused frame of another type
+    elif r < 0.68 and unused:  # replace a leaf by an unused frame that fits its slot
         pa = rng.choice(leaf_paths)
         cur = get(t, pa)
         cand = [i for i in unused if frames[i].type != frames[cur].type]
-        if cand:
-            replace(t, pa, rng.choice(cand))
-    elif r < 0.90 and unused:  # add a frame
+        if cand and pa:
+            parent_op = get(t, pa[:-1])[0]
+            choice = pick_by_fit(cand, slot_score(pa, parent_op == "V"), rng, ft)
+            replace(t, pa, choice)
+    elif r < 0.78 and unused:  # insert an unused frame next to a node, preferring fitting sizes
         q = rng.choice(paths)
         sub = get(t, q)
-        leaf = rng.choice(unused)
-        new = [rng.choice("HV"), sub, leaf] if rng.random() < 0.5 else [rng.choice("HV"), leaf, sub]
+        eq = get_eval(e, q)
+        op = rng.choice("HV")
+        score = (lambda i: abs(frames[i].h - eq.h)) if op == "V" else (lambda i: abs(frames[i].w - eq.w))
+        leaf = pick_by_fit(unused, score, rng, ft)
+        new = [op, sub, leaf] if rng.random() < 0.5 else [op, leaf, sub]
         t = replace(t, q, new)
-    elif nleaves > cfg.min_frames:  # remove a frame
-        pa = rng.choice(leaf_paths)
-        sibling = get(t, pa[:-1] + (3 - pa[-1],))
-        t = replace(t, pa[:-1], sibling)
+    elif r < 0.83 and nleaves > cfg.min_frames:  # remove a frame
+        t = detach(t, rng.choice(leaf_paths))
+    elif inner_paths:  # repair: attack the node with the largest local cost
+        t = repair(t, g, e, frames, cfg, rng, unused)
     return t, g
+
+
+def repair(t: Tree, g: float, e: Eval, frames: list[Frame], cfg: SearchConfig, rng: random.Random,
+           unused: list[int]) -> Tree:
+    costs = _local_costs(e)
+    costs.sort(reverse=True)
+    # pick among the worst few nodes
+    _, path = rng.choice(costs[: min(3, len(costs))])
+    en = get_eval(e, path)
+    s, vertical, short_idx = _node_slack(en)
+    if s <= 1e-9:
+        return t
+    short_path = path + (short_idx,)
+    long_path = path + (3 - short_idx,)
+    short_e = get_eval(e, short_path)
+    short_t = get(t, short_path)
+    choice = rng.random()
+    if choice < 0.35 and unused:
+        # extend the smaller child by a frame that fills the slack
+        op = "H" if vertical else "V"
+        need = s - g
+        if vertical:
+            score = lambda i: abs(frames[i].h - need) + 0.5 * abs(frames[i].w - short_e.w)
+        else:
+            score = lambda i: abs(frames[i].w - need) + 0.5 * abs(frames[i].h - short_e.h)
+        leaf = pick_by_fit(unused, score, rng, cfg.fit_temp)
+        new = [op, short_t, leaf] if rng.random() < 0.5 else [op, leaf, short_t]
+        t = replace(t, short_path, new)
+    elif choice < 0.65 and unused:
+        # replace a leaf of the smaller child by a larger one (or of the larger child by a smaller one)
+        grow = rng.random() < 0.6
+        base = short_path if grow else long_path
+        lp = [q for q in node_paths(get(t, base)) if is_leaf(get(get(t, base), q))]
+        q = base + rng.choice(lp)
+        cur = get(t, q)
+        delta = s if grow else -s
+        cand = [i for i in unused if frames[i].type != frames[cur].type]
+        if vertical:
+            score = lambda i: abs(frames[i].h - (frames[cur].h + delta)) + 0.5 * abs(frames[i].w - frames[cur].w)
+        else:
+            score = lambda i: abs(frames[i].w - (frames[cur].w + delta)) + 0.5 * abs(frames[i].h - frames[cur].h)
+        leaf = pick_by_fit(cand, score, rng, cfg.fit_temp)
+        if leaf is not None:
+            replace(t, q, leaf)
+    elif choice < 0.8:
+        # remove a leaf from the larger child
+        long_t = get(t, long_path)
+        lp = [q for q in node_paths(long_t) if is_leaf(get(long_t, q))]
+        if len(lp) >= 2 and len(leaves(t)) > cfg.min_frames:
+            t = detach(t, long_path + rng.choice(lp))
+    else:
+        # flip the cut of the smaller child (if it is an inner node) or of the node itself
+        n = get(t, short_path) if not is_leaf(short_t) else get(t, path)
+        n[0] = "H" if n[0] == "V" else "V"
+    return t
 
 
 # ------------------------------------------------------------------------------ annealing
 
 
-def anneal(frames: list[Frame], p: Params, cfg: SearchConfig, run: int) -> list[Candidate]:
-    """One annealing run; returns the best state plus the best state per frame count."""
-    rng = random.Random(cfg.seed * 1000 + run)
+def gap_grid(cfg: SearchConfig) -> list[float]:
     gs = []
     x = cfg.g_min
     while x <= cfg.g_max + 1e-9:
         gs.append(round(x, 3))
         x += cfg.g_step
-    g = cfg.g_fixed if cfg.g_fixed is not None else rng.choice(gs)
+    return gs
+
+
+def anneal(frames: list[Frame], p: Params, cfg: SearchConfig, run: int) -> list[Candidate]:
+    """One annealing run; returns the best state plus the best state per frame count."""
+    rng = random.Random(cfg.seed * 1000 + run)
+    gs = gap_grid(cfg)
+    if cfg.g_fixed is not None:
+        g = cfg.g_fixed
+    elif cfg.g_mode == "per-run":
+        g = gs[run % len(gs)]
+    else:
+        g = rng.choice(gs)
     t = greedy_init(frames, g, p, rng, cfg.min_frames)
     c, e = total_cost(t, frames, g, p)
     viol = size_violation(e.w, e.h, p)
@@ -182,18 +313,18 @@ def anneal(frames: list[Frame], p: Params, cfg: SearchConfig, run: int) -> list[
     log_ratio = math.log(cfg.t_end / cfg.t_start)
     for k in range(cfg.iters):
         T = cfg.t_start * math.exp(log_ratio * k / cfg.iters)
-        t2, g2 = mutate(t, g, frames, cfg, rng)
+        t2, g2 = mutate(t, g, e, frames, cfg, rng)
         c2, e2 = total_cost(t2, frames, g2, p)
         v2 = max(abs(e2.w - p.target_w) - limit, abs(e2.h - p.target_h) - limit, 0.0)
         if v2 > 0 and v2 >= viol:  # outside the hard window and not improving
             continue
         if c2 <= c or rng.random() < math.exp((c - c2) / T):
-            t, g, c, viol = t2, g2, c2, v2
+            t, g, c, e, viol = t2, g2, c2, e2, v2
             if c < best_all.cost:
                 best_all = Candidate(copy.deepcopy(t), g, c, run)
-            b = best.get(e2.n)
+            b = best.get(e.n)
             if b is None or c < b.cost:
-                best[e2.n] = Candidate(copy.deepcopy(t), g, c, run)
+                best[e.n] = Candidate(copy.deepcopy(t), g, c, run)
     out = [best_all] + [b for b in best.values() if b.cost <= best_all.cost + 6.0]
     return out
 
