@@ -50,7 +50,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--hard-margin", type=float, default=10.0,
                     help="states further than tol+margin from the target size are rejected")
     ap.add_argument("--runs", type=int, default=32, help="independent annealing runs")
-    ap.add_argument("--iters", type=int, default=1_000_000, help="iterations per run")
+    ap.add_argument("--iters", type=int, default=1_000_000, help="iterations per run (ignored with --minutes)")
+    ap.add_argument("--minutes", type=float, default=None,
+                    help="total wall-clock budget for the search; every run gets an equal share and the "
+                         "annealing schedule follows elapsed time instead of iterations")
     ap.add_argument("--t-start", type=float, default=None, help="start temperature (default: calibrated per run)")
     ap.add_argument("--t-end", type=float, default=0.05)
     ap.add_argument("--seed", type=int, default=0)
@@ -69,7 +72,7 @@ def main(argv: list[str] | None = None) -> int:
                slack_rule=args.slack_rule, cost_shape=args.cost_shape, hard_margin=args.hard_margin)
     cfg = SearchConfig(iters=args.iters, runs=args.runs, seed=args.seed, g_min=args.gap_min, g_max=args.gap_max,
                        g_step=args.gap_step, g_fixed=args.gap, g_mode=args.gap_mode, min_frames=args.min_frames,
-                       t_start=args.t_start, t_end=args.t_end, jobs=args.jobs)
+                       t_start=args.t_start, t_end=args.t_end, jobs=args.jobs, minutes=args.minutes)
     if args.gap is not None:
         cfg.g_min = cfg.g_max = args.gap
 
@@ -115,7 +118,8 @@ def main(argv: list[str] | None = None) -> int:
     params = {"target": f"{tw:g}x{th:g}", "tol": args.tol, "gap_min": cfg.g_min, "gap_max": cfg.g_max,
               "gap_mode": args.gap_mode, "delta": args.delta, "slack_rule": args.slack_rule,
               "cost_shape": args.cost_shape, "min_frames": args.min_frames, "frame_bonus": args.frame_bonus,
-              "runs": args.runs, "iters": args.iters, "seed": args.seed}
+              "runs": args.runs, "iters": args.iters if args.minutes is None else f"{args.minutes:g} min",
+              "seed": args.seed}
     write_json(out / "layouts.json", layouts, frames, types, params)
     tex = out / "layouts.tex"
     write_tex(tex, layouts, frames, types, params, args.annotate_threshold)

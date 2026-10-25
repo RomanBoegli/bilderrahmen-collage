@@ -2,9 +2,11 @@
 # Runs a set of search configurations (one output directory each) and renders every
 # result into its own out/<name>/layouts.tex (+ .pdf if latexmk is installed).
 #
-# Usage:  scripts/run_experiments.sh [RUNS] [ITERS]
-#   RUNS   independent annealing runs per configuration (default 64)
-#   ITERS  iterations per run (default 3000000; ~1 min per 1M iterations and run)
+# Usage:  scripts/run_experiments.sh [TOTAL_MINUTES] [RUNS]
+#   TOTAL_MINUTES  wall-clock budget for the whole script (default 120); it is split
+#                  evenly over the 6 configurations below and the script ends after
+#                  roughly that time regardless of the machine's speed or core count
+#   RUNS           independent annealing runs per configuration (default 4 x cores)
 #
 # The search is CPU bound (one process per core, little memory). Interrupting is safe:
 # finished configurations keep their out/<name>/candidates.json, which can be
@@ -12,9 +14,13 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-RUNS=${1:-64}
-ITERS=${2:-3000000}
-COMMON=(--runs "$RUNS" --iters "$ITERS" --layouts 16)
+TOTAL_MINUTES=${1:-120}
+CORES=$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
+RUNS=${2:-$((4 * CORES))}
+N_CONFIGS=6
+MINUTES=$(python3 -c "print(round($TOTAL_MINUTES / $N_CONFIGS, 2))")
+COMMON=(--runs "$RUNS" --minutes "$MINUTES" --layouts 16)
+echo "budget $TOTAL_MINUTES min total, $MINUTES min per configuration, $RUNS runs each on $CORES cores"
 
 run() {
   local name=$1; shift

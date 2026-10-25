@@ -75,24 +75,27 @@ git clone <this repo> && cd bilderrahmen-collage
 curl -LsSf https://astral.sh/uv/install.sh | sh     # if uv is missing
 uv sync
 uv run pytest
-scripts/run_experiments.sh 64 3000000               # ~6 configurations, see the script
+scripts/run_experiments.sh 120                      # 6 configurations, ~2 h in total, then it stops
 ```
 
-Rough runtime: one run of 1M iterations takes about a minute on one core, so
-64 runs x 3M iterations take ~3 h on one core, ~12 min on 16 cores, per
-configuration. Each configuration writes `out/<name>/candidates.json` (all
-candidate states, resumable), `layouts.json` and `layouts.tex`. If LaTeX is not
-installed on the VM, commit `out/` and compile at home:
+The script takes a total wall-clock budget in minutes (default 120) and splits
+it over its six configurations; every annealing run gets an equal share and
+its cooling schedule follows elapsed time, so the script ends after roughly the
+budget on any machine. More cores simply mean more runs in the same time
+(default 4 runs per core). Each configuration writes `out/<name>/candidates.json`
+(all candidate states, resumable), `layouts.json` and `layouts.tex`. If LaTeX
+is not installed on the VM, commit `out/` and compile at home:
 
 ```sh
 uv run collage --candidates out/combined/candidates.json --layouts 20 --out out/combined
 # or just:  cd out/combined && latexmk -pdf layouts.tex
 ```
 
-Single configuration by hand, e.g. 128 runs of 5M iterations with a fixed 3 cm gap:
+Single configuration by hand, e.g. 128 runs within 30 minutes with a fixed 3 cm gap
+(or `--iters N` instead of `--minutes` for a fixed number of iterations per run):
 
 ```sh
-uv run collage --runs 128 --iters 5000000 --gap 3 --layouts 16 --out out/gap3
+uv run collage --runs 128 --minutes 30 --gap 3 --layouts 16 --out out/gap3
 ```
 
 Useful knobs: `--delta` (gap deviation that counts as harmless, default 0.5 cm),

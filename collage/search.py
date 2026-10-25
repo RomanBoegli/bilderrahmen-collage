@@ -9,7 +9,9 @@ from __future__ import annotations
 
 import copy
 import math
+import os
 import random
+import time
 from dataclasses import dataclass
 from multiprocessing import Pool
 
@@ -19,7 +21,9 @@ from .layout import Eval, Params, Tree, is_leaf, leaves, size_violation, total_c
 
 @dataclass
 class SearchConfig:
-    iters: int = 1_000_000
+    iters: int = 1_000_000  # iterations per run (ignored when a time budget is given)
+    minutes: float | None = None  # total wall-clock budget for all runs of this search
+    run_seconds: float | None = None  # derived from ``minutes``: wall-clock time of one run
     runs: int = 32
     seed: int = 0
     g_min: float = 1.5
@@ -327,8 +331,22 @@ def anneal(frames: list[Frame], p: Params, cfg: SearchConfig, run: int) -> list[
     limit = p.tol + p.hard_margin
     t_start = cfg.t_start if cfg.t_start is not None else calibrate_t_start(t, g, e, c, frames, p, cfg, rng)
     log_ratio = math.log(cfg.t_end / t_start)
-    for k in range(cfg.iters):
-        T = t_start * math.exp(log_ratio * k / cfg.iters)
+    timed = cfg.run_seconds is not None
+    t_begin = time.monotonic()
+    k = 0
+    frac = 0.0
+    while True:
+        if timed:
+            if k % 500 == 0:
+                frac = (time.monotonic() - t_begin) / cfg.run_seconds
+                if frac >= 1.0:
+                    break
+        else:
+            if k >= cfg.iters:
+                break
+            frac = k / cfg.iters
+        k += 1
+        T = t_start * math.exp(log_ratio * frac)
         t2, g2 = mutate(t, g, e, frames, cfg, rng)
         c2, e2 = total_cost(t2, frames, g2, p)
         v2 = max(abs(e2.w - p.target_w) - limit, abs(e2.h - p.target_h) - limit, 0.0)
@@ -351,6 +369,17 @@ def _worker(args):
 
 
 def run_search(frames: list[Frame], p: Params, cfg: SearchConfig, progress=print) -> list[Candidate]:
+    """Run ``cfg.runs`` annealing runs on ``cfg.jobs`` processes.
+
+    With ``cfg.minutes`` set, the runs are executed in waves of ``jobs`` and each run gets
+    an equal share of the budget, so the whole search ends after about ``minutes``.
+    """
+    workers = cfg.jobs or os.cpu_count() or 1
+    if cfg.minutes is not None:
+        waves = math.ceil(cfg.runs / workers)
+        cfg.run_seconds = cfg.minutes * 60.0 / waves
+        progress(f"time budget {cfg.minutes:g} min: {cfg.runs} runs in {waves} wave(s) of {workers} processes, "
+                 f"{cfg.run_seconds / 60:.1f} min per run")
     jobs = [(frames, p, cfg, run) for run in range(cfg.runs)]
     results: list[Candidate] = []
     if cfg.jobs == 1:
