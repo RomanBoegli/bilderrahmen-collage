@@ -9,25 +9,9 @@ import time
 from pathlib import Path
 
 from .inventory import expand, load_inventory
-from .layout import Params, metrics, place, signature
-from .render import Layout, compile_pdf, write_json, write_tex
+from .rank import badness, params_from_args, parse_size, select_layouts
+from .render import compile_pdf, write_json, write_tex
 from .search import Candidate, SearchConfig, run_search
-
-
-def parse_size(s: str) -> tuple[float, float]:
-    w, h = s.lower().replace("×", "x").split("x")
-    return float(w), float(h)
-
-
-def badness(L: Layout) -> float:
-    """Visible imperfection in 'cm of gap deviation' units: uniformity, then border sharpness."""
-    m = L.metrics
-    return m.max_dev + 0.5 * m.mean_dev + 0.15 * m.notch_len + 2.0 * (4 - m.corners)
-
-
-def rank_key(L: Layout, p: Params):
-    size_dist = abs(L.W - p.target_w) + abs(L.H - p.target_h)
-    return (round(badness(L), 0), -len(L.rects), round(badness(L), 2), size_dist, L.cost)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -68,8 +52,7 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
 
     tw, th = parse_size(args.target)
-    p = Params(target_w=tw, target_h=th, tol=args.tol, delta=args.delta, frame_bonus=args.frame_bonus,
-               slack_rule=args.slack_rule, cost_shape=args.cost_shape, hard_margin=args.hard_margin)
+    p = params_from_args(vars(args))
     cfg = SearchConfig(iters=args.iters, runs=args.runs, seed=args.seed, g_min=args.gap_min, g_max=args.gap_max,
                        g_step=args.gap_step, g_fixed=args.gap, g_mode=args.gap_mode, min_frames=args.min_frames,
                        t_start=args.t_start, t_end=args.t_end, jobs=args.jobs, minutes=args.minutes)
@@ -84,11 +67,13 @@ def main(argv: list[str] | None = None) -> int:
     out.mkdir(parents=True, exist_ok=True)
 
     if args.candidates:
-        cands = []
+        # every file is placed/ranked with the parameters it was searched with (e.g. its slack rule)
+        items: list = []
         for path in args.candidates.split(","):
             data = json.loads(Path(path).read_text())
-            cands += [Candidate(c["tree"], c["g"], c["cost"], c["run"]) for c in data["candidates"]]
-        print(f"loaded {len(cands)} candidate states", file=sys.stderr)
+            fp = params_from_args(data["args"]) if "args" in data else p
+            items += [(Candidate(c["tree"], c["g"], c["cost"], c["run"]), fp) for c in data["candidates"]]
+        print(f"loaded {len(items)} candidate states", file=sys.stderr)
     else:
         t0 = time.time()
         cands = run_search(frames, p, cfg, progress=lambda s: print(s, file=sys.stderr, flush=True))
@@ -97,17 +82,9 @@ def main(argv: list[str] | None = None) -> int:
             "args": vars(args),
             "candidates": [{"tree": c.tree, "g": c.g, "cost": c.cost, "run": c.run} for c in cands],
         }))
+        items = [(c, p) for c in cands]
 
-    best: dict[tuple, Layout] = {}
-    for c in cands:
-        rects, W, H = place(c.tree, frames, c.g, p)
-        sig = signature(rects, frames, W, H)
-        L = Layout(0, c.tree, c.g, W, H, rects, metrics(rects, W, H, c.g), c.cost)
-        if sig not in best or rank_key(L, p) < rank_key(best[sig], p):
-            best[sig] = L
-    layouts = sorted(best.values(), key=lambda L: rank_key(L, p))[: args.layouts]
-    for i, L in enumerate(layouts, 1):
-        L.id = i
+    layouts = select_layouts(items, frames, args.layouts, p)
 
     print(f"\n{'#':>2} {'size':>14} {'gap':>4} {'n':>3} {'maxdev':>6} {'meandev':>7} {'notch':>6} {'corners':>7} {'score':>6}")
     for L in layouts:

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Runs a set of search configurations (one output directory each) and renders every
-# result into its own out/<name>/layouts.tex (+ .pdf if latexmk is installed).
+# Runs a set of search configurations (one output directory each), renders every
+# result into its own out/<name>/layouts.tex (+ .pdf if latexmk is installed) and
+# finally writes one combined document out/report/report.tex with a table of contents.
 #
 # Usage:  scripts/run_experiments.sh [TOTAL_MINUTES] [RUNS]
 #   TOTAL_MINUTES  wall-clock budget for the whole script (default 120); it is split
@@ -35,6 +36,6 @@ run gap-3         --gap 3
 run linear-cost   --cost-shape linear
 run free-gap-s1   --seed 1
 
-echo "=== combined ranking of all configurations"
-uv run collage --candidates "$(ls out/*/candidates.json | paste -sd, -)" --layouts 20 --out out/combined 2>&1 | grep --line-buffered -v '^run '
+echo "=== report: one document for all configurations"
+uv run collage-report --layouts 16 --out out/report 2>&1 | grep --line-buffered -v '^run '
 echo "done $(date)"

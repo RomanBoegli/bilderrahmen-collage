@@ -11,6 +11,7 @@ from .inventory import Frame, FrameType, fmt
 from .layout import Metrics, Rect, Tree
 
 PALETTE = ["CFE4F2", "FBE2B4", "D4E9CC", "E5D3EA", "F5CACA", "F9F1B5", "CDE9E6", "E9D9C7", "DADADA"]
+TIMES = r"\texorpdfstring{$\times$}{x}"  # for moving arguments (table of contents, bookmarks)
 
 
 @dataclass
@@ -29,18 +30,42 @@ def _esc(s: str) -> str:
     return s.replace("x", r"$\times$")
 
 
+def tex_text(s: str) -> str:
+    """Escape a plain string (names, parameter values) for LaTeX text mode."""
+    for a, b in (("\\", r"\textbackslash{}"), ("_", r"\_"), ("&", r"\&"), ("%", r"\%"), ("#", r"\#"),
+                 ("$", r"\$"), ("{", r"\{"), ("}", r"\}")):
+        s = s.replace(a, b)
+    return s
+
+
 def _colors(types: list[FrameType]) -> dict[str, str]:
     keys = sorted({t.size_key for t in types}, key=lambda k: tuple(float(v) for v in k.split("x")))
     return {k: f"ft{i}" for i, k in enumerate(keys)}
 
 
-def _preamble(types: list[FrameType]) -> str:
+def _preamble(types: list[FrameType], report: bool = False) -> str:
     colors = _colors(types)
     defs = "\n".join(
         f"\\definecolor{{{name}}}{{HTML}}{{{PALETTE[i % len(PALETTE)]}}}" for i, name in enumerate(colors.values())
     )
+    if report:
+        geometry = "margin=10mm, top=18mm, bottom=12mm, headheight=14pt, headsep=4mm, footskip=6mm"
+        extra = r"""\usepackage{fancyhdr}
+\usepackage[hidelinks, bookmarksnumbered, bookmarksopen, bookmarksopenlevel=1]{hyperref}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{1}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.3pt}
+\fancyhead[L]{\small Bilderwand -- layout candidates}
+\fancyhead[R]{\small\nouppercase{\leftmark}}
+\fancyfoot[C]{\small\thepage}"""
+    else:
+        geometry = "margin=10mm"
+        extra = r"\pagestyle{empty}"
     return rf"""\documentclass[a4paper,landscape,10pt]{{article}}
-\usepackage[margin=10mm]{{geometry}}
+\usepackage[{geometry}]{{geometry}}
 \usepackage[T1]{{fontenc}}
 \usepackage{{lmodern}}
 \usepackage{{helvet}}
@@ -49,46 +74,52 @@ def _preamble(types: list[FrameType]) -> str:
 \usetikzlibrary{{arrows.meta}}
 \usepackage{{xcolor}}
 \usepackage{{booktabs}}
-\pagestyle{{empty}}
 \setlength{{\parindent}}{{0pt}}
 {defs}
+{extra}
 \begin{{document}}
 """
 
 
-def _inventory_table(types: list[FrameType], used: dict[int, int], colors: dict[str, str]) -> str:
+def _inventory_table(types: list[FrameType], used: dict[int, int], colors: dict[str, str],
+                     show_used: bool = True) -> str:
     rows = []
     for t in types:
         swatch = rf"\tikz[baseline=-0.6ex]\fill[{colors[t.size_key]},draw=black!60] (0,0) rectangle (1.2ex,1.2ex);"
-        rows.append(f"{swatch} & {_esc(t.outer)} & {t.orientation} & {used.get(t.idx, 0)} & {t.count} \\\\")
+        u = f"{used.get(t.idx, 0)} & " if show_used else ""
+        rows.append(f"{swatch} & {_esc(t.outer)} & {t.orientation} & {u}{t.count} \\\\")
     body = "\n".join(rows)
-    return rf"""\begin{{tabular}}{{@{{}}c l l r r@{{}}}}
+    head = " & used & have" if show_used else " & have"
+    cols = "c l l r r" if show_used else "c l l r"
+    return rf"""\begin{{tabular}}{{@{{}}{cols}@{{}}}}
 \toprule
- & outer w $\times$ h (cm) & & used & have \\
+ & outer w $\times$ h (cm) & {head} \\
 \midrule
 {body}
 \bottomrule
 \end{{tabular}}"""
 
 
-def _summary_rows(layouts: list[Layout], frames: list[Frame], types: list[FrameType]) -> str:
+def notch_text(m: Metrics) -> str:
+    return "none" if m.notch_len < 1e-6 else f"{m.notch_len:.0f} cm"
+
+
+def _summary_rows(layouts: list[Layout], frames: list[Frame], types: list[FrameType],
+                  link_prefix: str | None = None) -> str:
     rows = []
     for L in layouts:
         m = L.metrics
-        notch = "none" if m.notch_len < 1e-6 else f"{m.notch_len:.0f} cm"
+        idc = rf"\hyperref[lay:{link_prefix}:{L.id}]{{{L.id}}}" if link_prefix else str(L.id)
         rows.append(
-            f"{L.id} & {L.W:.1f} $\\times$ {L.H:.1f} & {fmt(L.g)} & {len(L.rects)} & "
-            f"{m.max_dev:.1f} & {m.mean_dev:.2f} & {notch} & {m.corners}/4 \\\\"
+            f"{idc} & {L.W:.1f} $\\times$ {L.H:.1f} & {fmt(L.g)} & {len(L.rects)} & "
+            f"{m.max_dev:.1f} & {m.mean_dev:.2f} & {notch_text(m)} & {m.corners}/4 \\\\"
         )
     return "\n".join(rows)
 
 
 def _overview_page(layouts: list[Layout], frames: list[Frame], types: list[FrameType], params: dict) -> str:
     colors = _colors(types)
-    have = {t.idx: 0 for t in types}
-    inv = _inventory_table(types, have, colors).replace(" & used & have", " & & have").replace(
-        "& 0 &", "& &"
-    )
+    inv = _inventory_table(types, {}, colors, show_used=False)
     plist = ", ".join(f"{k} = {v}" for k, v in params.items()).replace("_", r"\_")
     return rf"""{{\LARGE\bfseries Bilderwand -- layout candidates}}\\[4pt]
 {{\small Target {params['target']} cm $\pm$ {params['tol']} cm, nominal gap free in
@@ -115,22 +146,28 @@ score (gap uniformity first, border sharpness second, then number of frames).}}\
 """
 
 
-def _layout_page(L: Layout, frames: list[Frame], types: list[FrameType], annotate_threshold: float) -> str:
+def _tikz_body(L: Layout, frames: list[Frame], types: list[FrameType], annotate_threshold: float,
+               detail: bool = True) -> str:
+    """TikZ commands drawing the layout; ``detail=False`` gives a bare thumbnail (no labels)."""
     colors = _colors(types)
     m = L.metrics
-    tik = []
-    tik.append(rf"\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle ({L.W:.2f},{L.H:.2f});")
+    lw = "0.5pt" if detail else "0.3pt"
+    tik = [rf"\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle ({L.W:.2f},{L.H:.2f});"]
     for i, r in enumerate(L.rects, 1):
         t = types[frames[r.frame].type]
         col = colors[t.size_key]
         tik.append(
-            rf"\filldraw[fill={col}, draw=black!80, line width=0.5pt] ({r.x:.2f},{r.y:.2f}) rectangle ({r.x2:.2f},{r.y2:.2f});"
+            rf"\filldraw[fill={col}, draw=black!80, line width={lw}] ({r.x:.2f},{r.y:.2f}) rectangle ({r.x2:.2f},{r.y2:.2f});"
         )
+        if not detail:
+            continue
         cx, cy = (r.x + r.x2) / 2, (r.y + r.y2) / 2
         tik.append(
             rf"\node[align=center, inner sep=0pt] at ({cx:.2f},{cy:.2f}) {{\scriptsize {_esc(t.outer)}}};"
         )
         tik.append(rf"\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at ({r.x:.2f},{r.y:.2f}) {{{i}}};")
+    if not detail:
+        return "\n".join(tik)
     for gp in m.gaps:
         if abs(gp.size - L.g) > annotate_threshold:
             rot = ", rotate=90" if gp.horizontal else ""
@@ -143,7 +180,31 @@ def _layout_page(L: Layout, frames: list[Frame], types: list[FrameType], annotat
     tik.append(
         rf"\draw[Bar-Bar, gray] ({L.W + 6:.2f},0) -- ({L.W + 6:.2f},{L.H:.2f}) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {{{L.H:.1f} cm}};"
     )
-    body = "\n".join(tik)
+    return "\n".join(tik)
+
+
+def thumbnail(L: Layout, frames: list[Frame], types: list[FrameType], mm_per_cm: float = 0.4) -> str:
+    """A small unlabelled picture of the layout (default scale 1:25)."""
+    return (rf"\begin{{tikzpicture}}[x={mm_per_cm}mm, y=-{mm_per_cm}mm]" + "\n"
+            + _tikz_body(L, frames, types, 0.0, detail=False) + "\n" + r"\end{tikzpicture}")
+
+
+def toc_entry(L: Layout) -> str:
+    """Table-of-contents text for a layout page (needs hyperref)."""
+    return (f"Layout {L.id}: {L.W:.1f} {TIMES} {L.H:.1f} cm, {len(L.rects)} frames, gap {fmt(L.g)} cm, "
+            f"max.\\ deviation {L.metrics.max_dev:.1f} cm")
+
+
+def _layout_page(L: Layout, frames: list[Frame], types: list[FrameType], annotate_threshold: float,
+                 toc: str | None = None, label: str | None = None) -> str:
+    colors = _colors(types)
+    m = L.metrics
+    body = _tikz_body(L, frames, types, annotate_threshold)
+    head = ""
+    if toc is not None:
+        head = rf"\phantomsection\addcontentsline{{toc}}{{subsection}}{{{toc}}}" + "\n"
+    if label is not None:
+        head += rf"\label{{{label}}}" + "\n"
 
     used: dict[int, int] = {}
     for r in L.rects:
@@ -155,7 +216,7 @@ def _layout_page(L: Layout, frames: list[Frame], types: list[FrameType], annotat
         f"{i} & {fmt(r.w)} $\\times$ {fmt(r.h)} & {r.x:.1f} & {r.y:.1f} \\\\"
         for i, r in enumerate(L.rects, 1)
     )
-    return rf"""\begin{{minipage}}[t]{{0.74\textwidth}}\vspace{{0pt}}
+    return rf"""{head}\begin{{minipage}}[t]{{0.74\textwidth}}\vspace{{0pt}}
 {{\LARGE\bfseries Layout {L.id}}}\hspace{{1.5em}}{{\large {L.W:.1f} $\times$ {L.H:.1f} cm \quad gap {fmt(L.g)} cm \quad {len(L.rects)} frames}}\\[8pt]
 \begin{{tikzpicture}}[x=1mm, y=-1mm]
 {body}
@@ -204,40 +265,40 @@ def write_tex(path: Path, layouts: list[Layout], frames: list[Frame], types: lis
     path.write_text("\n".join(parts), encoding="utf-8")
 
 
-def write_json(path: Path, layouts: list[Layout], frames: list[Frame], types: list[FrameType], params: dict) -> None:
-    data = {"params": params, "layouts": []}
-    for L in layouts:
-        data["layouts"].append(
+def layout_dict(L: Layout, frames: list[Frame], types: list[FrameType]) -> dict:
+    return {
+        "id": L.id,
+        "width": L.W,
+        "height": L.H,
+        "gap": L.g,
+        "cost": L.cost,
+        "tree": L.tree,
+        "frames": [
             {
-                "id": L.id,
-                "width": L.W,
-                "height": L.H,
-                "gap": L.g,
-                "cost": L.cost,
-                "tree": L.tree,
-                "frames": [
-                    {
-                        "index": i,
-                        "frame_id": r.frame,
-                        "type": types[frames[r.frame].type].name,
-                        "outer": types[frames[r.frame].type].outer,
-                        "x": round(r.x, 3),
-                        "y": round(r.y, 3),
-                        "w": r.w,
-                        "h": r.h,
-                    }
-                    for i, r in enumerate(L.rects, 1)
-                ],
-                "metrics": {
-                    "max_gap_deviation": L.metrics.max_dev,
-                    "mean_gap_deviation": L.metrics.mean_dev,
-                    "notches": L.metrics.uncovered,
-                    "corners_filled": L.metrics.corners,
-                    "dead_fraction": L.metrics.dead_frac,
-                    "gaps": [asdict(gp) for gp in L.metrics.gaps],
-                },
+                "index": i,
+                "frame_id": r.frame,
+                "type": types[frames[r.frame].type].name,
+                "outer": types[frames[r.frame].type].outer,
+                "x": round(r.x, 3),
+                "y": round(r.y, 3),
+                "w": r.w,
+                "h": r.h,
             }
-        )
+            for i, r in enumerate(L.rects, 1)
+        ],
+        "metrics": {
+            "max_gap_deviation": L.metrics.max_dev,
+            "mean_gap_deviation": L.metrics.mean_dev,
+            "notches": L.metrics.uncovered,
+            "corners_filled": L.metrics.corners,
+            "dead_fraction": L.metrics.dead_frac,
+            "gaps": [asdict(gp) for gp in L.metrics.gaps],
+        },
+    }
+
+
+def write_json(path: Path, layouts: list[Layout], frames: list[Frame], types: list[FrameType], params: dict) -> None:
+    data = {"params": params, "layouts": [layout_dict(L, frames, types) for L in layouts]}
     path.write_text(json.dumps(data, indent=1), encoding="utf-8")
 
 

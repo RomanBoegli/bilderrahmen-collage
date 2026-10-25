@@ -9,6 +9,7 @@ dependencies = [
 
 [project.scripts]
 collage = "collage.cli:main"
+collage-report = "collage.report:main"
 
 [dependency-groups]
 dev = [

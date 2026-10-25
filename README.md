@@ -38,6 +38,29 @@ Outputs in `out/`:
   layout's nominal gap by more than 0.25 cm are printed in red.
 * `layouts.json` – the same data machine readable (positions, gaps, metrics).
 * `layouts.tex` – the LaTeX source.
+* `candidates.json` – all candidate states of the search (re-renderable with
+  `--candidates`, and the input of `collage-report`).
+
+## One report for several runs
+
+`collage-report` combines the results of several search configurations
+("paradigms", e.g. the ones `scripts/run_experiments.sh` produces) into one PDF
+with a table of contents:
+
+```sh
+uv run collage-report                                   # every out/<name>/candidates.json -> out/report/report.pdf
+uv run collage-report out/free-gap out/gap-3 --layouts 16 --top 20
+```
+
+The document has a title page with the inventory and a reading guide, the
+table of contents (one entry per paradigm and per layout page), a section that
+explains what distinguishes the paradigms (hand-written description plus the
+parameters that differ from the baseline, i.e. the first directory), a table and
+thumbnails of each paradigm's best layout, a combined ranking of all layouts in
+the document with links to their pages, and then one section per paradigm with
+its ranked layouts, one page each. Every paradigm's candidates are placed and
+ranked with the parameters it was searched with (e.g. its slack rule).
+`out/report/report.json` holds the same data machine readable.
 
 ## How it works
 
@@ -83,12 +106,13 @@ it over its six configurations; every annealing run gets an equal share and
 its cooling schedule follows elapsed time, so the script ends after roughly the
 budget on any machine. More cores simply mean more runs in the same time
 (default 4 runs per core). Each configuration writes `out/<name>/candidates.json`
-(all candidate states, resumable), `layouts.json` and `layouts.tex`. If LaTeX
+(all candidate states, resumable), `layouts.json` and `layouts.tex`; at the end
+`collage-report` writes the combined document `out/report/report.tex`. If LaTeX
 is not installed on the VM, commit `out/` and compile at home:
 
 ```sh
-uv run collage --candidates out/combined/candidates.json --layouts 20 --out out/combined
-# or just:  cd out/combined && latexmk -pdf layouts.tex
+uv run collage-report --layouts 16 --out out/report     # -> out/report/report.pdf
+# or just:  cd out/report && latexmk -pdf report.tex
 ```
 
 Single configuration by hand, e.g. 128 runs within 30 minutes with a fixed 3 cm gap
