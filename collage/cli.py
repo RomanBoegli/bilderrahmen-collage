@@ -32,6 +32,15 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--cost-shape", choices=["huber", "linear"], default="huber")
     ap.add_argument("--hard-margin", type=float, default=10.0,
                     help="states further than tol+margin from the target size are rejected")
+    ap.add_argument("--large-area", type=float, default=2000.0,
+                    help="frames with at least this outer area (cm^2) count as large (default: the 40x50 frames)")
+    ap.add_argument("--large-count", default=None, help="required number of large frames, e.g. 2-3 or 3")
+    ap.add_argument("--large-apart", action="store_true",
+                    help="keep large frames apart: penalise large frames that are direct neighbours and "
+                         "centres closer than --large-min-dist")
+    ap.add_argument("--large-min-dist", type=float, default=70.0, help="wanted centre distance of large frames (cm)")
+    ap.add_argument("--entropy", type=float, default=0.0,
+                    help="weight of the irregularity ('entropy') term; 0 = off, 40 is a good start")
     ap.add_argument("--runs", type=int, default=32, help="independent annealing runs")
     ap.add_argument("--iters", type=int, default=1_000_000, help="iterations per run (ignored with --minutes)")
     ap.add_argument("--minutes", type=float, default=None,
@@ -50,16 +59,16 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--no-compile", action="store_true", help="write .tex but do not run latexmk")
     args = ap.parse_args(argv)
 
+    types = load_inventory(args.xlsx)
+    frames = expand(types)
     tw, th = parse_size(args.target)
-    p = params_from_args(vars(args))
+    p = params_from_args(vars(args), n_types=len(types))
     cfg = SearchConfig(iters=args.iters, runs=args.runs, seed=args.seed, g_min=args.gap_min, g_max=args.gap_max,
                        g_step=args.gap_step, g_fixed=args.gap, g_mode=args.gap_mode, min_frames=args.min_frames,
                        t_start=args.t_start, t_end=args.t_end, jobs=args.jobs, minutes=args.minutes)
     if args.gap is not None:
         cfg.g_min = cfg.g_max = args.gap
 
-    types = load_inventory(args.xlsx)
-    frames = expand(types)
     print(f"{len(frames)} frames in {len(types)} formats; total area {sum(f.w * f.h for f in frames):.0f} cm^2",
           file=sys.stderr)
     out = Path(args.out)
@@ -89,13 +98,19 @@ def main(argv: list[str] | None = None) -> int:
     for L in layouts:
         m = L.metrics
         print(f"{L.id:>2} {L.W:6.1f} x {L.H:5.1f} {L.g:4.1f} {len(L.rects):>3} {m.max_dev:6.2f} {m.mean_dev:7.2f} "
-              f"{m.notch_len:6.1f} {m.corners:>5}/4 {badness(L):6.2f}")
+              f"{m.notch_len:6.1f} {m.corners:>5}/4 {badness(L, p):6.2f}  entropy {m.extras.entropy:.2f}"
+              + (f"  large {m.extras.n_large}" if p.needs_placement else ""))
 
     params = {"target": f"{tw:g}x{th:g}", "tol": args.tol, "gap_min": cfg.g_min, "gap_max": cfg.g_max,
               "gap_mode": args.gap_mode, "delta": args.delta, "slack_rule": args.slack_rule,
               "cost_shape": args.cost_shape, "min_frames": args.min_frames, "frame_bonus": args.frame_bonus,
               "runs": args.runs, "iters": args.iters if args.minutes is None else f"{args.minutes:g} min",
               "seed": args.seed}
+    if args.large_count or args.large_apart:
+        params.update({"large_area": args.large_area, "large_count": args.large_count or "any",
+                       "large_apart": args.large_apart, "large_min_dist": args.large_min_dist})
+    if args.entropy:
+        params["entropy"] = args.entropy
     write_json(out / "layouts.json", layouts, frames, types, params)
     tex = out / "layouts.tex"
     write_tex(tex, layouts, frames, types, params, args.annotate_threshold)

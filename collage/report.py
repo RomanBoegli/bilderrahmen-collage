@@ -23,7 +23,8 @@ from .render import (Layout, _colors, _inventory_table, _layout_page, _preamble,
 from .search import Candidate
 
 # order of the configurations in scripts/run_experiments.sh; unknown names follow alphabetically
-KNOWN_ORDER = ["free-gap", "per-run-gap", "proportional", "gap-3", "linear-cost", "free-gap-s1"]
+KNOWN_ORDER = ["free-gap", "per-run-gap", "proportional", "gap-3", "linear-cost", "free-gap-s1",
+               "large-apart", "entropy", "large-entropy"]
 EXCLUDE_DIRS = {"combined", "report"}
 
 DESCRIPTIONS = {
@@ -57,12 +58,28 @@ DESCRIPTIONS = {
         "Identical to the baseline but with another random seed. Comparing it with the baseline shows how "
         "reproducible the results of a 20 minute search are."
     ),
+    "large-apart": (
+        "Sub-analysis. Like the baseline, but the layout must contain 2 to 3 large frames (outer area of at "
+        "least 2000 cm$^2$, i.e.\\ the 52.5 $\\times$ 42.5 and 42.5 $\\times$ 52.5 frames) and they are kept apart: "
+        "two large frames that are direct neighbours are penalised in proportion to the edge they share "
+        "(barely touching costs little), and the closest pair of large frames is pulled towards a centre "
+        "distance of at least 70 cm."
+    ),
+    "entropy": (
+        "Sub-analysis. Like the baseline, but the cost also rewards the irregularity (``entropy'') of the "
+        "constellation: a mix of many formats, different formats next to each other, frame edges that do "
+        "not line up, and few straight gap lines running across the whole collage."
+    ),
+    "large-entropy": (
+        "Sub-analysis. Both of the above: 2 to 3 large frames kept apart from each other, and the "
+        "irregularity reward."
+    ),
 }
 
 # parameters that may differ between paradigms, in the order they are listed
 DIFF_KEYS = ["target", "tol", "gap", "gap_min", "gap_max", "gap_step", "gap_mode", "slack_rule", "cost_shape",
-             "delta", "min_frames", "frame_bonus", "hard_margin", "t_start", "t_end", "seed", "runs", "minutes",
-             "iters"]
+             "delta", "min_frames", "frame_bonus", "hard_margin", "large_area", "large_count", "large_apart",
+             "large_min_dist", "entropy", "t_start", "t_end", "seed", "runs", "minutes", "iters"]
 
 
 @dataclass
@@ -96,7 +113,7 @@ def discover(out_dir: Path) -> list[Path]:
 def load_paradigm(path: Path, frames: list[Frame], n: int) -> Paradigm:
     data = json.loads((path / "candidates.json").read_text())
     args = data.get("args", {})
-    p = params_from_args(args)
+    p = params_from_args(args, n_types=len({(f.w, f.h) for f in frames}))
     cands = [Candidate(c["tree"], c["g"], c["cost"], c["run"]) for c in data["candidates"]]
     layouts = select_layouts([(c, p) for c in cands], frames, n, p)
     return Paradigm(path.name, path, args, p, layouts, len(cands))
@@ -115,6 +132,8 @@ def diff_args(args: dict, base: dict) -> list[str]:
     out = []
     for k in DIFF_KEYS:
         if k in args and args.get(k) != base.get(k):
+            if k == "large_area" and not (args.get("large_count") or args.get("large_apart")):
+                continue  # only meaningful with a large-frame constraint
             out.append(f"{k} = {_val(args[k])}")
     return out
 
@@ -153,6 +172,8 @@ def _title_page(paradigms: list[Paradigm], frames: list[Frame], types: list[Fram
     colors = _colors(types)
     n_layouts = sum(len(P.layouts) for P in paradigms)
     names = ", ".join(tex_text(P.name) for P in paradigms)
+    sub_txt = (", section~3 covers the sub-analysis with large-frame constraints and the entropy reward"
+               if any(P.params.needs_placement for P in paradigms) else "")
     return rf"""\thispagestyle{{empty}}
 \vspace*{{18mm}}
 \begin{{center}}
@@ -171,7 +192,7 @@ outer border. Not all frames have to be used.
 \vspace{{6pt}}
 The same search was run with {len(paradigms)} different settings (``paradigms'': {names}).
 Section~1 explains what distinguishes them and compares their best layouts, section~2 ranks all
-{n_combined} distinct layouts of this document together, and the following sections show every paradigm's
+{n_combined} distinct layouts of this document together{sub_txt}, and the remaining sections show every paradigm's
 {len(base.layouts)} best layouts, one per page at scale 1:10, with frame labels, red annotations for gaps that
 deviate from the nominal gap, and a coordinate table for hanging.
 
@@ -184,6 +205,10 @@ average difference between an actual gap and the nominal gap, in cm.
 \emph{{Score}} $=$ max.\ deviation $+ 0.5\cdot$ mean deviation $+ 0.15\cdot$ notch length $+ 2$ per
 missing corner (lower is better). Layouts are ranked by score rounded to whole cm, then by number of frames
 (more is better), then by exact score, then by distance from the target size.
+\emph{{Entropy}}: irregularity of the constellation in $[0, 1]$ (mix of formats, different neighbours, staggered
+edges, few through-lines; see the sub-analysis section). \emph{{Large frames}}: the 52.5 $\times$ 42.5 and
+42.5 $\times$ 52.5 frames; a layout page says how many are used, whether two of them touch and how far apart the
+closest two are.
 \end{{minipage}}\hfill
 \begin{{minipage}}[t]{{0.36\textwidth}}\vspace{{0pt}}
 {{\bfseries Inventory}}\\[4pt]
@@ -206,31 +231,16 @@ def _paradigm_overview(paradigms: list[Paradigm], frames: list[Frame], types: li
     best_rows = []
     for P in paradigms:
         if not P.layouts:
-            best_rows.append(rf"\hyperref[sec:{P.name}]{{{tex_text(P.name)}}} & \multicolumn{{9}}{{l}}{{no layouts}} \\")
+            best_rows.append(rf"\hyperref[sec:{P.name}]{{{tex_text(P.name)}}} & \multicolumn{{10}}{{l}}{{no layouts}} \\")
             continue
         L = P.layouts[0]
         m = L.metrics
         best_rows.append(
             rf"\hyperref[sec:{P.name}]{{{tex_text(P.name)}}} & {_link(P.name, L.id, str(L.id))} & "
             f"{L.W:.1f} $\\times$ {L.H:.1f} & {len(L.rects)} & {fmt(L.g)} & {m.mean_dev:.2f} & {m.max_dev:.1f} & "
-            f"{notch_text(m)} & {m.corners}/4 & {badness(L):.2f} \\\\"
+            f"{notch_text(m)} & {m.corners}/4 & {m.extras.entropy:.2f} & {badness(L, P.params):.2f} \\\\"
         )
-    thumbs = []
-    for P in paradigms:
-        if not P.layouts:
-            continue
-        L = P.layouts[0]
-        m = L.metrics
-        thumbs.append(rf"""\begin{{minipage}}[t]{{0.32\textwidth}}\centering\vspace{{0pt}}
-{thumbnail(L, frames, types)}\\[2pt]
-{{\small\bfseries {tex_text(P.name)}}} -- {_link(P.name, L.id, f"layout {L.id}")}\\
-{{\scriptsize {L.W:.1f} $\times$ {L.H:.1f} cm, {len(L.rects)} frames, gap {fmt(L.g)} cm,
-max.\ dev.\ {m.max_dev:.1f} cm, notches {notch_text(m)}}}
-\end{{minipage}}""")
-    gallery_rows = []
-    for i in range(0, len(thumbs), 3):
-        gallery_rows.append("\\hfill\n".join(thumbs[i:i + 3]) + "\n\\par\\vspace{10pt}")
-    gallery = "\n".join(gallery_rows)
+    gallery = _gallery(paradigms, frames, types)
     return rf"""\section{{Search paradigms}}\label{{sec:paradigms}}
 All paradigms share the same model and search. A layout is a \emph{{slicing tree}} over a subset of the
 frames: frames are recursively placed side by side or on top of each other with a nominal gap. Where two
@@ -253,9 +263,9 @@ paradigm & what differs & parameters that differ from the baseline \\
 
 \vspace{{12pt}}
 {{\bfseries Best-ranked layout of each paradigm}} (all measurements in cm)\\[4pt]
-\begin{{tabular}}{{@{{}}l r l r r r r l c r@{{}}}}
+\begin{{tabular}}{{@{{}}l r l r r r r l c r r@{{}}}}
 \toprule
-paradigm & layout & size & frames & nominal gap & mean dev & max dev & notches & corners & score \\
+paradigm & layout & size & frames & nominal gap & mean dev & max dev & notches & corners & entropy & score \\
 \midrule
 {chr(10).join(best_rows)}
 \bottomrule
@@ -263,6 +273,93 @@ paradigm & layout & size & frames & nominal gap & mean dev & max dev & notches &
 \clearpage
 {{\large\bfseries Best-ranked layout of each paradigm at a glance}} {{\small (scale 1:25; details on the linked pages)}}\\[10pt]
 {gallery}
+\clearpage
+"""
+
+
+def _gallery(paradigms: list[Paradigm], frames: list[Frame], types: list[FrameType]) -> str:
+    """Thumbnails of the best layout of each paradigm, three per row."""
+    thumbs = []
+    for P in paradigms:
+        if not P.layouts:
+            continue
+        L = P.layouts[0]
+        m = L.metrics
+        thumbs.append(rf"""\begin{{minipage}}[t]{{0.32\textwidth}}\centering\vspace{{0pt}}
+{thumbnail(L, frames, types)}\\[2pt]
+{{\small\bfseries {tex_text(P.name)}}} -- {_link(P.name, L.id, f"layout {L.id}")}\\
+{{\scriptsize {L.W:.1f} $\times$ {L.H:.1f} cm, {len(L.rects)} frames, gap {fmt(L.g)} cm,
+max.\ dev.\ {m.max_dev:.1f} cm, notches {notch_text(m)}, entropy {m.extras.entropy:.2f}}}
+\end{{minipage}}""")
+    rows = []
+    for i in range(0, len(thumbs), 3):
+        rows.append("\\hfill\n".join(thumbs[i:i + 3]) + "\n\\par\\vspace{10pt}")
+    return "\n".join(rows)
+
+
+def _large_text(L: Layout) -> str:
+    x = L.metrics.extras
+    if x.n_large < 2:
+        return str(x.n_large)
+    touch = "apart" if x.large_touch_pairs == 0 else f"{x.large_touch_pairs} touching ({x.large_touch:.0f} cm)"
+    return f"{x.n_large}, {touch}, {x.large_min_dist:.0f} cm"
+
+
+def _subanalysis_section(cps: list[Paradigm], frames: list[Frame], types: list[FrameType]) -> str:
+    """Chapter for the paradigms with large-frame constraints and/or the entropy reward."""
+    rows = []
+    for P in cps:
+        if not P.layouts:
+            continue
+        L = P.layouts[0]
+        m, x = L.metrics, L.metrics.extras
+        rows.append(
+            rf"\hyperref[sec:{P.name}]{{{tex_text(P.name)}}} & {_link(P.name, L.id, str(L.id))} & "
+            f"{L.W:.1f} $\\times$ {L.H:.1f} & {len(L.rects)} & {fmt(L.g)} & {m.max_dev:.1f} & {notch_text(m)} & "
+            f"{_large_text(L)} & {x.entropy:.2f} & {x.type_mix:.2f} / {x.variety:.2f} / {x.stagger:.2f} / {x.lines:.2f} & "
+            f"{badness(L, P.params):.2f} \\\\"
+        )
+    any_large = any(P.params.large_min > 0 or P.params.large_apart for P in cps)
+    any_ent = any(P.params.w_entropy > 0 for P in cps)
+    d = cps[0].params
+    large_txt = rf"""{{\bfseries Large frames apart.}} Frames with an outer area of at least {d.large_area:g} cm$^2$ count
+as large (here the 52.5 $\times$ 42.5 and 42.5 $\times$ 52.5 frames). The layout must contain between
+{d.large_min} and {d.large_max} of them (each one missing or too many costs as much as a 1.5 cm notch across the whole
+width). Two large frames that face each other across a regular gap are ``touching''; the penalty grows with the
+edge they share, so barely touching is almost free. In addition the closest pair of large frames is pulled towards a
+centre distance of at least {d.large_min_dist:g} cm. The tables report the number of large frames, how many pairs touch
+(with the total shared edge) and the smallest centre distance.""" if any_large else ""
+    ent_txt = r"""{\bfseries Entropy.} A number in $[0, 1]$ for how irregular (``random'') a constellation looks, the
+mean of four shares: \emph{mix} -- the Shannon entropy of the formats used, relative to using all formats equally;
+\emph{variety} -- the share of neighbouring pairs (across a regular gap) that have different formats;
+\emph{stagger} -- the share of distinct frame edge positions (in a grid most edges line up, so it scores low);
+\emph{lines} -- 1 for a single straight gap line running across the whole collage, 0 for five or more.
+The search adds $w \cdot (1 - \mathrm{entropy})$ to the cost, so it trades a little gap uniformity for irregularity;
+layouts with equal rounded score are ranked by entropy.""" if any_ent else ""
+    return rf"""\section{{Sub-analysis: large frames apart, entropy}}\label{{sec:sub}}
+The following paradigms add constraints on top of the baseline search:
+{", ".join(rf"\hyperref[sec:{P.name}]{{{tex_text(P.name)}}}" for P in cps)}. The gap and border measures stay the
+same; the extra measures are shown on every layout page and in the tables below.
+
+\vspace{{4pt}}
+{large_txt}
+
+\vspace{{4pt}}
+{ent_txt}
+
+\vspace{{10pt}}
+{{\bfseries Best-ranked layout of each sub-analysis paradigm}} (cm; large = count, touching pairs, min.\ centre distance;
+entropy components = mix / variety / stagger / lines)\\[4pt]
+\begin{{tabular}}{{@{{}}l r l r r r l l r l r@{{}}}}
+\toprule
+paradigm & layout & size & frames & gap & max dev & notches & large frames & entropy & components & score \\
+\midrule
+{chr(10).join(rows)}
+\bottomrule
+\end{{tabular}}
+\clearpage
+{{\large\bfseries Best-ranked layout of each sub-analysis paradigm at a glance}} {{\small (scale 1:25)}}\\[10pt]
+{_gallery(cps, frames, types)}
 \clearpage
 """
 
@@ -275,16 +372,17 @@ def _combined_section(rows, n_total: int, paradigms: list[Paradigm]) -> str:
         also = ", ".join(_link(n, i) for n, i in found[1:]) or "--"
         lines.append(
             f"{rank} & {_link(*first)} & {{\\small {also}}} & {L.W:.1f} $\\times$ {L.H:.1f} & {fmt(L.g)} & "
-            f"{len(L.rects)} & {m.max_dev:.1f} & {m.mean_dev:.2f} & {notch_text(m)} & {m.corners}/4 & {badness(L):.2f} \\\\"
+            f"{len(L.rects)} & {m.max_dev:.1f} & {m.mean_dev:.2f} & {notch_text(m)} & {m.corners}/4 & "
+            f"{m.extras.entropy:.2f} & {badness(L):.2f} \\\\"
         )
     n_shown = sum(len(P.layouts) for P in paradigms)
     return rf"""\section{{Combined ranking}}\label{{sec:combined}}
 The {n_shown} layouts shown in this document ({n_total} distinct ones; a layout found by several paradigms is
-listed once, with the other paradigms in the third column) ranked together by the same score. Click a
-layout to jump to its page.\\[8pt]
-\begin{{tabular}}{{@{{}}r l l l r r r r l c r@{{}}}}
+listed once, with the other paradigms in the third column) ranked together by the same score (gap uniformity and
+border only; the sub-analysis constraints are not part of this score). Click a layout to jump to its page.\\[8pt]
+\begin{{tabular}}{{@{{}}r l l l r r r r l c r r@{{}}}}
 \toprule
-\# & paradigm / layout & also found by & size (cm) & gap & frames & max dev & mean dev & notches & corners & score \\
+\# & paradigm / layout & also found by & size (cm) & gap & frames & max dev & mean dev & notches & corners & entropy & score \\
 \midrule
 {chr(10).join(lines)}
 \bottomrule
@@ -306,9 +404,9 @@ def _paradigm_section(P: Paradigm, base: Paradigm, frames: list[Frame], types: l
 {describe(P)}\\[4pt]
 {{\small {dtxt}}}\\
 {{\small {P.budget}, {P.n_candidates} candidate states, the {len(P.layouts)} best distinct layouts are shown.}}\\[10pt]
-\begin{{tabular}}{{@{{}}r l r r r r l c@{{}}}}
+\begin{{tabular}}{{@{{}}r l r r r r l c r@{{}}}}
 \toprule
-\# & size (cm) & gap & frames & max dev & mean dev & notches & corners \\
+\# & size (cm) & gap & frames & max dev & mean dev & notches & corners & entropy \\
 \midrule
 {_summary_rows(P.layouts, frames, types, link_prefix=P.name)}
 \bottomrule
@@ -326,6 +424,9 @@ def write_report_tex(path: Path, paradigms: list[Paradigm], frames: list[Frame],
     rows, n_total = combined_ranking(paradigms, frames, top, base.params)
     parts = [_preamble(types, report=True), _title_page(paradigms, frames, types, title, n_total),
              _paradigm_overview(paradigms, frames, types), _combined_section(rows, n_total, paradigms)]
+    cps = [P for P in paradigms if P.params.needs_placement]
+    if cps:
+        parts.append(_subanalysis_section(cps, frames, types))
     parts += [_paradigm_section(P, base, frames, types, annotate_threshold) for P in paradigms]
     parts.append("\\end{document}\n")
     path.write_text("\n".join(parts), encoding="utf-8")
@@ -383,7 +484,8 @@ def main(argv: list[str] | None = None) -> int:
             continue
         L, m = P.layouts[0], P.layouts[0].metrics
         print(f"{P.name:<14} {L.W:6.1f} x {L.H:5.1f} {L.g:4.1f} {len(L.rects):>3} {m.max_dev:6.2f} {m.mean_dev:7.2f} "
-              f"{m.notch_len:6.1f} {m.corners:>5}/4 {badness(L):6.2f}")
+              f"{m.notch_len:6.1f} {m.corners:>5}/4 {badness(L, P.params):6.2f}  entropy {m.extras.entropy:.2f}"
+              + (f"  large {_large_text(L)}" if P.params.needs_placement else ""))
 
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)

@@ -113,7 +113,7 @@ def _summary_rows(layouts: list[Layout], frames: list[Frame], types: list[FrameT
         idc = rf"\hyperref[lay:{link_prefix}:{L.id}]{{{L.id}}}" if link_prefix else str(L.id)
         rows.append(
             f"{idc} & {L.W:.1f} $\\times$ {L.H:.1f} & {fmt(L.g)} & {len(L.rects)} & "
-            f"{m.max_dev:.1f} & {m.mean_dev:.2f} & {notch_text(m)} & {m.corners}/4 \\\\"
+            f"{m.max_dev:.1f} & {m.mean_dev:.2f} & {notch_text(m)} & {m.corners}/4 & {m.extras.entropy:.2f} \\\\"
         )
     return "\n".join(rows)
 
@@ -129,9 +129,9 @@ Max.\ gap deviation = largest difference between an actual gap and the layout's 
 notches = parts of the outer border not covered by a frame or a regular gap. Ranked by a combined
 score (gap uniformity first, border sharpness second, then number of frames).}}\\[10pt]
 \begin{{minipage}}[t]{{0.6\textwidth}}\vspace{{0pt}}
-\begin{{tabular}}{{@{{}}r l r r r r l c@{{}}}}
+\begin{{tabular}}{{@{{}}r l r r r r l c r@{{}}}}
 \toprule
-\# & size (cm) & gap & frames & max dev & mean dev & notches & corners \\
+\# & size (cm) & gap & frames & max dev & mean dev & notches & corners & entropy \\
 \midrule
 {_summary_rows(layouts, frames, types)}
 \bottomrule
@@ -217,6 +217,12 @@ def _layout_page(L: Layout, frames: list[Frame], types: list[FrameType], annotat
         f"{i} & {fmt(r.w)} $\\times$ {fmt(r.h)} & {r.x:.1f} & {r.y:.1f} \\\\"
         for i, r in enumerate(L.rects, 1)
     )
+    x = m.extras
+    if x.n_large >= 2:
+        touch = "not touching" if x.large_touch_pairs == 0 else f"touching {x.large_touch_pairs}$\\times$ ({x.large_touch:.0f} cm)"
+        large = f"{x.n_large}, {touch}, min.\\ dist.\\ {x.large_min_dist:.0f} cm"
+    else:
+        large = str(x.n_large)
     return rf"""{head}\begin{{minipage}}[t]{{0.74\textwidth}}\vspace{{0pt}}
 {{\LARGE\bfseries Layout {L.id}}}\hspace{{1.5em}}{{\large {L.W:.1f} $\times$ {L.H:.1f} cm \quad gap {fmt(L.g)} cm \quad {len(L.rects)} frames}}\\[8pt]
 \begin{{tikzpicture}}[x=1mm, y=-1mm]
@@ -236,6 +242,10 @@ Mean deviation & {m.mean_dev:.2f} cm \\
 Border notches & {notch} \\
 Corners filled & {m.corners} / 4 \\
 Frames used & {len(L.rects)} of {len(frames)} \\
+Large frames & {{\scriptsize {large}}} \\
+Entropy & {x.entropy:.2f} \\
+\quad {{\scriptsize mix / variety}} & {{\scriptsize {x.type_mix:.2f} / {x.variety:.2f}}} \\
+\quad {{\scriptsize stagger / lines}} & {{\scriptsize {x.stagger:.2f} / {x.lines:.2f} ({x.through_lines} through)}} \\
 \bottomrule
 \end{{tabular}}
 
@@ -294,6 +304,21 @@ def layout_dict(L: Layout, frames: list[Frame], types: list[FrameType]) -> dict:
             "corners_filled": L.metrics.corners,
             "dead_fraction": L.metrics.dead_frac,
             "gaps": [asdict(gp) for gp in L.metrics.gaps],
+            "large_frames": {
+                "count": L.metrics.extras.n_large,
+                "touching_pairs": L.metrics.extras.large_touch_pairs,
+                "touching_edge_cm": L.metrics.extras.large_touch,
+                "min_centre_distance": None if L.metrics.extras.large_min_dist == float("inf")
+                else L.metrics.extras.large_min_dist,
+            },
+            "entropy": {
+                "total": L.metrics.extras.entropy,
+                "type_mix": L.metrics.extras.type_mix,
+                "variety": L.metrics.extras.variety,
+                "stagger": L.metrics.extras.stagger,
+                "lines": L.metrics.extras.lines,
+                "through_lines": L.metrics.extras.through_lines,
+            },
         },
     }
 

@@ -41,6 +41,33 @@ Outputs in `out/`:
 * `candidates.json` – all candidate states of the search (re-renderable with
   `--candidates`, and the input of `collage-report`).
 
+## Sub-analysis: large frames apart, entropy
+
+Two optional constraint families can be added to any search:
+
+```sh
+uv run collage --large-count 2-3 --large-apart     # 2-3 large frames that do not touch, >= 70 cm apart
+uv run collage --entropy 40                        # reward irregular ("random") constellations
+uv run collage --large-count 2-3 --large-apart --entropy 40
+scripts/run_subanalysis.sh 60                      # the three combinations above, 60 min in total
+```
+
+* *Large frames* are those with an outer area of at least `--large-area` (default
+  2000 cm², i.e. the 52.5 x 42.5 and 42.5 x 52.5 frames). `--large-count MIN-MAX`
+  requires that many of them; `--large-apart` penalises two large frames that face
+  each other across a gap (in proportion to the edge they share, so barely touching
+  is almost free) and pulls the closest pair towards a centre distance of at least
+  `--large-min-dist` (default 70 cm).
+* *Entropy* is a number in [0, 1] for how irregular a constellation looks: the mean
+  of the format mix (Shannon entropy of the formats used), the share of neighbouring
+  pairs with different formats, the share of distinct frame edge positions (grids
+  score low) and a term for few straight gap lines crossing the whole collage.
+  `--entropy W` adds `W * (1 - entropy)` to the cost (40 is a reasonable weight);
+  layouts with equal rounded score are then ranked by entropy.
+
+Both measures are computed for every layout and shown on its page and in
+`layouts.json`; the report gets an extra chapter for the paradigms that use them.
+
 ## One report for several runs
 
 `collage-report` combines the results of several search configurations

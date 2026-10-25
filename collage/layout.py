@@ -19,6 +19,7 @@ the *actual* gaps and border coverage of the placed rectangles.
 from __future__ import annotations
 
 import math
+from bisect import bisect_left, bisect_right
 from dataclasses import dataclass, field
 
 from .inventory import Frame
@@ -42,6 +43,22 @@ class Params:
     slack_rule: str = "even"  # "even" | "proportional"
     hard_margin: float = 5.0  # states further than tol+margin from the target are rejected
     cost_shape: str = "huber"  # "huber" | "linear"
+    # optional constraints (sub-analysis); all off by default
+    n_types: int = 9  # distinct frame formats in the inventory (normalises the type-mix entropy)
+    large_area: float = 2000.0  # frames with at least this outer area (cm^2) count as "large"
+    large_min: int = 0  # required number of large frames (0 = no constraint)
+    large_max: int = 99
+    w_large: float = 30.0  # per large frame missing or too many
+    large_apart: bool = False  # keep large frames away from each other
+    w_touch: float = 1.0  # per cm of shared edge between two large frames that are direct neighbours
+    large_min_dist: float = 70.0  # wanted minimum centre distance between large frames (cm)
+    w_dist: float = 0.5  # per cm the closest pair of large frames falls short of large_min_dist
+    w_entropy: float = 0.0  # weight of (1 - entropy); 0 = off
+
+    @property
+    def needs_placement(self) -> bool:
+        """True if the cost has terms that need the placed rectangles (not just the tree)."""
+        return self.large_min > 0 or self.large_max < 99 or self.large_apart or self.w_entropy > 0
 
 
 def huber(d: float, p: Params) -> float:
@@ -190,6 +207,8 @@ def total_cost(t: Tree, frames: list[Frame], g: float, p: Params) -> tuple[float
     e = evaluate(t, frames, g, p)
     dw, dh = abs(e.w - p.target_w), abs(e.h - p.target_h)
     c = e.cost + p.w_size * size_violation(e.w, e.h, p) + p.w_pull * (dw + dh) - p.frame_bonus * e.n
+    if p.needs_placement:
+        c += extras_cost(extras(place_from_eval(t, e, frames, g, p), g, p), p)
     return c, e
 
 
@@ -214,16 +233,22 @@ class Rect:
 
 
 def place(t: Tree, frames: list[Frame], g: float, p: Params) -> tuple[list[Rect], float, float]:
-    """Return rectangles (origin top-left, y downwards) and the outer size."""
+    """Return rectangles (origin top-left, y downwards, sorted by row) and the outer size."""
     root = evaluate(t, frames, g, p)
-    rects: list[Rect] = []
-    _place(t, frames, g, p, 0.0, 0.0, root.w, root.h, True, True, True, True, rects)
+    rects = place_from_eval(t, root, frames, g, p)
     rects.sort(key=lambda r: (r.y, r.x))
     check_placement(rects, root.w, root.h)
     return rects, root.w, root.h
 
 
-def _place(t, frames, g, p, x, y, W, H, bt, bb, bl, br, out):
+def place_from_eval(t: Tree, e: Eval, frames: list[Frame], g: float, p: Params) -> list[Rect]:
+    """Rectangles for an already evaluated tree (no re-evaluation, no checks; tree order)."""
+    rects: list[Rect] = []
+    _place(t, e, frames, g, p, 0.0, 0.0, e.w, e.h, True, True, True, True, rects)
+    return rects
+
+
+def _place(t, e, frames, g, p, x, y, W, H, bt, bb, bl, br, out):
     if is_leaf(t):
         f = frames[t]
         ex, ey = W - f.w, H - f.h
@@ -233,8 +258,7 @@ def _place(t, frames, g, p, x, y, W, H, bt, bb, bl, br, out):
         out.append(Rect(t, x + dx, y + dy, f.w, f.h))
         return
     op, a, b = t
-    ea = evaluate(a, frames, g, p)
-    eb = evaluate(b, frames, g, p)
+    ea, eb = e.a, e.b
     if op == "V":
         extra = W - (ea.w + g + eb.w)
         assert extra > -1e-6
@@ -243,8 +267,8 @@ def _place(t, frames, g, p, x, y, W, H, bt, bb, bl, br, out):
         gap = g + extra * omega / cap
         wa = ea.w + extra * ea.cap_w / cap
         wb = eb.w + extra * eb.cap_w / cap
-        _place(a, frames, g, p, x, y, wa, H, bt, bb, bl, False, out)
-        _place(b, frames, g, p, x + wa + gap, y, wb, H, bt, bb, False, br, out)
+        _place(a, ea, frames, g, p, x, y, wa, H, bt, bb, bl, False, out)
+        _place(b, eb, frames, g, p, x + wa + gap, y, wb, H, bt, bb, False, br, out)
     else:
         extra = H - (ea.h + g + eb.h)
         assert extra > -1e-6
@@ -253,8 +277,8 @@ def _place(t, frames, g, p, x, y, W, H, bt, bb, bl, br, out):
         gap = g + extra * omega / cap
         ha = ea.h + extra * ea.cap_h / cap
         hb = eb.h + extra * eb.cap_h / cap
-        _place(a, frames, g, p, x, y, W, ha, bt, False, bl, br, out)
-        _place(b, frames, g, p, x, y + ha + gap, W, hb, False, bb, bl, br, out)
+        _place(a, ea, frames, g, p, x, y, W, ha, bt, False, bl, br, out)
+        _place(b, eb, frames, g, p, x, y + ha + gap, W, hb, False, bb, bl, br, out)
 
 
 def check_placement(rects: list[Rect], W: float, H: float) -> None:
@@ -287,6 +311,7 @@ class Metrics:
     uncovered: dict[str, float]  # per border side: notch length (holes that are not regular gaps)
     corners: int  # number of filled corners (0..4)
     dead_frac: float  # share of the bounding box that is neither frame nor nominal gap
+    extras: "Extras" = field(default_factory=lambda: Extras())
 
     @property
     def notch_len(self) -> float:
@@ -353,7 +378,7 @@ def _notch_length(intervals: list[tuple[float, float]], length: float, g: float)
     return max(0.0, notch)
 
 
-def metrics(rects: list[Rect], W: float, H: float, g: float) -> Metrics:
+def metrics(rects: list[Rect], W: float, H: float, g: float, p: Params | None = None) -> Metrics:
     gaps = neighbour_gaps(rects)
     devs = [abs(x.size - g) for x in gaps]
     uncovered = {
@@ -385,7 +410,123 @@ def metrics(rects: list[Rect], W: float, H: float, g: float) -> Metrics:
         uncovered={k: max(0.0, round(v, 3)) for k, v in uncovered.items()},
         corners=corners,
         dead_frac=dead,
+        extras=extras(rects, g, p or Params()),
     )
+
+
+# ------------------------------------------------- optional constraints: large frames, entropy
+
+
+@dataclass
+class Extras:
+    """Measures for the optional constraints: large-frame placement and 'entropy' (irregularity)."""
+
+    n_large: int = 0
+    large_touch: float = 0.0  # total shared edge (cm) of large-frame pairs that are direct neighbours
+    large_touch_pairs: int = 0
+    large_min_dist: float = math.inf  # smallest centre distance between two large frames
+    type_mix: float = 0.0  # normalised Shannon entropy of the frame formats used
+    variety: float = 0.0  # share of neighbouring pairs (across a regular gap) with different formats
+    stagger: float = 0.0  # share of distinct frame edge positions (grids score low)
+    through_lines: int = 0  # straight gap lines running across the whole collage
+    lines: float = 0.0  # 1 for a single through-line, 0 for five or more
+
+    @property
+    def entropy(self) -> float:
+        """Irregularity of the constellation in [0, 1]: mean of the four components."""
+        return (self.type_mix + self.variety + self.stagger + self.lines) / 4.0
+
+
+def regular_neighbours(rects: list[Rect], g: float) -> list[tuple[int, int, float]]:
+    """Pairs (i, j, shared edge) of frames facing each other across a gap of at most g + 1 cm.
+
+    Nothing can lie in such a narrow gap, so no blocking test is needed (unlike ``neighbour_gaps``).
+    """
+    n = len(rects)
+    lim = g + 1.0 + EPS
+    xs = sorted(range(n), key=lambda i: rects[i].x)
+    xk = [rects[i].x for i in xs]
+    ys = sorted(range(n), key=lambda i: rects[i].y)
+    yk = [rects[i].y for i in ys]
+    pairs: list[tuple[int, int, float]] = []
+    for i, a in enumerate(rects):
+        for k in range(bisect_left(xk, a.x2 - EPS), bisect_right(xk, a.x2 + lim)):
+            b = rects[xs[k]]
+            ov = min(a.y2, b.y2) - max(a.y, b.y)
+            if ov >= MIN_SHARED_EDGE:
+                pairs.append((i, xs[k], ov))
+        for k in range(bisect_left(yk, a.y2 - EPS), bisect_right(yk, a.y2 + lim)):
+            b = rects[ys[k]]
+            ov = min(a.x2, b.x2) - max(a.x, b.x)
+            if ov >= MIN_SHARED_EDGE:
+                pairs.append((i, ys[k], ov))
+    return pairs
+
+
+def _breaks(intervals: list[tuple[float, float]]) -> int:
+    """Number of holes in the union of the intervals."""
+    intervals.sort()
+    breaks = 0
+    end = intervals[0][1]
+    for lo, hi in intervals[1:]:
+        if lo > end + EPS:
+            breaks += 1
+        end = max(end, hi)
+    return breaks
+
+
+def through_lines(rects: list[Rect]) -> int:
+    """Straight gap lines that cross the whole collage (vertical + horizontal)."""
+    if not rects:
+        return 0
+    return _breaks([(r.x, r.x2) for r in rects]) + _breaks([(r.y, r.y2) for r in rects])
+
+
+def extras(rects: list[Rect], g: float, p: Params) -> Extras:
+    x = Extras()
+    n = len(rects)
+    if n == 0:
+        return x
+    large = [i for i, r in enumerate(rects) if r.w * r.h >= p.large_area - EPS]
+    x.n_large = len(large)
+    pairs = regular_neighbours(rects, g)
+    if len(large) >= 2:
+        ls = set(large)
+        for i, j, ov in pairs:
+            if i in ls and j in ls:
+                x.large_touch += ov
+                x.large_touch_pairs += 1
+        for a in range(len(large)):
+            ra = rects[large[a]]
+            for b in range(a + 1, len(large)):
+                rb = rects[large[b]]
+                d = math.hypot((ra.x + ra.x2 - rb.x - rb.x2) / 2, (ra.y + ra.y2 - rb.y - rb.y2) / 2)
+                x.large_min_dist = min(x.large_min_dist, d)
+    counts: dict[tuple[float, float], int] = {}
+    for r in rects:
+        counts[(r.w, r.h)] = counts.get((r.w, r.h), 0) + 1
+    ent = -sum(c / n * math.log(c / n) for c in counts.values())
+    x.type_mix = ent / math.log(p.n_types) if p.n_types > 1 else 0.0
+    if pairs:
+        diff = sum(1 for i, j, _ in pairs if (rects[i].w, rects[i].h) != (rects[j].w, rects[j].h))
+        x.variety = diff / len(pairs)
+    ex = {round(v, 1) for r in rects for v in (r.x, r.x2)}
+    ey = {round(v, 1) for r in rects for v in (r.y, r.y2)}
+    x.stagger = (len(ex) + len(ey)) / (4.0 * n)
+    x.through_lines = through_lines(rects)
+    x.lines = max(0.0, 1.0 - (x.through_lines - 1) / 4.0)
+    return x
+
+
+def extras_cost(x: Extras, p: Params) -> float:
+    c = 0.0
+    if p.large_min > 0 or p.large_max < 99:
+        c += p.w_large * (max(0, p.large_min - x.n_large) + max(0, x.n_large - p.large_max))
+    if p.large_apart and x.n_large >= 2:
+        c += p.w_touch * x.large_touch + p.w_dist * max(0.0, p.large_min_dist - x.large_min_dist)
+    if p.w_entropy > 0:
+        c += p.w_entropy * (1.0 - x.entropy)
+    return c
 
 
 def signature(rects: list[Rect], frames: list[Frame], W: float, H: float) -> tuple:
