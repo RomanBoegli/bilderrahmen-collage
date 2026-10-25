@@ -297,6 +297,9 @@ def _overlap(a0, a1, b0, b1) -> float:
     return min(a1, b1) - max(a0, b0)
 
 
+MIN_SHARED_EDGE = 5.0  # two frames are neighbours only if they share at least this much edge (cm)
+
+
 def neighbour_gaps(rects: list[Rect]) -> list[Gap]:
     gaps: list[Gap] = []
     n = len(rects)
@@ -307,7 +310,7 @@ def neighbour_gaps(rects: list[Rect]) -> list[Gap]:
                 continue
             b = rects[j]
             # horizontal neighbour: b right of a
-            if b.x >= a.x2 - EPS and _overlap(a.y, a.y2, b.y, b.y2) > EPS:
+            if b.x >= a.x2 - EPS and _overlap(a.y, a.y2, b.y, b.y2) >= MIN_SHARED_EDGE:
                 y0, y1 = max(a.y, b.y), min(a.y2, b.y2)
                 blocked = any(
                     k is not a and k is not b and k.x >= a.x2 - EPS and k.x2 <= b.x + EPS
@@ -316,7 +319,7 @@ def neighbour_gaps(rects: list[Rect]) -> list[Gap]:
                 if not blocked:
                     gaps.append(Gap(i, j, True, b.x - a.x2, (a.x2 + b.x) / 2, (y0 + y1) / 2))
             # vertical neighbour: b below a
-            if b.y >= a.y2 - EPS and _overlap(a.x, a.x2, b.x, b.x2) > EPS:
+            if b.y >= a.y2 - EPS and _overlap(a.x, a.x2, b.x, b.x2) >= MIN_SHARED_EDGE:
                 x0, x1 = max(a.x, b.x), min(a.x2, b.x2)
                 blocked = any(
                     k is not a and k is not b and k.y >= a.y2 - EPS and k.y2 <= b.y + EPS

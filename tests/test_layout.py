@@ -15,7 +15,7 @@ def test_parse_format():
 
 def test_expand_and_labels():
     t = FrameType(0, 20.5, 15.5, 2)
-    assert t.name == "13x18 L" and t.outer == "20.5x15.5"
+    assert t.name == "15.5x20.5 L" and t.outer == "20.5x15.5"
     assert len(expand([t])) == 2
 
 

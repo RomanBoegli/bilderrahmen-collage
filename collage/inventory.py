@@ -7,10 +7,6 @@ from pathlib import Path
 
 import openpyxl
 
-# IKEA RIBBA: the outer frame size is the picture size plus 2.5 cm in both directions.
-# Only used to derive the picture-size labels ("13x18"); the layout uses the outer sizes.
-PICTURE_OFFSET = 2.5
-
 _FORMAT_RE = re.compile(r"\s*([\d.,]+)\s*[x×X*]\s*([\d.,]+)\s*")
 
 
@@ -31,13 +27,9 @@ class FrameType:
     count: int
 
     @property
-    def picture(self) -> tuple[float, float]:
-        return (self.w - PICTURE_OFFSET, self.h - PICTURE_OFFSET)
-
-    @property
-    def picture_key(self) -> str:
-        """Orientation independent picture size, e.g. '13x18'."""
-        a, b = sorted(self.picture)
+    def size_key(self) -> str:
+        """Orientation independent outer size, e.g. '15.5x20.5' (same physical frame)."""
+        a, b = sorted((self.w, self.h))
         return f"{fmt(a)}x{fmt(b)}"
 
     @property
@@ -50,10 +42,11 @@ class FrameType:
 
     @property
     def name(self) -> str:
-        return f"{self.picture_key} {self.orientation}".strip()
+        return f"{self.size_key} {self.orientation}".strip()
 
     @property
     def outer(self) -> str:
+        """Outer size as oriented on the wall, width x height."""
         return f"{fmt(self.w)}x{fmt(self.h)}"
 
 

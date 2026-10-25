@@ -57,10 +57,45 @@ the search state (`--gap-min`/`--gap-max`) unless fixed with `--gap`.
 
 Candidates from all runs are placed, measured exactly (actual gaps, border
 coverage, filled corners), de-duplicated (mirror images count as equal) and
-ranked: no notches first, then smallest maximum gap deviation, then more
-frames, then closeness to the target size.
+ranked by a combined score: maximum and mean gap deviation first, border
+notches and missing corners second (a perfectly sharp border is a goal, not a
+hard requirement), then more frames, then closeness to the target size.
 
 Frame orientation is taken as listed in the sheet (landscape stays landscape).
-The picture-size labels (13x18, 21x30, ...) assume IKEA RIBBA frames, whose
-outer size is the picture size + 2.5 cm; the layout itself only uses the outer
-sizes from the sheet.
+All sizes are the measured outer dimensions of the frames including the wooden
+border; frames are labelled with these outer sizes (width x height as hung).
+
+## Running the search on a VM
+
+The search is CPU bound and uses one process per core (memory use is tiny), so
+more cores and more iterations are what help. On the VM:
+
+```sh
+git clone <this repo> && cd bilderrahmen-collage
+curl -LsSf https://astral.sh/uv/install.sh | sh     # if uv is missing
+uv sync
+uv run pytest
+scripts/run_experiments.sh 64 3000000               # ~6 configurations, see the script
+```
+
+Rough runtime: one run of 1M iterations takes about a minute on one core, so
+64 runs x 3M iterations take ~3 h on one core, ~12 min on 16 cores, per
+configuration. Each configuration writes `out/<name>/candidates.json` (all
+candidate states, resumable), `layouts.json` and `layouts.tex`. If LaTeX is not
+installed on the VM, commit `out/` and compile at home:
+
+```sh
+uv run collage --candidates out/combined/candidates.json --layouts 20 --out out/combined
+# or just:  cd out/combined && latexmk -pdf layouts.tex
+```
+
+Single configuration by hand, e.g. 128 runs of 5M iterations with a fixed 3 cm gap:
+
+```sh
+uv run collage --runs 128 --iters 5000000 --gap 3 --layouts 16 --out out/gap3
+```
+
+Useful knobs: `--delta` (gap deviation that counts as harmless, default 0.5 cm),
+`--frame-bonus` (push towards using more frames), `--min-frames`, `--tol`,
+`--cost-shape linear` (smoother landscape), `--t-start` (default: calibrated per
+run), `--gap-mode per-run` (each run keeps one gap value, more diverse results).

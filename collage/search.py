@@ -28,8 +28,8 @@ class SearchConfig:
     g_fixed: float | None = None
     g_mode: str = "free"  # "free": g is an annealing variable; "per-run": each run keeps one g from the grid
     min_frames: int = 10
-    t_start: float = 10.0
-    t_end: float = 0.02
+    t_start: float | None = None  # None: calibrated so that a median uphill move is accepted with p=0.5
+    t_end: float = 0.05
     fit_temp: float = 1.0  # softness (cm) of the fit-aware frame choice
     jobs: int | None = None
 
@@ -294,6 +294,21 @@ def gap_grid(cfg: SearchConfig) -> list[float]:
     return gs
 
 
+def calibrate_t_start(t: Tree, g: float, e: Eval, c: float, frames: list[Frame], p: Params, cfg: SearchConfig,
+                      rng: random.Random, trials: int = 400) -> float:
+    """Start temperature at which the median uphill move is accepted with probability 0.5."""
+    ups = []
+    for _ in range(trials):
+        t2, g2 = mutate(t, g, e, frames, cfg, rng)
+        c2, _ = total_cost(t2, frames, g2, p)
+        if c2 > c:
+            ups.append(c2 - c)
+    if not ups:
+        return 10.0
+    ups.sort()
+    return max(1.0, ups[len(ups) // 2] / math.log(2))
+
+
 def anneal(frames: list[Frame], p: Params, cfg: SearchConfig, run: int) -> list[Candidate]:
     """One annealing run; returns the best state plus the best state per frame count."""
     rng = random.Random(cfg.seed * 1000 + run)
@@ -310,9 +325,10 @@ def anneal(frames: list[Frame], p: Params, cfg: SearchConfig, run: int) -> list[
     best: dict[int, Candidate] = {e.n: Candidate(copy.deepcopy(t), g, c, run)}
     best_all = Candidate(copy.deepcopy(t), g, c, run)
     limit = p.tol + p.hard_margin
-    log_ratio = math.log(cfg.t_end / cfg.t_start)
+    t_start = cfg.t_start if cfg.t_start is not None else calibrate_t_start(t, g, e, c, frames, p, cfg, rng)
+    log_ratio = math.log(cfg.t_end / t_start)
     for k in range(cfg.iters):
-        T = cfg.t_start * math.exp(log_ratio * k / cfg.iters)
+        T = t_start * math.exp(log_ratio * k / cfg.iters)
         t2, g2 = mutate(t, g, e, frames, cfg, rng)
         c2, e2 = total_cost(t2, frames, g2, p)
         v2 = max(abs(e2.w - p.target_w) - limit, abs(e2.h - p.target_h) - limit, 0.0)

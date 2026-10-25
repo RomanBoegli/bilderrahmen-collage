@@ -30,7 +30,7 @@ def _esc(s: str) -> str:
 
 
 def _colors(types: list[FrameType]) -> dict[str, str]:
-    keys = sorted({t.picture_key for t in types}, key=lambda k: float(k.split("x")[0]))
+    keys = sorted({t.size_key for t in types}, key=lambda k: tuple(float(v) for v in k.split("x")))
     return {k: f"ft{i}" for i, k in enumerate(keys)}
 
 
@@ -59,14 +59,12 @@ def _preamble(types: list[FrameType]) -> str:
 def _inventory_table(types: list[FrameType], used: dict[int, int], colors: dict[str, str]) -> str:
     rows = []
     for t in types:
-        swatch = rf"\tikz[baseline=-0.6ex]\fill[{colors[t.picture_key]},draw=black!60] (0,0) rectangle (1.2ex,1.2ex);"
-        rows.append(
-            f"{swatch} & {_esc(t.picture_key)} {t.orientation} & {_esc(t.outer)} & {used.get(t.idx, 0)} & {t.count} \\\\"
-        )
+        swatch = rf"\tikz[baseline=-0.6ex]\fill[{colors[t.size_key]},draw=black!60] (0,0) rectangle (1.2ex,1.2ex);"
+        rows.append(f"{swatch} & {_esc(t.outer)} & {t.orientation} & {used.get(t.idx, 0)} & {t.count} \\\\")
     body = "\n".join(rows)
     return rf"""\begin{{tabular}}{{@{{}}c l l r r@{{}}}}
 \toprule
- & picture & outer (cm) & used & have \\
+ & outer w $\times$ h (cm) & & used & have \\
 \midrule
 {body}
 \bottomrule
@@ -94,9 +92,10 @@ def _overview_page(layouts: list[Layout], frames: list[Frame], types: list[Frame
     plist = ", ".join(f"{k} = {v}" for k, v in params.items()).replace("_", r"\_")
     return rf"""{{\LARGE\bfseries Bilderwand -- layout candidates}}\\[4pt]
 {{\small Target {params['target']} cm $\pm$ {params['tol']} cm, nominal gap free in
-[{params['gap_min']}, {params['gap_max']}] cm, orientation fixed. Max.\ gap deviation = largest
-difference between an actual gap and the layout's nominal gap; notches = parts of the outer border not
-covered by a frame or a regular gap.}}\\[10pt]
+[{params['gap_min']}, {params['gap_max']}] cm, orientation fixed, sizes are measured outer dimensions.
+Max.\ gap deviation = largest difference between an actual gap and the layout's nominal gap;
+notches = parts of the outer border not covered by a frame or a regular gap. Ranked by a combined
+score (gap uniformity first, border sharpness second, then number of frames).}}\\[10pt]
 \begin{{minipage}}[t]{{0.6\textwidth}}\vspace{{0pt}}
 \begin{{tabular}}{{@{{}}r l r r r r l c@{{}}}}
 \toprule
@@ -123,14 +122,13 @@ def _layout_page(L: Layout, frames: list[Frame], types: list[FrameType], annotat
     tik.append(rf"\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle ({L.W:.2f},{L.H:.2f});")
     for i, r in enumerate(L.rects, 1):
         t = types[frames[r.frame].type]
-        col = colors[t.picture_key]
+        col = colors[t.size_key]
         tik.append(
             rf"\filldraw[fill={col}, draw=black!80, line width=0.5pt] ({r.x:.2f},{r.y:.2f}) rectangle ({r.x2:.2f},{r.y2:.2f});"
         )
         cx, cy = (r.x + r.x2) / 2, (r.y + r.y2) / 2
         tik.append(
-            rf"\node[align=center, inner sep=0pt] at ({cx:.2f},{cy:.2f}) "
-            rf"{{\scriptsize\bfseries {_esc(t.picture_key)}\\[-2pt]\tiny {_esc(t.outer)}}};"
+            rf"\node[align=center, inner sep=0pt] at ({cx:.2f},{cy:.2f}) {{\scriptsize {_esc(t.outer)}}};"
         )
         tik.append(rf"\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at ({r.x:.2f},{r.y:.2f}) {{{i}}};")
     for gp in m.gaps:
@@ -154,8 +152,7 @@ def _layout_page(L: Layout, frames: list[Frame], types: list[FrameType], annotat
     gap_range = f"{min(gap_sizes):.1f} -- {max(gap_sizes):.1f} cm" if gap_sizes else "--"
     notch = "none" if m.notch_len < 1e-6 else ", ".join(f"{k} {v:.0f} cm" for k, v in m.uncovered.items() if v > 0)
     coords = "\n".join(
-        f"{i} & {_esc(types[frames[r.frame].type].picture_key)} {types[frames[r.frame].type].orientation}"
-        f" & {r.x:.1f} & {r.y:.1f} & {fmt(r.w)} $\\times$ {fmt(r.h)} \\\\"
+        f"{i} & {fmt(r.w)} $\\times$ {fmt(r.h)} & {r.x:.1f} & {r.y:.1f} \\\\"
         for i, r in enumerate(L.rects, 1)
     )
     return rf"""\begin{{minipage}}[t]{{0.74\textwidth}}\vspace{{0pt}}
@@ -187,9 +184,9 @@ Frames used & {len(L.rects)} of {len(frames)} \\
 \vspace{{8pt}}
 {{\bfseries Positions}} (top-left corner, cm)\\[2pt]
 \tiny
-\begin{{tabular}}{{@{{}}r l r r l@{{}}}}
+\begin{{tabular}}{{@{{}}r l r r@{{}}}}
 \toprule
-\# & frame & x & y & w $\times$ h \\
+\# & frame w $\times$ h & x & y \\
 \midrule
 {coords}
 \bottomrule

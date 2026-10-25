@@ -46,8 +46,7 @@ rubber.cache
 
 ## Build tool directories for auxiliary files
 # latexrun
-latex.out/
-
+latex.
 ## Auxiliary and intermediate files from other packages:
 # algorithms
 *.alg
@@ -336,4 +335,3 @@ __pycache__/
 *.pyc
 *.egg-info/
 .pytest_cache/
-out/
