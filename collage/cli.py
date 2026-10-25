@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import shutil
 import sys
 import time
 from pathlib import Path
@@ -101,12 +100,11 @@ def main(argv: list[str] | None = None) -> int:
     tex = out / "layouts.tex"
     write_tex(tex, layouts, frames, types, params, args.annotate_threshold)
     print(f"wrote {out / 'layouts.json'} and {tex}", file=sys.stderr)
-    if args.no_compile or shutil.which("latexmk") is None:
-        print(f"PDF not compiled; run: cd {out} && latexmk -pdf layouts.tex", file=sys.stderr)
+    pdf = None if args.no_compile else compile_pdf(tex)
+    if pdf:
+        print(f"wrote {pdf}", file=sys.stderr)
     else:
-        pdf = compile_pdf(tex)
-        if pdf:
-            print(f"wrote {pdf}", file=sys.stderr)
+        print(f"PDF not compiled; run: cd {out} && latexmk -pdf layouts.tex", file=sys.stderr)
     return 0
 
 

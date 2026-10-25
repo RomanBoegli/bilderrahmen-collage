@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import shutil
 import subprocess
+import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -303,15 +304,20 @@ def write_json(path: Path, layouts: list[Layout], frames: list[Frame], types: li
 
 
 def compile_pdf(tex: Path) -> Path | None:
+    """Run latexmk; returns the PDF path, or None (with a message) if latexmk is missing or fails.
+
+    A failed compilation is not fatal: the .tex is kept and can be compiled elsewhere.
+    """
     exe = shutil.which("latexmk") or shutil.which("/Library/TeX/texbin/latexmk")
     if exe is None:
-        print("latexmk not found; skipping PDF compilation")
+        print("latexmk not found; skipping PDF compilation", file=sys.stderr)
         return None
     cmd = [exe, "-pdf", "-interaction=nonstopmode", "-halt-on-error", "-quiet", tex.name]
     res = subprocess.run(cmd, cwd=tex.parent, capture_output=True, text=True)
     if res.returncode != 0:
-        print(res.stdout[-3000:])
-        print(res.stderr[-1000:])
-        raise SystemExit("LaTeX compilation failed")
+        print(res.stdout[-3000:], file=sys.stderr)
+        print(res.stderr[-1000:], file=sys.stderr)
+        print(f"LaTeX compilation of {tex} failed (missing packages?); the .tex file is kept", file=sys.stderr)
+        return None
     subprocess.run([exe, "-c", "-quiet", tex.name], cwd=tex.parent, capture_output=True)
     return tex.with_suffix(".pdf")

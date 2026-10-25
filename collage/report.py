@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import shutil
 import sys
 from dataclasses import dataclass
 from datetime import date
@@ -392,12 +391,11 @@ def main(argv: list[str] | None = None) -> int:
     write_report_tex(tex, paradigms, frames, types, args.top, args.annotate_threshold, args.title)
     write_report_json(out / "report.json", paradigms, frames, types, args.top)
     print(f"wrote {out / 'report.json'} and {tex}", file=sys.stderr)
-    if args.no_compile or shutil.which("latexmk") is None:
-        print(f"PDF not compiled; run: cd {out} && latexmk -pdf report.tex", file=sys.stderr)
+    pdf = None if args.no_compile else compile_pdf(tex)
+    if pdf:
+        print(f"wrote {pdf}", file=sys.stderr)
     else:
-        pdf = compile_pdf(tex)
-        if pdf:
-            print(f"wrote {pdf}", file=sys.stderr)
+        print(f"PDF not compiled; run: cd {out} && latexmk -pdf report.tex", file=sys.stderr)
     return 0
 
 
