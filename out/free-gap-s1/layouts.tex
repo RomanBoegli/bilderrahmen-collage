@@ -1,0 +1,2777 @@
+\documentclass[a4paper,landscape,10pt]{article}
+\usepackage[margin=10mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\definecolor{ft0}{HTML}{CFE4F2}
+\definecolor{ft1}{HTML}{FBE2B4}
+\definecolor{ft2}{HTML}{D4E9CC}
+\definecolor{ft3}{HTML}{E5D3EA}
+\definecolor{ft4}{HTML}{F5CACA}
+\begin{document}
+
+{\LARGE\bfseries Bilderwand -- layout candidates}\\[4pt]
+{\small Target 180x120 cm $\pm$ 10.0 cm, nominal gap free in
+[1.5, 6.0] cm, orientation fixed, sizes are measured outer dimensions.
+Max.\ gap deviation = largest difference between an actual gap and the layout's nominal gap;
+notches = parts of the outer border not covered by a frame or a regular gap. Ranked by a combined
+score (gap uniformity first, border sharpness second, then number of frames).}\\[10pt]
+\begin{minipage}[t]{0.6\textwidth}\vspace{0pt}
+\begin{tabular}{@{}r l r r r r l c@{}}
+\toprule
+\# & size (cm) & gap & frames & max dev & mean dev & notches & corners \\
+\midrule
+1 & 170.0 $\times$ 114.5 & 2 & 24 & 1.8 & 0.33 & 4 cm & 4/4 \\
+2 & 170.0 $\times$ 114.5 & 2 & 24 & 1.8 & 0.35 & 4 cm & 4/4 \\
+3 & 184.0 $\times$ 115.0 & 2 & 23 & 2.0 & 0.57 & none & 4/4 \\
+4 & 183.5 $\times$ 115.0 & 2 & 23 & 2.2 & 0.48 & none & 4/4 \\
+5 & 190.5 $\times$ 115.5 & 2.5 & 22 & 2.0 & 0.41 & none & 4/4 \\
+6 & 171.5 $\times$ 116.5 & 2.5 & 22 & 2.0 & 0.61 & none & 4/4 \\
+7 & 170.0 $\times$ 115.0 & 2 & 19 & 2.0 & 0.52 & none & 4/4 \\
+8 & 181.5 $\times$ 114.5 & 1.5 & 25 & 2.3 & 0.56 & none & 4/4 \\
+9 & 172.0 $\times$ 113.5 & 2 & 25 & 2.5 & 0.41 & none & 4/4 \\
+10 & 180.0 $\times$ 128.0 & 3 & 25 & 3.0 & 0.77 & none & 4/4 \\
+11 & 180.5 $\times$ 127.5 & 3.5 & 25 & 3.1 & 0.73 & none & 4/4 \\
+12 & 172.5 $\times$ 115.5 & 2.5 & 24 & 2.0 & 0.28 & 4 cm & 4/4 \\
+13 & 170.0 $\times$ 115.0 & 2 & 24 & 2.0 & 0.38 & 6 cm & 4/4 \\
+14 & 170.5 $\times$ 117.5 & 2.5 & 24 & 3.0 & 0.58 & none & 4/4 \\
+15 & 189.5 $\times$ 110.5 & 3.5 & 24 & 3.0 & 0.79 & none & 4/4 \\
+16 & 186.5 $\times$ 116.5 & 2.5 & 23 & 2.5 & 0.56 & none & 4/4 \\
+\bottomrule
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.36\textwidth}\vspace{0pt}
+{\bfseries Inventory}\\[4pt]
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & & 2 \\
+\bottomrule
+\end{tabular}
+\\[8pt]
+{\scriptsize Search parameters: target = 180x120, tol = 10.0, gap\_min = 1.5, gap\_max = 6.0, gap\_mode = free, delta = 0.5, slack\_rule = even, cost\_shape = huber, min\_frames = 10, frame\_bonus = 1.5, runs = 256, iters = 20 min, seed = 1}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 1}\hspace{1.5em}{\large 170.0 $\times$ 114.5 cm \quad gap 2 cm \quad 24 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (170.00,114.50);
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (32.50,23.50);
+\node[align=center, inner sep=0pt] at (16.25,11.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (34.50,0.00) rectangle (60.00,25.50);
+\node[align=center, inner sep=0pt] at (47.25,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (34.50,0.00) {2};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (62.00,0.00) rectangle (87.50,25.50);
+\node[align=center, inner sep=0pt] at (74.75,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (62.00,0.00) {3};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (89.50,0.00) rectangle (115.00,25.50);
+\node[align=center, inner sep=0pt] at (102.25,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (89.50,0.00) {4};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (117.00,0.00) rectangle (142.50,25.50);
+\node[align=center, inner sep=0pt] at (129.75,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (117.00,0.00) {5};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (144.50,0.00) rectangle (170.00,25.50);
+\node[align=center, inner sep=0pt] at (157.25,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (144.50,0.00) {6};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (0.00,26.50) rectangle (32.50,69.00);
+\node[align=center, inner sep=0pt] at (16.25,47.75) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,26.50) {7};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (34.50,27.50) rectangle (77.00,80.00);
+\node[align=center, inner sep=0pt] at (55.75,53.75) {\scriptsize 42.5$\times$52.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (34.50,27.50) {8};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (79.00,27.50) rectangle (99.50,43.00);
+\node[align=center, inner sep=0pt] at (89.25,35.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (79.00,27.50) {9};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (101.50,27.50) rectangle (122.00,43.00);
+\node[align=center, inner sep=0pt] at (111.75,35.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (101.50,27.50) {10};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (149.50,27.50) rectangle (170.00,43.00);
+\node[align=center, inner sep=0pt] at (159.75,35.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (149.50,27.50) {11};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (124.00,27.75) rectangle (147.50,60.25);
+\node[align=center, inner sep=0pt] at (135.75,44.00) {\scriptsize 23.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (124.00,27.75) {12};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (79.00,45.00) rectangle (99.50,60.50);
+\node[align=center, inner sep=0pt] at (89.25,52.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (79.00,45.00) {13};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (101.50,45.00) rectangle (122.00,60.50);
+\node[align=center, inner sep=0pt] at (111.75,52.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (101.50,45.00) {14};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (149.50,45.38) rectangle (170.00,60.88);
+\node[align=center, inner sep=0pt] at (159.75,53.12) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (149.50,45.38) {15};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (149.50,63.25) rectangle (170.00,78.75);
+\node[align=center, inner sep=0pt] at (159.75,71.00) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (149.50,63.25) {16};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (79.00,64.00) rectangle (111.50,87.50);
+\node[align=center, inner sep=0pt] at (95.25,75.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (79.00,64.00) {17};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (115.00,64.00) rectangle (147.50,87.50);
+\node[align=center, inner sep=0pt] at (131.25,75.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (115.00,64.00) {18};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (0.00,72.00) rectangle (32.50,114.50);
+\node[align=center, inner sep=0pt] at (16.25,93.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,72.00) {19};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (149.50,81.12) rectangle (170.00,96.62);
+\node[align=center, inner sep=0pt] at (159.75,88.88) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (149.50,81.12) {20};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (34.50,82.00) rectangle (77.00,114.50);
+\node[align=center, inner sep=0pt] at (55.75,98.25) {\scriptsize 42.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (34.50,82.00) {21};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (79.00,91.00) rectangle (111.50,114.50);
+\node[align=center, inner sep=0pt] at (95.25,102.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (79.00,91.00) {22};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (115.00,91.00) rectangle (147.50,114.50);
+\node[align=center, inner sep=0pt] at (131.25,102.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (115.00,91.00) {23};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (149.50,99.00) rectangle (170.00,114.50);
+\node[align=center, inner sep=0pt] at (159.75,106.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (149.50,99.00) {24};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (16.25,25.00) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (16.25,70.50) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (159.75,44.19) {2.4};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (135.75,62.12) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (89.25,62.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (106.50,62.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (118.50,62.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (159.75,62.06) {2.4};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (159.75,79.94) {2.4};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (113.25,75.75) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (95.25,89.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (131.25,89.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (159.75,97.81) {2.4};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (113.25,102.75) {3.5};
+\draw[Bar-Bar, gray] (0,120.50) -- (170.00,120.50) node[midway, below=1pt, font=\small, text=black] {170.0 cm};
+\draw[Bar-Bar, gray] (176.00,0) -- (176.00,114.50) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {114.5 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 170.0 $\times$ 114.5 cm \\
+Nominal gap & 2 cm \\
+Actual gaps & 2.0 -- 3.8 cm \\
+Max.\ deviation & 1.8 cm \\
+Mean deviation & 0.33 cm \\
+Border notches & bottom 4 cm \\
+Corners filled & 4 / 4 \\
+Frames used & 24 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 9 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 0 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 0 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 32.5 $\times$ 23.5 & 0.0 & 0.0 \\
+2 & 25.5 $\times$ 25.5 & 34.5 & 0.0 \\
+3 & 25.5 $\times$ 25.5 & 62.0 & 0.0 \\
+4 & 25.5 $\times$ 25.5 & 89.5 & 0.0 \\
+5 & 25.5 $\times$ 25.5 & 117.0 & 0.0 \\
+6 & 25.5 $\times$ 25.5 & 144.5 & 0.0 \\
+7 & 32.5 $\times$ 42.5 & 0.0 & 26.5 \\
+8 & 42.5 $\times$ 52.5 & 34.5 & 27.5 \\
+9 & 20.5 $\times$ 15.5 & 79.0 & 27.5 \\
+10 & 20.5 $\times$ 15.5 & 101.5 & 27.5 \\
+11 & 20.5 $\times$ 15.5 & 149.5 & 27.5 \\
+12 & 23.5 $\times$ 32.5 & 124.0 & 27.8 \\
+13 & 20.5 $\times$ 15.5 & 79.0 & 45.0 \\
+14 & 20.5 $\times$ 15.5 & 101.5 & 45.0 \\
+15 & 20.5 $\times$ 15.5 & 149.5 & 45.4 \\
+16 & 20.5 $\times$ 15.5 & 149.5 & 63.2 \\
+17 & 32.5 $\times$ 23.5 & 79.0 & 64.0 \\
+18 & 32.5 $\times$ 23.5 & 115.0 & 64.0 \\
+19 & 32.5 $\times$ 42.5 & 0.0 & 72.0 \\
+20 & 20.5 $\times$ 15.5 & 149.5 & 81.1 \\
+21 & 42.5 $\times$ 32.5 & 34.5 & 82.0 \\
+22 & 32.5 $\times$ 23.5 & 79.0 & 91.0 \\
+23 & 32.5 $\times$ 23.5 & 115.0 & 91.0 \\
+24 & 20.5 $\times$ 15.5 & 149.5 & 99.0 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 2}\hspace{1.5em}{\large 170.0 $\times$ 114.5 cm \quad gap 2 cm \quad 24 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (170.00,114.50);
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (42.50,32.50);
+\node[align=center, inner sep=0pt] at (21.25,16.25) {\scriptsize 42.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (44.50,0.00) rectangle (65.00,15.50);
+\node[align=center, inner sep=0pt] at (54.75,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (44.50,0.00) {2};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (67.00,0.00) rectangle (99.50,23.50);
+\node[align=center, inner sep=0pt] at (83.25,11.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (67.00,0.00) {3};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (103.00,0.00) rectangle (135.50,23.50);
+\node[align=center, inner sep=0pt] at (119.25,11.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (103.00,0.00) {4};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (137.50,0.00) rectangle (170.00,42.50);
+\node[align=center, inner sep=0pt] at (153.75,21.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (137.50,0.00) {5};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (44.50,17.88) rectangle (65.00,33.38);
+\node[align=center, inner sep=0pt] at (54.75,25.62) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (44.50,17.88) {6};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (67.00,27.00) rectangle (87.50,42.50);
+\node[align=center, inner sep=0pt] at (77.25,34.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (67.00,27.00) {7};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (89.50,27.00) rectangle (110.00,42.50);
+\node[align=center, inner sep=0pt] at (99.75,34.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (89.50,27.00) {8};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (112.00,27.25) rectangle (135.50,59.75);
+\node[align=center, inner sep=0pt] at (123.75,43.50) {\scriptsize 23.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (112.00,27.25) {9};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (0.00,34.50) rectangle (42.50,87.00);
+\node[align=center, inner sep=0pt] at (21.25,60.75) {\scriptsize 42.5$\times$52.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,34.50) {10};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (44.50,35.75) rectangle (65.00,51.25);
+\node[align=center, inner sep=0pt] at (54.75,43.50) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (44.50,35.75) {11};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (67.00,44.50) rectangle (87.50,60.00);
+\node[align=center, inner sep=0pt] at (77.25,52.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (67.00,44.50) {12};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (89.50,44.50) rectangle (110.00,60.00);
+\node[align=center, inner sep=0pt] at (99.75,52.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (89.50,44.50) {13};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (137.50,45.50) rectangle (170.00,69.00);
+\node[align=center, inner sep=0pt] at (153.75,57.25) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (137.50,45.50) {14};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (44.50,53.62) rectangle (65.00,69.12);
+\node[align=center, inner sep=0pt] at (54.75,61.38) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (44.50,53.62) {15};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (67.00,63.50) rectangle (99.50,87.00);
+\node[align=center, inner sep=0pt] at (83.25,75.25) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (67.00,63.50) {16};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (103.00,63.50) rectangle (135.50,87.00);
+\node[align=center, inner sep=0pt] at (119.25,75.25) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (103.00,63.50) {17};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (44.50,71.50) rectangle (65.00,87.00);
+\node[align=center, inner sep=0pt] at (54.75,79.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (44.50,71.50) {18};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (137.50,72.00) rectangle (170.00,114.50);
+\node[align=center, inner sep=0pt] at (153.75,93.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (137.50,72.00) {19};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (0.00,89.00) rectangle (25.50,114.50);
+\node[align=center, inner sep=0pt] at (12.75,101.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,89.00) {20};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (27.50,89.00) rectangle (53.00,114.50);
+\node[align=center, inner sep=0pt] at (40.25,101.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (27.50,89.00) {21};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (55.00,89.00) rectangle (80.50,114.50);
+\node[align=center, inner sep=0pt] at (67.75,101.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (55.00,89.00) {22};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (82.50,89.00) rectangle (108.00,114.50);
+\node[align=center, inner sep=0pt] at (95.25,101.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (82.50,89.00) {23};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (110.00,89.00) rectangle (135.50,114.50);
+\node[align=center, inner sep=0pt] at (122.75,101.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (110.00,89.00) {24};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (54.75,16.69) {2.4};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (101.25,11.75) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (77.25,25.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (94.50,25.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (106.50,25.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (123.75,25.38) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (153.75,44.00) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (54.75,34.56) {2.4};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (123.75,61.62) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (54.75,52.44) {2.4};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (77.25,61.75) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (94.50,61.75) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (106.50,61.75) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (153.75,70.50) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (54.75,70.31) {2.4};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (101.25,75.25) {3.5};
+\draw[Bar-Bar, gray] (0,120.50) -- (170.00,120.50) node[midway, below=1pt, font=\small, text=black] {170.0 cm};
+\draw[Bar-Bar, gray] (176.00,0) -- (176.00,114.50) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {114.5 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 170.0 $\times$ 114.5 cm \\
+Nominal gap & 2 cm \\
+Actual gaps & 2.0 -- 3.8 cm \\
+Max.\ deviation & 1.8 cm \\
+Mean deviation & 0.35 cm \\
+Border notches & top 4 cm \\
+Corners filled & 4 / 4 \\
+Frames used & 24 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 9 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 0 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 0 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 42.5 $\times$ 32.5 & 0.0 & 0.0 \\
+2 & 20.5 $\times$ 15.5 & 44.5 & 0.0 \\
+3 & 32.5 $\times$ 23.5 & 67.0 & 0.0 \\
+4 & 32.5 $\times$ 23.5 & 103.0 & 0.0 \\
+5 & 32.5 $\times$ 42.5 & 137.5 & 0.0 \\
+6 & 20.5 $\times$ 15.5 & 44.5 & 17.9 \\
+7 & 20.5 $\times$ 15.5 & 67.0 & 27.0 \\
+8 & 20.5 $\times$ 15.5 & 89.5 & 27.0 \\
+9 & 23.5 $\times$ 32.5 & 112.0 & 27.2 \\
+10 & 42.5 $\times$ 52.5 & 0.0 & 34.5 \\
+11 & 20.5 $\times$ 15.5 & 44.5 & 35.8 \\
+12 & 20.5 $\times$ 15.5 & 67.0 & 44.5 \\
+13 & 20.5 $\times$ 15.5 & 89.5 & 44.5 \\
+14 & 32.5 $\times$ 23.5 & 137.5 & 45.5 \\
+15 & 20.5 $\times$ 15.5 & 44.5 & 53.6 \\
+16 & 32.5 $\times$ 23.5 & 67.0 & 63.5 \\
+17 & 32.5 $\times$ 23.5 & 103.0 & 63.5 \\
+18 & 20.5 $\times$ 15.5 & 44.5 & 71.5 \\
+19 & 32.5 $\times$ 42.5 & 137.5 & 72.0 \\
+20 & 25.5 $\times$ 25.5 & 0.0 & 89.0 \\
+21 & 25.5 $\times$ 25.5 & 27.5 & 89.0 \\
+22 & 25.5 $\times$ 25.5 & 55.0 & 89.0 \\
+23 & 25.5 $\times$ 25.5 & 82.5 & 89.0 \\
+24 & 25.5 $\times$ 25.5 & 110.0 & 89.0 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 3}\hspace{1.5em}{\large 184.0 $\times$ 115.0 cm \quad gap 2 cm \quad 23 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (184.00,115.00);
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (32.50,42.50);
+\node[align=center, inner sep=0pt] at (16.25,21.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (35.00,0.00) rectangle (87.50,42.50);
+\node[align=center, inner sep=0pt] at (61.25,21.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (35.00,0.00) {2};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (89.50,0.00) rectangle (115.00,25.50);
+\node[align=center, inner sep=0pt] at (102.25,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (89.50,0.00) {3};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (117.75,0.00) rectangle (138.25,15.50);
+\node[align=center, inner sep=0pt] at (128.00,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (117.75,0.00) {4};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (140.25,0.00) rectangle (160.75,15.50);
+\node[align=center, inner sep=0pt] at (150.50,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (140.25,0.00) {5};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (163.50,0.00) rectangle (184.00,15.50);
+\node[align=center, inner sep=0pt] at (173.75,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (163.50,0.00) {6};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (117.75,17.50) rectangle (138.25,33.00);
+\node[align=center, inner sep=0pt] at (128.00,25.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (117.75,17.50) {7};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (140.25,17.50) rectangle (160.75,33.00);
+\node[align=center, inner sep=0pt] at (150.50,25.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (140.25,17.50) {8};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (163.50,18.00) rectangle (184.00,33.50);
+\node[align=center, inner sep=0pt] at (173.75,25.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (163.50,18.00) {9};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (90.50,27.50) rectangle (114.00,60.00);
+\node[align=center, inner sep=0pt] at (102.25,43.75) {\scriptsize 23.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (90.50,27.50) {10};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (118.00,35.00) rectangle (160.50,87.50);
+\node[align=center, inner sep=0pt] at (139.25,61.25) {\scriptsize 42.5$\times$52.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (118.00,35.00) {11};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (163.50,36.00) rectangle (184.00,51.50);
+\node[align=center, inner sep=0pt] at (173.75,43.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (163.50,36.00) {12};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (0.00,44.75) rectangle (25.50,70.25);
+\node[align=center, inner sep=0pt] at (12.75,57.50) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,44.75) {13};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (62.00,44.75) rectangle (87.50,70.25);
+\node[align=center, inner sep=0pt] at (74.75,57.50) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (62.00,44.75) {14};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (27.50,45.75) rectangle (60.00,69.25);
+\node[align=center, inner sep=0pt] at (43.75,57.50) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (27.50,45.75) {15};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (163.50,54.00) rectangle (184.00,69.50);
+\node[align=center, inner sep=0pt] at (173.75,61.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (163.50,54.00) {16};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (89.50,62.00) rectangle (115.00,87.50);
+\node[align=center, inner sep=0pt] at (102.25,74.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (89.50,62.00) {17};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (163.50,72.00) rectangle (184.00,87.50);
+\node[align=center, inner sep=0pt] at (173.75,79.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (163.50,72.00) {18};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (0.00,72.50) rectangle (32.50,115.00);
+\node[align=center, inner sep=0pt] at (16.25,93.75) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,72.50) {19};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (35.00,72.50) rectangle (87.50,115.00);
+\node[align=center, inner sep=0pt] at (61.25,93.75) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (35.00,72.50) {20};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (158.50,89.50) rectangle (184.00,115.00);
+\node[align=center, inner sep=0pt] at (171.25,102.25) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (158.50,89.50) {21};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (89.50,91.50) rectangle (122.00,115.00);
+\node[align=center, inner sep=0pt] at (105.75,103.25) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (89.50,91.50) {22};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (124.00,91.50) rectangle (156.50,115.00);
+\node[align=center, inner sep=0pt] at (140.25,103.25) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (124.00,91.50) {23};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (33.75,21.25) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (30.00,44.12) {3.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (89.00,35.00) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (47.50,44.12) {3.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (116.38,7.75) {2.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (116.38,21.50) {2.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (162.12,7.75) {2.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (173.75,16.75) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (162.12,25.50) {2.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (173.75,34.75) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (115.88,30.25) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (116.00,47.50) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (162.00,43.75) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (162.00,61.75) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (162.00,79.75) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (140.25,89.50) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (173.75,52.75) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (89.00,52.38) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (30.00,70.88) {3.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (47.50,70.88) {3.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (173.75,70.75) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (116.50,74.75) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (102.25,89.50) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (33.75,93.75) {2.5};
+\draw[Bar-Bar, gray] (0,121.00) -- (184.00,121.00) node[midway, below=1pt, font=\small, text=black] {184.0 cm};
+\draw[Bar-Bar, gray] (190.00,0) -- (190.00,115.00) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {115.0 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 184.0 $\times$ 115.0 cm \\
+Nominal gap & 2 cm \\
+Actual gaps & 2.0 -- 4.0 cm \\
+Max.\ deviation & 2.0 cm \\
+Mean deviation & 0.57 cm \\
+Border notches & none \\
+Corners filled & 4 / 4 \\
+Frames used & 23 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 9 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 0 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 0 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 3 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 2 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 32.5 $\times$ 42.5 & 0.0 & 0.0 \\
+2 & 52.5 $\times$ 42.5 & 35.0 & 0.0 \\
+3 & 25.5 $\times$ 25.5 & 89.5 & 0.0 \\
+4 & 20.5 $\times$ 15.5 & 117.8 & 0.0 \\
+5 & 20.5 $\times$ 15.5 & 140.2 & 0.0 \\
+6 & 20.5 $\times$ 15.5 & 163.5 & 0.0 \\
+7 & 20.5 $\times$ 15.5 & 117.8 & 17.5 \\
+8 & 20.5 $\times$ 15.5 & 140.2 & 17.5 \\
+9 & 20.5 $\times$ 15.5 & 163.5 & 18.0 \\
+10 & 23.5 $\times$ 32.5 & 90.5 & 27.5 \\
+11 & 42.5 $\times$ 52.5 & 118.0 & 35.0 \\
+12 & 20.5 $\times$ 15.5 & 163.5 & 36.0 \\
+13 & 25.5 $\times$ 25.5 & 0.0 & 44.8 \\
+14 & 25.5 $\times$ 25.5 & 62.0 & 44.8 \\
+15 & 32.5 $\times$ 23.5 & 27.5 & 45.8 \\
+16 & 20.5 $\times$ 15.5 & 163.5 & 54.0 \\
+17 & 25.5 $\times$ 25.5 & 89.5 & 62.0 \\
+18 & 20.5 $\times$ 15.5 & 163.5 & 72.0 \\
+19 & 32.5 $\times$ 42.5 & 0.0 & 72.5 \\
+20 & 52.5 $\times$ 42.5 & 35.0 & 72.5 \\
+21 & 25.5 $\times$ 25.5 & 158.5 & 89.5 \\
+22 & 32.5 $\times$ 23.5 & 89.5 & 91.5 \\
+23 & 32.5 $\times$ 23.5 & 124.0 & 91.5 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 4}\hspace{1.5em}{\large 183.5 $\times$ 115.0 cm \quad gap 2 cm \quad 23 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (183.50,115.00);
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (52.50,42.50);
+\node[align=center, inner sep=0pt] at (26.25,21.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (54.50,0.00) rectangle (87.00,42.50);
+\node[align=center, inner sep=0pt] at (70.75,21.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (54.50,0.00) {2};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (89.00,0.00) rectangle (109.50,15.50);
+\node[align=center, inner sep=0pt] at (99.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (89.00,0.00) {3};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (112.25,0.00) rectangle (132.75,15.50);
+\node[align=center, inner sep=0pt] at (122.50,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (112.25,0.00) {4};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (135.50,0.00) rectangle (156.00,15.50);
+\node[align=center, inner sep=0pt] at (145.75,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (135.50,0.00) {5};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (158.00,0.00) rectangle (183.50,25.50);
+\node[align=center, inner sep=0pt] at (170.75,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (158.00,0.00) {6};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (89.00,19.00) rectangle (121.50,42.50);
+\node[align=center, inner sep=0pt] at (105.25,30.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (89.00,19.00) {7};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (123.50,19.00) rectangle (156.00,42.50);
+\node[align=center, inner sep=0pt] at (139.75,30.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (123.50,19.00) {8};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (158.00,27.50) rectangle (183.50,53.00);
+\node[align=center, inner sep=0pt] at (170.75,40.25) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (158.00,27.50) {9};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,44.75) rectangle (20.50,60.25);
+\node[align=center, inner sep=0pt] at (10.25,52.50) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,44.75) {10};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (22.83,44.75) rectangle (48.33,70.25);
+\node[align=center, inner sep=0pt] at (35.58,57.50) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (22.83,44.75) {11};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (50.33,44.75) rectangle (75.83,70.25);
+\node[align=center, inner sep=0pt] at (63.08,57.50) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (50.33,44.75) {12};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (78.17,44.75) rectangle (110.67,68.25);
+\node[align=center, inner sep=0pt] at (94.42,56.50) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (78.17,44.75) {13};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (113.25,44.75) rectangle (155.75,97.25);
+\node[align=center, inner sep=0pt] at (134.50,71.00) {\scriptsize 42.5$\times$52.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (113.25,44.75) {14};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (160.00,55.00) rectangle (183.50,87.50);
+\node[align=center, inner sep=0pt] at (171.75,71.25) {\scriptsize 23.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (160.00,55.00) {15};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,63.00) rectangle (20.50,78.50);
+\node[align=center, inner sep=0pt] at (10.25,70.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,63.00) {16};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (23.08,72.50) rectangle (75.58,115.00);
+\node[align=center, inner sep=0pt] at (49.33,93.75) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (23.08,72.50) {17};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (78.17,72.50) rectangle (110.67,115.00);
+\node[align=center, inner sep=0pt] at (94.42,93.75) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (78.17,72.50) {18};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,81.25) rectangle (20.50,96.75);
+\node[align=center, inner sep=0pt] at (10.25,89.00) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,81.25) {19};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (158.00,89.50) rectangle (183.50,115.00);
+\node[align=center, inner sep=0pt] at (170.75,102.25) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (158.00,89.50) {20};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,99.50) rectangle (20.50,115.00);
+\node[align=center, inner sep=0pt] at (10.25,107.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,99.50) {21};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (113.00,99.50) rectangle (133.50,115.00);
+\node[align=center, inner sep=0pt] at (123.25,107.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (113.00,99.50) {22};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (135.50,99.50) rectangle (156.00,115.00);
+\node[align=center, inner sep=0pt] at (145.75,107.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (135.50,99.50) {23};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (110.88,7.75) {2.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (99.25,17.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (134.12,7.75) {2.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (116.88,17.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (128.12,17.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (145.75,17.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (21.67,52.50) {2.3};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (10.25,61.62) {2.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (77.00,56.50) {2.3};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (111.96,56.50) {2.6};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (94.42,70.38) {4.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (157.88,71.25) {4.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (21.67,66.62) {2.3};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (21.79,75.50) {2.6};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (10.25,79.88) {2.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (76.88,93.75) {2.6};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (111.96,84.88) {2.6};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (111.83,107.25) {2.3};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (21.79,89.00) {2.6};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (10.25,98.12) {2.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (21.79,107.25) {2.6};
+\draw[Bar-Bar, gray] (0,121.00) -- (183.50,121.00) node[midway, below=1pt, font=\small, text=black] {183.5 cm};
+\draw[Bar-Bar, gray] (189.50,0) -- (189.50,115.00) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {115.0 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 183.5 $\times$ 115.0 cm \\
+Nominal gap & 2 cm \\
+Actual gaps & 2.0 -- 4.2 cm \\
+Max.\ deviation & 2.2 cm \\
+Mean deviation & 0.48 cm \\
+Border notches & none \\
+Corners filled & 4 / 4 \\
+Frames used & 23 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 9 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 0 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 0 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 3 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 2 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 52.5 $\times$ 42.5 & 0.0 & 0.0 \\
+2 & 32.5 $\times$ 42.5 & 54.5 & 0.0 \\
+3 & 20.5 $\times$ 15.5 & 89.0 & 0.0 \\
+4 & 20.5 $\times$ 15.5 & 112.2 & 0.0 \\
+5 & 20.5 $\times$ 15.5 & 135.5 & 0.0 \\
+6 & 25.5 $\times$ 25.5 & 158.0 & 0.0 \\
+7 & 32.5 $\times$ 23.5 & 89.0 & 19.0 \\
+8 & 32.5 $\times$ 23.5 & 123.5 & 19.0 \\
+9 & 25.5 $\times$ 25.5 & 158.0 & 27.5 \\
+10 & 20.5 $\times$ 15.5 & 0.0 & 44.8 \\
+11 & 25.5 $\times$ 25.5 & 22.8 & 44.8 \\
+12 & 25.5 $\times$ 25.5 & 50.3 & 44.8 \\
+13 & 32.5 $\times$ 23.5 & 78.2 & 44.8 \\
+14 & 42.5 $\times$ 52.5 & 113.2 & 44.8 \\
+15 & 23.5 $\times$ 32.5 & 160.0 & 55.0 \\
+16 & 20.5 $\times$ 15.5 & 0.0 & 63.0 \\
+17 & 52.5 $\times$ 42.5 & 23.1 & 72.5 \\
+18 & 32.5 $\times$ 42.5 & 78.2 & 72.5 \\
+19 & 20.5 $\times$ 15.5 & 0.0 & 81.2 \\
+20 & 25.5 $\times$ 25.5 & 158.0 & 89.5 \\
+21 & 20.5 $\times$ 15.5 & 0.0 & 99.5 \\
+22 & 20.5 $\times$ 15.5 & 113.0 & 99.5 \\
+23 & 20.5 $\times$ 15.5 & 135.5 & 99.5 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 5}\hspace{1.5em}{\large 190.5 $\times$ 115.5 cm \quad gap 2.5 cm \quad 22 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (190.50,115.50);
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (52.50,42.50);
+\node[align=center, inner sep=0pt] at (26.25,21.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (55.00,0.00) rectangle (75.50,15.50);
+\node[align=center, inner sep=0pt] at (65.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (55.00,0.00) {2};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (78.00,0.00) rectangle (120.50,32.50);
+\node[align=center, inner sep=0pt] at (99.25,16.25) {\scriptsize 42.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (78.00,0.00) {3};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (123.00,0.00) rectangle (155.50,23.50);
+\node[align=center, inner sep=0pt] at (139.25,11.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (123.00,0.00) {4};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (158.00,0.00) rectangle (190.50,23.50);
+\node[align=center, inner sep=0pt] at (174.25,11.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (158.00,0.00) {5};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (55.00,18.00) rectangle (75.50,33.50);
+\node[align=center, inner sep=0pt] at (65.25,25.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (55.00,18.00) {6};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (123.00,26.50) rectangle (155.50,69.00);
+\node[align=center, inner sep=0pt] at (139.25,47.75) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (123.00,26.50) {7};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (158.00,26.50) rectangle (190.50,69.00);
+\node[align=center, inner sep=0pt] at (174.25,47.75) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (158.00,26.50) {8};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (78.00,35.00) rectangle (120.50,87.50);
+\node[align=center, inner sep=0pt] at (99.25,61.25) {\scriptsize 42.5$\times$52.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (78.00,35.00) {9};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (55.00,36.00) rectangle (75.50,51.50);
+\node[align=center, inner sep=0pt] at (65.25,43.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (55.00,36.00) {10};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (0.00,45.00) rectangle (52.50,87.50);
+\node[align=center, inner sep=0pt] at (26.25,66.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,45.00) {11};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (55.00,54.00) rectangle (75.50,69.50);
+\node[align=center, inner sep=0pt] at (65.25,61.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (55.00,54.00) {12};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (55.00,72.00) rectangle (75.50,87.50);
+\node[align=center, inner sep=0pt] at (65.25,79.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (55.00,72.00) {13};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (123.00,72.00) rectangle (143.50,87.50);
+\node[align=center, inner sep=0pt] at (133.25,79.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (123.00,72.00) {14};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (146.50,72.00) rectangle (167.00,87.50);
+\node[align=center, inner sep=0pt] at (156.75,79.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (146.50,72.00) {15};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (170.00,72.00) rectangle (190.50,87.50);
+\node[align=center, inner sep=0pt] at (180.25,79.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (170.00,72.00) {16};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (0.00,90.00) rectangle (25.50,115.50);
+\node[align=center, inner sep=0pt] at (12.75,102.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,90.00) {17};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (28.80,90.00) rectangle (54.30,115.50);
+\node[align=center, inner sep=0pt] at (41.55,102.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (28.80,90.00) {18};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (165.00,90.00) rectangle (190.50,115.50);
+\node[align=center, inner sep=0pt] at (177.75,102.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (165.00,90.00) {19};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (57.60,92.00) rectangle (90.10,115.50);
+\node[align=center, inner sep=0pt] at (73.85,103.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (57.60,92.00) {20};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (93.40,92.00) rectangle (125.90,115.50);
+\node[align=center, inner sep=0pt] at (109.65,103.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (93.40,92.00) {21};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (129.20,92.00) rectangle (161.70,115.50);
+\node[align=center, inner sep=0pt] at (145.45,103.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (129.20,92.00) {22};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (139.25,25.00) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (174.25,25.00) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (133.25,70.50) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (151.00,70.50) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (162.50,70.50) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (180.25,70.50) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (84.05,89.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (106.95,89.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (66.55,89.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (145.00,79.75) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (136.35,89.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (168.50,79.75) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (154.10,89.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (27.15,102.75) {3.3};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (55.95,103.75) {3.3};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (91.75,103.75) {3.3};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (127.55,103.75) {3.3};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (163.35,103.75) {3.3};
+\draw[Bar-Bar, gray] (0,121.50) -- (190.50,121.50) node[midway, below=1pt, font=\small, text=black] {190.5 cm};
+\draw[Bar-Bar, gray] (196.50,0) -- (196.50,115.50) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {115.5 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 190.5 $\times$ 115.5 cm \\
+Nominal gap & 2.5 cm \\
+Actual gaps & 2.5 -- 4.5 cm \\
+Max.\ deviation & 2.0 cm \\
+Mean deviation & 0.41 cm \\
+Border notches & none \\
+Corners filled & 4 / 4 \\
+Frames used & 22 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 8 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 0 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 0 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 3 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 2 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 52.5 $\times$ 42.5 & 0.0 & 0.0 \\
+2 & 20.5 $\times$ 15.5 & 55.0 & 0.0 \\
+3 & 42.5 $\times$ 32.5 & 78.0 & 0.0 \\
+4 & 32.5 $\times$ 23.5 & 123.0 & 0.0 \\
+5 & 32.5 $\times$ 23.5 & 158.0 & 0.0 \\
+6 & 20.5 $\times$ 15.5 & 55.0 & 18.0 \\
+7 & 32.5 $\times$ 42.5 & 123.0 & 26.5 \\
+8 & 32.5 $\times$ 42.5 & 158.0 & 26.5 \\
+9 & 42.5 $\times$ 52.5 & 78.0 & 35.0 \\
+10 & 20.5 $\times$ 15.5 & 55.0 & 36.0 \\
+11 & 52.5 $\times$ 42.5 & 0.0 & 45.0 \\
+12 & 20.5 $\times$ 15.5 & 55.0 & 54.0 \\
+13 & 20.5 $\times$ 15.5 & 55.0 & 72.0 \\
+14 & 20.5 $\times$ 15.5 & 123.0 & 72.0 \\
+15 & 20.5 $\times$ 15.5 & 146.5 & 72.0 \\
+16 & 20.5 $\times$ 15.5 & 170.0 & 72.0 \\
+17 & 25.5 $\times$ 25.5 & 0.0 & 90.0 \\
+18 & 25.5 $\times$ 25.5 & 28.8 & 90.0 \\
+19 & 25.5 $\times$ 25.5 & 165.0 & 90.0 \\
+20 & 32.5 $\times$ 23.5 & 57.6 & 92.0 \\
+21 & 32.5 $\times$ 23.5 & 93.4 & 92.0 \\
+22 & 32.5 $\times$ 23.5 & 129.2 & 92.0 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 6}\hspace{1.5em}{\large 171.5 $\times$ 116.5 cm \quad gap 2.5 cm \quad 22 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (171.50,116.50);
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (52.50,42.50);
+\node[align=center, inner sep=0pt] at (26.25,21.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (55.00,0.00) rectangle (75.50,15.50);
+\node[align=center, inner sep=0pt] at (65.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (55.00,0.00) {2};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (79.00,0.00) rectangle (99.50,15.50);
+\node[align=center, inner sep=0pt] at (89.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (79.00,0.00) {3};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (103.00,0.00) rectangle (123.50,15.50);
+\node[align=center, inner sep=0pt] at (113.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (103.00,0.00) {4};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (127.00,0.00) rectangle (147.50,15.50);
+\node[align=center, inner sep=0pt] at (137.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (127.00,0.00) {5};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (151.00,0.00) rectangle (171.50,15.50);
+\node[align=center, inner sep=0pt] at (161.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (151.00,0.00) {6};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (55.00,18.00) rectangle (80.50,43.50);
+\node[align=center, inner sep=0pt] at (67.75,30.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (55.00,18.00) {7};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (118.00,18.00) rectangle (143.50,43.50);
+\node[align=center, inner sep=0pt] at (130.75,30.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (118.00,18.00) {8};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (146.00,18.00) rectangle (171.50,43.50);
+\node[align=center, inner sep=0pt] at (158.75,30.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (146.00,18.00) {9};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (83.00,19.00) rectangle (115.50,42.50);
+\node[align=center, inner sep=0pt] at (99.25,30.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (83.00,19.00) {10};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (0.00,46.00) rectangle (42.50,78.50);
+\node[align=center, inner sep=0pt] at (21.25,62.25) {\scriptsize 42.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,46.00) {11};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (46.67,46.00) rectangle (79.17,88.50);
+\node[align=center, inner sep=0pt] at (62.92,67.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (46.67,46.00) {12};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (82.83,46.00) rectangle (115.33,88.50);
+\node[align=center, inner sep=0pt] at (99.08,67.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (82.83,46.00) {13};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (119.00,46.00) rectangle (171.50,88.50);
+\node[align=center, inner sep=0pt] at (145.25,67.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (119.00,46.00) {14};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,82.00) rectangle (20.50,97.50);
+\node[align=center, inner sep=0pt] at (10.25,89.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,82.00) {15};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (23.00,82.00) rectangle (43.50,97.50);
+\node[align=center, inner sep=0pt] at (33.25,89.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (23.00,82.00) {16};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (82.11,91.00) rectangle (107.61,116.50);
+\node[align=center, inner sep=0pt] at (94.86,103.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (82.11,91.00) {17};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (146.00,91.00) rectangle (171.50,116.50);
+\node[align=center, inner sep=0pt] at (158.75,103.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (146.00,91.00) {18};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (46.67,93.00) rectangle (79.17,116.50);
+\node[align=center, inner sep=0pt] at (62.92,104.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (46.67,93.00) {19};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (110.56,93.00) rectangle (143.06,116.50);
+\node[align=center, inner sep=0pt] at (126.81,104.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (110.56,93.00) {20};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,101.00) rectangle (20.50,116.50);
+\node[align=center, inner sep=0pt] at (10.25,108.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,101.00) {21};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (23.00,101.00) rectangle (43.50,116.50);
+\node[align=center, inner sep=0pt] at (33.25,108.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (23.00,101.00) {22};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (21.25,44.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (49.58,44.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (77.25,7.75) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (101.25,7.75) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (91.25,17.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (125.25,7.75) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (109.25,17.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (149.25,7.75) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (99.17,44.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (44.58,62.25) {4.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (10.25,80.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (32.75,80.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (81.00,67.25) {3.7};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (62.92,90.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (117.17,67.25) {3.7};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (131.03,90.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (10.25,99.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (45.08,85.25) {3.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (33.25,99.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (109.08,104.75) {2.9};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (80.64,104.75) {2.9};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (144.53,104.75) {2.9};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (45.08,108.75) {3.2};
+\draw[Bar-Bar, gray] (0,122.50) -- (171.50,122.50) node[midway, below=1pt, font=\small, text=black] {171.5 cm};
+\draw[Bar-Bar, gray] (177.50,0) -- (177.50,116.50) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {116.5 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 171.5 $\times$ 116.5 cm \\
+Nominal gap & 2.5 cm \\
+Actual gaps & 2.5 -- 4.5 cm \\
+Max.\ deviation & 2.0 cm \\
+Mean deviation & 0.61 cm \\
+Border notches & none \\
+Corners filled & 4 / 4 \\
+Frames used & 22 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 9 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 0 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 3 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 0 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 0 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 2 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 52.5 $\times$ 42.5 & 0.0 & 0.0 \\
+2 & 20.5 $\times$ 15.5 & 55.0 & 0.0 \\
+3 & 20.5 $\times$ 15.5 & 79.0 & 0.0 \\
+4 & 20.5 $\times$ 15.5 & 103.0 & 0.0 \\
+5 & 20.5 $\times$ 15.5 & 127.0 & 0.0 \\
+6 & 20.5 $\times$ 15.5 & 151.0 & 0.0 \\
+7 & 25.5 $\times$ 25.5 & 55.0 & 18.0 \\
+8 & 25.5 $\times$ 25.5 & 118.0 & 18.0 \\
+9 & 25.5 $\times$ 25.5 & 146.0 & 18.0 \\
+10 & 32.5 $\times$ 23.5 & 83.0 & 19.0 \\
+11 & 42.5 $\times$ 32.5 & 0.0 & 46.0 \\
+12 & 32.5 $\times$ 42.5 & 46.7 & 46.0 \\
+13 & 32.5 $\times$ 42.5 & 82.8 & 46.0 \\
+14 & 52.5 $\times$ 42.5 & 119.0 & 46.0 \\
+15 & 20.5 $\times$ 15.5 & 0.0 & 82.0 \\
+16 & 20.5 $\times$ 15.5 & 23.0 & 82.0 \\
+17 & 25.5 $\times$ 25.5 & 82.1 & 91.0 \\
+18 & 25.5 $\times$ 25.5 & 146.0 & 91.0 \\
+19 & 32.5 $\times$ 23.5 & 46.7 & 93.0 \\
+20 & 32.5 $\times$ 23.5 & 110.6 & 93.0 \\
+21 & 20.5 $\times$ 15.5 & 0.0 & 101.0 \\
+22 & 20.5 $\times$ 15.5 & 23.0 & 101.0 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 7}\hspace{1.5em}{\large 170.0 $\times$ 115.0 cm \quad gap 2 cm \quad 19 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (170.00,115.00);
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (52.50,42.50);
+\node[align=center, inner sep=0pt] at (26.25,21.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (54.67,0.00) rectangle (75.17,15.50);
+\node[align=center, inner sep=0pt] at (64.92,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (54.67,0.00) {2};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (77.17,0.00) rectangle (100.67,32.50);
+\node[align=center, inner sep=0pt] at (88.92,16.25) {\scriptsize 23.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (77.17,0.00) {3};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (102.83,0.00) rectangle (135.33,23.50);
+\node[align=center, inner sep=0pt] at (119.08,11.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (102.83,0.00) {4};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (137.50,0.00) rectangle (170.00,23.50);
+\node[align=center, inner sep=0pt] at (153.75,11.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (137.50,0.00) {5};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (54.67,17.50) rectangle (75.17,33.00);
+\node[align=center, inner sep=0pt] at (64.92,25.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (54.67,17.50) {6};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (102.83,26.50) rectangle (135.33,69.00);
+\node[align=center, inner sep=0pt] at (119.08,47.75) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (102.83,26.50) {7};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (137.50,26.50) rectangle (170.00,69.00);
+\node[align=center, inner sep=0pt] at (153.75,47.75) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (137.50,26.50) {8};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (56.42,35.00) rectangle (98.92,87.50);
+\node[align=center, inner sep=0pt] at (77.67,61.25) {\scriptsize 42.5$\times$52.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (56.42,35.00) {9};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (0.00,45.00) rectangle (52.50,87.50);
+\node[align=center, inner sep=0pt] at (26.25,66.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,45.00) {10};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (102.83,72.00) rectangle (123.33,87.50);
+\node[align=center, inner sep=0pt] at (113.08,79.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (102.83,72.00) {11};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (126.17,72.00) rectangle (146.67,87.50);
+\node[align=center, inner sep=0pt] at (136.42,79.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (126.17,72.00) {12};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (149.50,72.00) rectangle (170.00,87.50);
+\node[align=center, inner sep=0pt] at (159.75,79.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (149.50,72.00) {13};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (0.00,89.50) rectangle (25.50,115.00);
+\node[align=center, inner sep=0pt] at (12.75,102.25) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,89.50) {14};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (27.50,89.50) rectangle (53.00,115.00);
+\node[align=center, inner sep=0pt] at (40.25,102.25) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (27.50,89.50) {15};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (89.50,89.50) rectangle (115.00,115.00);
+\node[align=center, inner sep=0pt] at (102.25,102.25) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (89.50,89.50) {16};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (117.00,89.50) rectangle (142.50,115.00);
+\node[align=center, inner sep=0pt] at (129.75,102.25) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (117.00,89.50) {17};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (144.50,89.50) rectangle (170.00,115.00);
+\node[align=center, inner sep=0pt] at (157.25,102.25) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (144.50,89.50) {18};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (55.00,91.50) rectangle (87.50,115.00);
+\node[align=center, inner sep=0pt] at (71.25,103.25) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (55.00,91.50) {19};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (54.46,38.75) {3.9};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (26.25,43.75) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (88.04,33.75) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (119.08,25.00) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (153.75,25.00) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (113.08,70.50) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (130.75,70.50) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (142.08,70.50) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (159.75,70.50) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (100.87,52.00) {3.9};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (100.87,79.75) {3.9};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (71.96,89.50) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (54.46,66.25) {3.9};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (124.75,79.75) {2.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (148.08,79.75) {2.8};
+\draw[Bar-Bar, gray] (0,121.00) -- (170.00,121.00) node[midway, below=1pt, font=\small, text=black] {170.0 cm};
+\draw[Bar-Bar, gray] (176.00,0) -- (176.00,115.00) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {115.0 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 170.0 $\times$ 115.0 cm \\
+Nominal gap & 2 cm \\
+Actual gaps & 2.0 -- 4.0 cm \\
+Max.\ deviation & 2.0 cm \\
+Mean deviation & 0.52 cm \\
+Border notches & none \\
+Corners filled & 4 / 4 \\
+Frames used & 19 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 5 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 0 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 0 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 3 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 2 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 52.5 $\times$ 42.5 & 0.0 & 0.0 \\
+2 & 20.5 $\times$ 15.5 & 54.7 & 0.0 \\
+3 & 23.5 $\times$ 32.5 & 77.2 & 0.0 \\
+4 & 32.5 $\times$ 23.5 & 102.8 & 0.0 \\
+5 & 32.5 $\times$ 23.5 & 137.5 & 0.0 \\
+6 & 20.5 $\times$ 15.5 & 54.7 & 17.5 \\
+7 & 32.5 $\times$ 42.5 & 102.8 & 26.5 \\
+8 & 32.5 $\times$ 42.5 & 137.5 & 26.5 \\
+9 & 42.5 $\times$ 52.5 & 56.4 & 35.0 \\
+10 & 52.5 $\times$ 42.5 & 0.0 & 45.0 \\
+11 & 20.5 $\times$ 15.5 & 102.8 & 72.0 \\
+12 & 20.5 $\times$ 15.5 & 126.2 & 72.0 \\
+13 & 20.5 $\times$ 15.5 & 149.5 & 72.0 \\
+14 & 25.5 $\times$ 25.5 & 0.0 & 89.5 \\
+15 & 25.5 $\times$ 25.5 & 27.5 & 89.5 \\
+16 & 25.5 $\times$ 25.5 & 89.5 & 89.5 \\
+17 & 25.5 $\times$ 25.5 & 117.0 & 89.5 \\
+18 & 25.5 $\times$ 25.5 & 144.5 & 89.5 \\
+19 & 32.5 $\times$ 23.5 & 55.0 & 91.5 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 8}\hspace{1.5em}{\large 181.5 $\times$ 114.5 cm \quad gap 1.5 cm \quad 25 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (181.50,114.50);
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (15.50,20.50);
+\node[align=center, inner sep=0pt] at (7.75,10.25) {\scriptsize 15.5$\times$20.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (17.00,0.00) rectangle (32.50,20.50);
+\node[align=center, inner sep=0pt] at (24.75,10.25) {\scriptsize 15.5$\times$20.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (17.00,0.00) {2};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (34.00,0.00) rectangle (59.50,25.50);
+\node[align=center, inner sep=0pt] at (46.75,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (34.00,0.00) {3};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (61.00,0.00) rectangle (93.50,23.50);
+\node[align=center, inner sep=0pt] at (77.25,11.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (61.00,0.00) {4};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (95.00,0.00) rectangle (127.50,23.50);
+\node[align=center, inner sep=0pt] at (111.25,11.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (95.00,0.00) {5};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (129.00,0.00) rectangle (181.50,42.50);
+\node[align=center, inner sep=0pt] at (155.25,21.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (129.00,0.00) {6};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (0.00,22.00) rectangle (32.50,45.50);
+\node[align=center, inner sep=0pt] at (16.25,33.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,22.00) {7};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (34.00,27.33) rectangle (54.50,42.83);
+\node[align=center, inner sep=0pt] at (44.25,35.08) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (34.00,27.33) {8};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (57.00,27.33) rectangle (77.50,42.83);
+\node[align=center, inner sep=0pt] at (67.25,35.08) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (57.00,27.33) {9};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (79.00,27.33) rectangle (99.50,42.83);
+\node[align=center, inner sep=0pt] at (89.25,35.08) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (79.00,27.33) {10};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (102.00,27.33) rectangle (127.50,52.83);
+\node[align=center, inner sep=0pt] at (114.75,40.08) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (102.00,27.33) {11};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (129.00,44.50) rectangle (181.50,87.00);
+\node[align=center, inner sep=0pt] at (155.25,65.75) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (129.00,44.50) {12};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (57.00,44.67) rectangle (77.50,60.17);
+\node[align=center, inner sep=0pt] at (67.25,52.42) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (57.00,44.67) {13};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (79.00,44.67) rectangle (99.50,60.17);
+\node[align=center, inner sep=0pt] at (89.25,52.42) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (79.00,44.67) {14};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (34.00,45.25) rectangle (54.50,60.75);
+\node[align=center, inner sep=0pt] at (44.25,53.00) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (34.00,45.25) {15};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (0.00,47.00) rectangle (32.50,89.50);
+\node[align=center, inner sep=0pt] at (16.25,68.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,47.00) {16};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (103.00,54.67) rectangle (126.50,87.17);
+\node[align=center, inner sep=0pt] at (114.75,70.92) {\scriptsize 23.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (103.00,54.67) {17};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (57.00,62.00) rectangle (99.50,114.50);
+\node[align=center, inner sep=0pt] at (78.25,88.25) {\scriptsize 42.5$\times$52.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (57.00,62.00) {18};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (34.00,63.17) rectangle (54.50,78.67);
+\node[align=center, inner sep=0pt] at (44.25,70.92) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (34.00,63.17) {19};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (34.00,81.08) rectangle (54.50,96.58);
+\node[align=center, inner sep=0pt] at (44.25,88.83) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (34.00,81.08) {20};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (102.00,89.00) rectangle (127.50,114.50);
+\node[align=center, inner sep=0pt] at (114.75,101.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (102.00,89.00) {21};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (129.00,89.00) rectangle (154.50,114.50);
+\node[align=center, inner sep=0pt] at (141.75,101.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (129.00,89.00) {22};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (156.00,89.00) rectangle (181.50,114.50);
+\node[align=center, inner sep=0pt] at (168.75,101.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (156.00,89.00) {23};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (0.00,91.00) rectangle (32.50,114.50);
+\node[align=center, inner sep=0pt] at (16.25,102.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,91.00) {24};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (34.00,99.00) rectangle (54.50,114.50);
+\node[align=center, inner sep=0pt] at (44.25,106.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (34.00,99.00) {25};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (44.25,26.42) {1.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (69.25,25.42) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (86.25,25.42) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (114.75,25.42) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (155.25,43.50) {2.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (55.75,35.08) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (44.25,44.04) {2.4};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (67.25,43.75) {1.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (100.75,35.08) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (89.25,43.75) {1.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (114.75,53.75) {1.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (141.75,88.00) {2.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (168.75,88.00) {2.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (67.25,61.08) {1.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (100.75,48.75) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (101.25,57.42) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (89.25,61.08) {1.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (55.75,52.71) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (44.25,61.96) {2.4};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (127.75,70.83) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (114.75,88.08) {1.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (101.25,74.58) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (100.75,101.75) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (55.75,70.92) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (44.25,79.88) {2.4};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (55.75,88.83) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (44.25,97.79) {2.4};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (55.75,106.75) {2.5};
+\draw[Bar-Bar, gray] (0,120.50) -- (181.50,120.50) node[midway, below=1pt, font=\small, text=black] {181.5 cm};
+\draw[Bar-Bar, gray] (187.50,0) -- (187.50,114.50) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {114.5 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 181.5 $\times$ 114.5 cm \\
+Nominal gap & 1.5 cm \\
+Actual gaps & 1.5 -- 3.8 cm \\
+Max.\ deviation & 2.3 cm \\
+Mean deviation & 0.56 cm \\
+Border notches & none \\
+Corners filled & 4 / 4 \\
+Frames used & 25 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 9 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 1 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 0 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 4 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 2 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 15.5 $\times$ 20.5 & 0.0 & 0.0 \\
+2 & 15.5 $\times$ 20.5 & 17.0 & 0.0 \\
+3 & 25.5 $\times$ 25.5 & 34.0 & 0.0 \\
+4 & 32.5 $\times$ 23.5 & 61.0 & 0.0 \\
+5 & 32.5 $\times$ 23.5 & 95.0 & 0.0 \\
+6 & 52.5 $\times$ 42.5 & 129.0 & 0.0 \\
+7 & 32.5 $\times$ 23.5 & 0.0 & 22.0 \\
+8 & 20.5 $\times$ 15.5 & 34.0 & 27.3 \\
+9 & 20.5 $\times$ 15.5 & 57.0 & 27.3 \\
+10 & 20.5 $\times$ 15.5 & 79.0 & 27.3 \\
+11 & 25.5 $\times$ 25.5 & 102.0 & 27.3 \\
+12 & 52.5 $\times$ 42.5 & 129.0 & 44.5 \\
+13 & 20.5 $\times$ 15.5 & 57.0 & 44.7 \\
+14 & 20.5 $\times$ 15.5 & 79.0 & 44.7 \\
+15 & 20.5 $\times$ 15.5 & 34.0 & 45.2 \\
+16 & 32.5 $\times$ 42.5 & 0.0 & 47.0 \\
+17 & 23.5 $\times$ 32.5 & 103.0 & 54.7 \\
+18 & 42.5 $\times$ 52.5 & 57.0 & 62.0 \\
+19 & 20.5 $\times$ 15.5 & 34.0 & 63.2 \\
+20 & 20.5 $\times$ 15.5 & 34.0 & 81.1 \\
+21 & 25.5 $\times$ 25.5 & 102.0 & 89.0 \\
+22 & 25.5 $\times$ 25.5 & 129.0 & 89.0 \\
+23 & 25.5 $\times$ 25.5 & 156.0 & 89.0 \\
+24 & 32.5 $\times$ 23.5 & 0.0 & 91.0 \\
+25 & 20.5 $\times$ 15.5 & 34.0 & 99.0 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 9}\hspace{1.5em}{\large 172.0 $\times$ 113.5 cm \quad gap 2 cm \quad 25 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (172.00,113.50);
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (42.50,52.50);
+\node[align=center, inner sep=0pt] at (21.25,26.25) {\scriptsize 42.5$\times$52.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (44.50,0.00) rectangle (65.00,15.50);
+\node[align=center, inner sep=0pt] at (54.75,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (44.50,0.00) {2};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (67.00,0.00) rectangle (92.50,25.50);
+\node[align=center, inner sep=0pt] at (79.75,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (67.00,0.00) {3};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (94.50,0.00) rectangle (115.00,15.50);
+\node[align=center, inner sep=0pt] at (104.75,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (94.50,0.00) {4};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (117.00,0.00) rectangle (137.50,15.50);
+\node[align=center, inner sep=0pt] at (127.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (117.00,0.00) {5};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (139.50,0.00) rectangle (172.00,42.50);
+\node[align=center, inner sep=0pt] at (155.75,21.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (139.50,0.00) {6};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (94.50,17.50) rectangle (115.00,33.00);
+\node[align=center, inner sep=0pt] at (104.75,25.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (94.50,17.50) {7};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (117.00,17.50) rectangle (137.50,33.00);
+\node[align=center, inner sep=0pt] at (127.25,25.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (117.00,17.50) {8};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (44.50,18.12) rectangle (65.00,33.62);
+\node[align=center, inner sep=0pt] at (54.75,25.88) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (44.50,18.12) {9};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (68.00,28.00) rectangle (91.50,60.50);
+\node[align=center, inner sep=0pt] at (79.75,44.25) {\scriptsize 23.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (68.00,28.00) {10};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (112.00,35.00) rectangle (137.50,60.50);
+\node[align=center, inner sep=0pt] at (124.75,47.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (112.00,35.00) {11};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (44.50,36.25) rectangle (65.00,51.75);
+\node[align=center, inner sep=0pt] at (54.75,44.00) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (44.50,36.25) {12};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (94.50,37.50) rectangle (110.00,58.00);
+\node[align=center, inner sep=0pt] at (102.25,47.75) {\scriptsize 15.5$\times$20.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (94.50,37.50) {13};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (139.50,45.00) rectangle (172.00,87.50);
+\node[align=center, inner sep=0pt] at (155.75,66.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (139.50,45.00) {14};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (44.50,54.38) rectangle (65.00,69.88);
+\node[align=center, inner sep=0pt] at (54.75,62.12) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (44.50,54.38) {15};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (0.00,55.50) rectangle (42.50,88.00);
+\node[align=center, inner sep=0pt] at (21.25,71.75) {\scriptsize 42.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,55.50) {16};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (84.50,62.50) rectangle (110.00,88.00);
+\node[align=center, inner sep=0pt] at (97.25,75.25) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (84.50,62.50) {17};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (112.00,62.50) rectangle (137.50,88.00);
+\node[align=center, inner sep=0pt] at (124.75,75.25) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (112.00,62.50) {18};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (67.00,65.00) rectangle (82.50,85.50);
+\node[align=center, inner sep=0pt] at (74.75,75.25) {\scriptsize 15.5$\times$20.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (67.00,65.00) {19};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (44.50,72.50) rectangle (65.00,88.00);
+\node[align=center, inner sep=0pt] at (54.75,80.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (44.50,72.50) {20};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (0.00,90.00) rectangle (32.50,113.50);
+\node[align=center, inner sep=0pt] at (16.25,101.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,90.00) {21};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (35.00,90.00) rectangle (67.50,113.50);
+\node[align=center, inner sep=0pt] at (51.25,101.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (35.00,90.00) {22};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (70.00,90.00) rectangle (102.50,113.50);
+\node[align=center, inner sep=0pt] at (86.25,101.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (70.00,90.00) {23};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (105.00,90.00) rectangle (137.50,113.50);
+\node[align=center, inner sep=0pt] at (121.25,101.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (105.00,90.00) {24};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (139.50,90.00) rectangle (172.00,113.50);
+\node[align=center, inner sep=0pt] at (155.75,101.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (139.50,90.00) {25};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (21.25,54.00) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (54.75,16.81) {2.6};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (79.75,26.75) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (155.75,43.75) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (102.25,35.25) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (66.50,30.81) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (54.75,34.94) {2.6};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (93.00,30.50) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (93.00,47.75) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (75.25,62.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (66.50,44.00) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (54.75,53.06) {2.6};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (102.25,60.25) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (155.75,88.75) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (66.50,57.44) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (54.75,71.19) {2.6};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (76.25,87.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (33.75,101.75) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (68.75,101.75) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (103.75,101.75) {2.5};
+\draw[Bar-Bar, gray] (0,119.50) -- (172.00,119.50) node[midway, below=1pt, font=\small, text=black] {172.0 cm};
+\draw[Bar-Bar, gray] (178.00,0) -- (178.00,113.50) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {113.5 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 172.0 $\times$ 113.5 cm \\
+Nominal gap & 2 cm \\
+Actual gaps & 2.0 -- 4.5 cm \\
+Max.\ deviation & 2.5 cm \\
+Mean deviation & 0.41 cm \\
+Border notches & none \\
+Corners filled & 4 / 4 \\
+Frames used & 25 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 9 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 4 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 0 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 42.5 $\times$ 52.5 & 0.0 & 0.0 \\
+2 & 20.5 $\times$ 15.5 & 44.5 & 0.0 \\
+3 & 25.5 $\times$ 25.5 & 67.0 & 0.0 \\
+4 & 20.5 $\times$ 15.5 & 94.5 & 0.0 \\
+5 & 20.5 $\times$ 15.5 & 117.0 & 0.0 \\
+6 & 32.5 $\times$ 42.5 & 139.5 & 0.0 \\
+7 & 20.5 $\times$ 15.5 & 94.5 & 17.5 \\
+8 & 20.5 $\times$ 15.5 & 117.0 & 17.5 \\
+9 & 20.5 $\times$ 15.5 & 44.5 & 18.1 \\
+10 & 23.5 $\times$ 32.5 & 68.0 & 28.0 \\
+11 & 25.5 $\times$ 25.5 & 112.0 & 35.0 \\
+12 & 20.5 $\times$ 15.5 & 44.5 & 36.2 \\
+13 & 15.5 $\times$ 20.5 & 94.5 & 37.5 \\
+14 & 32.5 $\times$ 42.5 & 139.5 & 45.0 \\
+15 & 20.5 $\times$ 15.5 & 44.5 & 54.4 \\
+16 & 42.5 $\times$ 32.5 & 0.0 & 55.5 \\
+17 & 25.5 $\times$ 25.5 & 84.5 & 62.5 \\
+18 & 25.5 $\times$ 25.5 & 112.0 & 62.5 \\
+19 & 15.5 $\times$ 20.5 & 67.0 & 65.0 \\
+20 & 20.5 $\times$ 15.5 & 44.5 & 72.5 \\
+21 & 32.5 $\times$ 23.5 & 0.0 & 90.0 \\
+22 & 32.5 $\times$ 23.5 & 35.0 & 90.0 \\
+23 & 32.5 $\times$ 23.5 & 70.0 & 90.0 \\
+24 & 32.5 $\times$ 23.5 & 105.0 & 90.0 \\
+25 & 32.5 $\times$ 23.5 & 139.5 & 90.0 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 10}\hspace{1.5em}{\large 180.0 $\times$ 128.0 cm \quad gap 3 cm \quad 25 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (180.00,128.00);
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (52.50,42.50);
+\node[align=center, inner sep=0pt] at (26.25,21.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (55.83,0.00) rectangle (88.33,42.50);
+\node[align=center, inner sep=0pt] at (72.08,21.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (55.83,0.00) {2};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (91.67,0.00) rectangle (144.17,42.50);
+\node[align=center, inner sep=0pt] at (117.92,21.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (91.67,0.00) {3};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (147.50,0.00) rectangle (180.00,42.50);
+\node[align=center, inner sep=0pt] at (163.75,21.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (147.50,0.00) {4};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,45.50) rectangle (20.50,61.00);
+\node[align=center, inner sep=0pt] at (10.25,53.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,45.50) {5};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (50.00,45.50) rectangle (70.50,61.00);
+\node[align=center, inner sep=0pt] at (60.25,53.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (50.00,45.50) {6};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (119.00,45.50) rectangle (151.50,69.00);
+\node[align=center, inner sep=0pt] at (135.25,57.25) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (119.00,45.50) {7};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (154.50,45.50) rectangle (180.00,71.00);
+\node[align=center, inner sep=0pt] at (167.25,58.25) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (154.50,45.50) {8};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (23.50,46.25) rectangle (47.00,78.75);
+\node[align=center, inner sep=0pt] at (35.25,62.50) {\scriptsize 23.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (23.50,46.25) {9};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (73.50,46.25) rectangle (116.00,78.75);
+\node[align=center, inner sep=0pt] at (94.75,62.50) {\scriptsize 42.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (73.50,46.25) {10};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,64.00) rectangle (20.50,79.50);
+\node[align=center, inner sep=0pt] at (10.25,71.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,64.00) {11};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (50.00,64.00) rectangle (70.50,79.50);
+\node[align=center, inner sep=0pt] at (60.25,71.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (50.00,64.00) {12};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (154.50,74.00) rectangle (180.00,99.50);
+\node[align=center, inner sep=0pt] at (167.25,86.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (154.50,74.00) {13};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (119.00,75.00) rectangle (151.50,98.50);
+\node[align=center, inner sep=0pt] at (135.25,86.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (119.00,75.00) {14};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,83.25) rectangle (15.50,103.75);
+\node[align=center, inner sep=0pt] at (7.75,93.50) {\scriptsize 15.5$\times$20.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,83.25) {15};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (18.83,83.25) rectangle (39.33,98.75);
+\node[align=center, inner sep=0pt] at (29.08,91.00) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (18.83,83.25) {16};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (42.75,83.25) rectangle (63.25,98.75);
+\node[align=center, inner sep=0pt] at (53.00,91.00) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (42.75,83.25) {17};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (66.67,83.25) rectangle (87.17,98.75);
+\node[align=center, inner sep=0pt] at (76.92,91.00) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (66.67,83.25) {18};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (93.00,83.25) rectangle (113.50,98.75);
+\node[align=center, inner sep=0pt] at (103.25,91.00) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (93.00,83.25) {19};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (90.50,102.50) rectangle (116.00,128.00);
+\node[align=center, inner sep=0pt] at (103.25,115.25) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (90.50,102.50) {20};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (154.50,102.50) rectangle (180.00,128.00);
+\node[align=center, inner sep=0pt] at (167.25,115.25) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (154.50,102.50) {21};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (18.83,104.50) rectangle (51.33,128.00);
+\node[align=center, inner sep=0pt] at (35.08,116.25) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (18.83,104.50) {22};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (54.67,104.50) rectangle (87.17,128.00);
+\node[align=center, inner sep=0pt] at (70.92,116.25) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (54.67,104.50) {23};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (119.00,104.50) rectangle (151.50,128.00);
+\node[align=center, inner sep=0pt] at (135.25,116.25) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (119.00,104.50) {24};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,107.50) rectangle (15.50,128.00);
+\node[align=center, inner sep=0pt] at (7.75,117.75) {\scriptsize 15.5$\times$20.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,107.50) {25};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (54.17,21.25) {3.3};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (35.25,44.38) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (90.00,21.25) {3.3};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (80.92,44.38) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (145.83,21.25) {3.3};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (103.83,44.38) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (135.25,72.00) {6.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (31.42,81.00) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (80.33,81.00) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (103.25,81.00) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (7.75,81.38) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (56.62,81.38) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (135.25,101.50) {6.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (17.17,91.00) {3.3};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (7.75,105.62) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (41.04,91.00) {3.4};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (29.08,101.62) {5.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (64.96,91.00) {3.4};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (47.04,101.62) {5.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (58.96,101.62) {5.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (90.08,91.00) {5.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (76.92,101.62) {5.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (116.25,90.88) {5.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (103.25,100.62) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (53.00,116.25) {3.3};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (88.83,116.25) {3.3};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (17.17,117.75) {3.3};
+\draw[Bar-Bar, gray] (0,134.00) -- (180.00,134.00) node[midway, below=1pt, font=\small, text=black] {180.0 cm};
+\draw[Bar-Bar, gray] (186.00,0) -- (186.00,128.00) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {128.0 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 180.0 $\times$ 128.0 cm \\
+Nominal gap & 3 cm \\
+Actual gaps & 3.0 -- 6.0 cm \\
+Max.\ deviation & 3.0 cm \\
+Mean deviation & 0.77 cm \\
+Border notches & none \\
+Corners filled & 4 / 4 \\
+Frames used & 25 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 8 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 4 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 0 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 2 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 52.5 $\times$ 42.5 & 0.0 & 0.0 \\
+2 & 32.5 $\times$ 42.5 & 55.8 & 0.0 \\
+3 & 52.5 $\times$ 42.5 & 91.7 & 0.0 \\
+4 & 32.5 $\times$ 42.5 & 147.5 & 0.0 \\
+5 & 20.5 $\times$ 15.5 & 0.0 & 45.5 \\
+6 & 20.5 $\times$ 15.5 & 50.0 & 45.5 \\
+7 & 32.5 $\times$ 23.5 & 119.0 & 45.5 \\
+8 & 25.5 $\times$ 25.5 & 154.5 & 45.5 \\
+9 & 23.5 $\times$ 32.5 & 23.5 & 46.2 \\
+10 & 42.5 $\times$ 32.5 & 73.5 & 46.2 \\
+11 & 20.5 $\times$ 15.5 & 0.0 & 64.0 \\
+12 & 20.5 $\times$ 15.5 & 50.0 & 64.0 \\
+13 & 25.5 $\times$ 25.5 & 154.5 & 74.0 \\
+14 & 32.5 $\times$ 23.5 & 119.0 & 75.0 \\
+15 & 15.5 $\times$ 20.5 & 0.0 & 83.2 \\
+16 & 20.5 $\times$ 15.5 & 18.8 & 83.2 \\
+17 & 20.5 $\times$ 15.5 & 42.8 & 83.2 \\
+18 & 20.5 $\times$ 15.5 & 66.7 & 83.2 \\
+19 & 20.5 $\times$ 15.5 & 93.0 & 83.2 \\
+20 & 25.5 $\times$ 25.5 & 90.5 & 102.5 \\
+21 & 25.5 $\times$ 25.5 & 154.5 & 102.5 \\
+22 & 32.5 $\times$ 23.5 & 18.8 & 104.5 \\
+23 & 32.5 $\times$ 23.5 & 54.7 & 104.5 \\
+24 & 32.5 $\times$ 23.5 & 119.0 & 104.5 \\
+25 & 15.5 $\times$ 20.5 & 0.0 & 107.5 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 11}\hspace{1.5em}{\large 180.5 $\times$ 127.5 cm \quad gap 3.5 cm \quad 25 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (180.50,127.50);
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (25.50,25.50);
+\node[align=center, inner sep=0pt] at (12.75,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (29.60,0.00) rectangle (55.10,25.50);
+\node[align=center, inner sep=0pt] at (42.35,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (29.60,0.00) {2};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (59.20,0.00) rectangle (82.70,32.50);
+\node[align=center, inner sep=0pt] at (70.95,16.25) {\scriptsize 23.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (59.20,0.00) {3};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (86.80,0.00) rectangle (107.30,15.50);
+\node[align=center, inner sep=0pt] at (97.05,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (86.80,0.00) {4};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (110.80,0.00) rectangle (131.30,15.50);
+\node[align=center, inner sep=0pt] at (121.05,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (110.80,0.00) {5};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (135.40,0.00) rectangle (155.90,15.50);
+\node[align=center, inner sep=0pt] at (145.65,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (135.40,0.00) {6};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (160.00,0.00) rectangle (180.50,15.50);
+\node[align=center, inner sep=0pt] at (170.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (160.00,0.00) {7};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (135.40,19.50) rectangle (155.90,35.00);
+\node[align=center, inner sep=0pt] at (145.65,27.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (135.40,19.50) {8};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (160.00,19.50) rectangle (180.50,35.00);
+\node[align=center, inner sep=0pt] at (170.25,27.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (160.00,19.50) {9};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (87.80,22.00) rectangle (130.30,54.50);
+\node[align=center, inner sep=0pt] at (109.05,38.25) {\scriptsize 42.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (87.80,22.00) {10};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (0.00,29.00) rectangle (25.50,54.50);
+\node[align=center, inner sep=0pt] at (12.75,41.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,29.00) {11};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (29.60,29.00) rectangle (55.10,54.50);
+\node[align=center, inner sep=0pt] at (42.35,41.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (29.60,29.00) {12};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (60.70,39.00) rectangle (81.20,54.50);
+\node[align=center, inner sep=0pt] at (70.95,46.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (60.70,39.00) {13};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (135.40,39.00) rectangle (155.90,54.50);
+\node[align=center, inner sep=0pt] at (145.65,46.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (135.40,39.00) {14};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (160.00,39.00) rectangle (180.50,54.50);
+\node[align=center, inner sep=0pt] at (170.25,46.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (160.00,39.00) {15};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (0.00,58.00) rectangle (32.50,81.50);
+\node[align=center, inner sep=0pt] at (16.25,69.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,58.00) {16};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (56.00,58.00) rectangle (88.50,81.50);
+\node[align=center, inner sep=0pt] at (72.25,69.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (56.00,58.00) {17};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (111.50,58.00) rectangle (144.00,81.50);
+\node[align=center, inner sep=0pt] at (127.75,69.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (111.50,58.00) {18};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (148.00,58.00) rectangle (180.50,81.50);
+\node[align=center, inner sep=0pt] at (164.25,69.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (148.00,58.00) {19};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (37.00,59.50) rectangle (52.50,80.00);
+\node[align=center, inner sep=0pt] at (44.75,69.75) {\scriptsize 15.5$\times$20.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (37.00,59.50) {20};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (92.00,59.50) rectangle (107.50,80.00);
+\node[align=center, inner sep=0pt] at (99.75,69.75) {\scriptsize 15.5$\times$20.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (92.00,59.50) {21};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (0.00,85.00) rectangle (52.50,127.50);
+\node[align=center, inner sep=0pt] at (26.25,106.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,85.00) {22};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (56.00,85.00) rectangle (88.50,127.50);
+\node[align=center, inner sep=0pt] at (72.25,106.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (56.00,85.00) {23};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (92.00,85.00) rectangle (124.50,127.50);
+\node[align=center, inner sep=0pt] at (108.25,106.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (92.00,85.00) {24};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (128.00,85.00) rectangle (180.50,127.50);
+\node[align=center, inner sep=0pt] at (154.25,106.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (128.00,85.00) {25};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (27.55,12.75) {4.1};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (57.15,12.75) {4.1};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (84.75,7.75) {4.1};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (85.25,27.25) {5.1};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (70.95,35.75) {6.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (97.55,18.75) {6.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (133.35,7.75) {4.1};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (120.55,18.75) {6.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (157.95,7.75) {4.1};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (145.65,17.50) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (170.25,17.50) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (157.95,27.25) {4.1};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (145.65,37.00) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (170.25,37.00) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (132.85,28.50) {5.1};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (132.85,46.75) {5.1};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (99.75,57.00) {5.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (27.55,41.75) {4.1};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (57.90,46.75) {5.6};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (44.75,57.00) {5.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (84.50,46.75) {6.6};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (157.95,46.75) {4.1};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (34.75,69.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (146.00,69.75) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (44.75,82.50) {5.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (109.50,69.75) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (99.75,82.50) {5.0};
+\draw[Bar-Bar, gray] (0,133.50) -- (180.50,133.50) node[midway, below=1pt, font=\small, text=black] {180.5 cm};
+\draw[Bar-Bar, gray] (186.50,0) -- (186.50,127.50) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {127.5 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 180.5 $\times$ 127.5 cm \\
+Nominal gap & 3.5 cm \\
+Actual gaps & 3.5 -- 6.6 cm \\
+Max.\ deviation & 3.1 cm \\
+Mean deviation & 0.73 cm \\
+Border notches & none \\
+Corners filled & 4 / 4 \\
+Frames used & 25 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 9 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 4 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 4 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 0 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 2 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 25.5 $\times$ 25.5 & 0.0 & 0.0 \\
+2 & 25.5 $\times$ 25.5 & 29.6 & 0.0 \\
+3 & 23.5 $\times$ 32.5 & 59.2 & 0.0 \\
+4 & 20.5 $\times$ 15.5 & 86.8 & 0.0 \\
+5 & 20.5 $\times$ 15.5 & 110.8 & 0.0 \\
+6 & 20.5 $\times$ 15.5 & 135.4 & 0.0 \\
+7 & 20.5 $\times$ 15.5 & 160.0 & 0.0 \\
+8 & 20.5 $\times$ 15.5 & 135.4 & 19.5 \\
+9 & 20.5 $\times$ 15.5 & 160.0 & 19.5 \\
+10 & 42.5 $\times$ 32.5 & 87.8 & 22.0 \\
+11 & 25.5 $\times$ 25.5 & 0.0 & 29.0 \\
+12 & 25.5 $\times$ 25.5 & 29.6 & 29.0 \\
+13 & 20.5 $\times$ 15.5 & 60.7 & 39.0 \\
+14 & 20.5 $\times$ 15.5 & 135.4 & 39.0 \\
+15 & 20.5 $\times$ 15.5 & 160.0 & 39.0 \\
+16 & 32.5 $\times$ 23.5 & 0.0 & 58.0 \\
+17 & 32.5 $\times$ 23.5 & 56.0 & 58.0 \\
+18 & 32.5 $\times$ 23.5 & 111.5 & 58.0 \\
+19 & 32.5 $\times$ 23.5 & 148.0 & 58.0 \\
+20 & 15.5 $\times$ 20.5 & 37.0 & 59.5 \\
+21 & 15.5 $\times$ 20.5 & 92.0 & 59.5 \\
+22 & 52.5 $\times$ 42.5 & 0.0 & 85.0 \\
+23 & 32.5 $\times$ 42.5 & 56.0 & 85.0 \\
+24 & 32.5 $\times$ 42.5 & 92.0 & 85.0 \\
+25 & 52.5 $\times$ 42.5 & 128.0 & 85.0 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 12}\hspace{1.5em}{\large 172.5 $\times$ 115.5 cm \quad gap 2.5 cm \quad 24 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (172.50,115.50);
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (42.50,52.50);
+\node[align=center, inner sep=0pt] at (21.25,26.25) {\scriptsize 42.5$\times$52.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (45.00,0.00) rectangle (65.50,15.50);
+\node[align=center, inner sep=0pt] at (55.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (45.00,0.00) {2};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (68.00,0.00) rectangle (100.50,23.50);
+\node[align=center, inner sep=0pt] at (84.25,11.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (68.00,0.00) {3};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (105.00,0.00) rectangle (137.50,23.50);
+\node[align=center, inner sep=0pt] at (121.25,11.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (105.00,0.00) {4};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (140.00,0.00) rectangle (172.50,42.50);
+\node[align=center, inner sep=0pt] at (156.25,21.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (140.00,0.00) {5};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (45.00,18.00) rectangle (65.50,33.50);
+\node[align=center, inner sep=0pt] at (55.25,25.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (45.00,18.00) {6};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (68.00,27.00) rectangle (100.50,50.50);
+\node[align=center, inner sep=0pt] at (84.25,38.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (68.00,27.00) {7};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (105.00,27.00) rectangle (137.50,50.50);
+\node[align=center, inner sep=0pt] at (121.25,38.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (105.00,27.00) {8};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (45.00,36.00) rectangle (65.50,51.50);
+\node[align=center, inner sep=0pt] at (55.25,43.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (45.00,36.00) {9};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (140.00,46.00) rectangle (172.50,88.50);
+\node[align=center, inner sep=0pt] at (156.25,67.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (140.00,46.00) {10};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (45.00,54.00) rectangle (65.50,69.50);
+\node[align=center, inner sep=0pt] at (55.25,61.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (45.00,54.00) {11};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (68.00,54.00) rectangle (88.50,69.50);
+\node[align=center, inner sep=0pt] at (78.25,61.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (68.00,54.00) {12};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (91.00,54.00) rectangle (111.50,69.50);
+\node[align=center, inner sep=0pt] at (101.25,61.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (91.00,54.00) {13};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (114.00,54.50) rectangle (137.50,87.00);
+\node[align=center, inner sep=0pt] at (125.75,70.75) {\scriptsize 23.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (114.00,54.50) {14};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (0.00,55.00) rectangle (42.50,87.50);
+\node[align=center, inner sep=0pt] at (21.25,71.25) {\scriptsize 42.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,55.00) {15};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (45.00,72.00) rectangle (65.50,87.50);
+\node[align=center, inner sep=0pt] at (55.25,79.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (45.00,72.00) {16};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (68.00,72.00) rectangle (88.50,87.50);
+\node[align=center, inner sep=0pt] at (78.25,79.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (68.00,72.00) {17};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (91.00,72.00) rectangle (111.50,87.50);
+\node[align=center, inner sep=0pt] at (101.25,79.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (91.00,72.00) {18};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (0.00,90.00) rectangle (25.50,115.50);
+\node[align=center, inner sep=0pt] at (12.75,102.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,90.00) {19};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (28.00,90.00) rectangle (53.50,115.50);
+\node[align=center, inner sep=0pt] at (40.75,102.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (28.00,90.00) {20};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (56.00,90.00) rectangle (81.50,115.50);
+\node[align=center, inner sep=0pt] at (68.75,102.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (56.00,90.00) {21};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (84.00,90.00) rectangle (109.50,115.50);
+\node[align=center, inner sep=0pt] at (96.75,102.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (84.00,90.00) {22};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (112.00,90.00) rectangle (137.50,115.50);
+\node[align=center, inner sep=0pt] at (124.75,102.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (112.00,90.00) {23};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (140.00,92.00) rectangle (172.50,115.50);
+\node[align=center, inner sep=0pt] at (156.25,103.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (140.00,92.00) {24};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (102.75,11.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (84.25,25.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (121.25,25.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (156.25,44.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (102.75,38.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (78.25,52.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (95.75,52.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (108.25,52.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (125.75,52.50) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (156.25,90.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (125.75,88.50) {3.0};
+\draw[Bar-Bar, gray] (0,121.50) -- (172.50,121.50) node[midway, below=1pt, font=\small, text=black] {172.5 cm};
+\draw[Bar-Bar, gray] (178.50,0) -- (178.50,115.50) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {115.5 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 172.5 $\times$ 115.5 cm \\
+Nominal gap & 2.5 cm \\
+Actual gaps & 2.5 -- 4.5 cm \\
+Max.\ deviation & 2.0 cm \\
+Mean deviation & 0.28 cm \\
+Border notches & top 4 cm \\
+Corners filled & 4 / 4 \\
+Frames used & 24 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 9 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 0 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 0 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 42.5 $\times$ 52.5 & 0.0 & 0.0 \\
+2 & 20.5 $\times$ 15.5 & 45.0 & 0.0 \\
+3 & 32.5 $\times$ 23.5 & 68.0 & 0.0 \\
+4 & 32.5 $\times$ 23.5 & 105.0 & 0.0 \\
+5 & 32.5 $\times$ 42.5 & 140.0 & 0.0 \\
+6 & 20.5 $\times$ 15.5 & 45.0 & 18.0 \\
+7 & 32.5 $\times$ 23.5 & 68.0 & 27.0 \\
+8 & 32.5 $\times$ 23.5 & 105.0 & 27.0 \\
+9 & 20.5 $\times$ 15.5 & 45.0 & 36.0 \\
+10 & 32.5 $\times$ 42.5 & 140.0 & 46.0 \\
+11 & 20.5 $\times$ 15.5 & 45.0 & 54.0 \\
+12 & 20.5 $\times$ 15.5 & 68.0 & 54.0 \\
+13 & 20.5 $\times$ 15.5 & 91.0 & 54.0 \\
+14 & 23.5 $\times$ 32.5 & 114.0 & 54.5 \\
+15 & 42.5 $\times$ 32.5 & 0.0 & 55.0 \\
+16 & 20.5 $\times$ 15.5 & 45.0 & 72.0 \\
+17 & 20.5 $\times$ 15.5 & 68.0 & 72.0 \\
+18 & 20.5 $\times$ 15.5 & 91.0 & 72.0 \\
+19 & 25.5 $\times$ 25.5 & 0.0 & 90.0 \\
+20 & 25.5 $\times$ 25.5 & 28.0 & 90.0 \\
+21 & 25.5 $\times$ 25.5 & 56.0 & 90.0 \\
+22 & 25.5 $\times$ 25.5 & 84.0 & 90.0 \\
+23 & 25.5 $\times$ 25.5 & 112.0 & 90.0 \\
+24 & 32.5 $\times$ 23.5 & 140.0 & 92.0 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 13}\hspace{1.5em}{\large 170.0 $\times$ 115.0 cm \quad gap 2 cm \quad 24 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (170.00,115.00);
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (32.50,42.50);
+\node[align=center, inner sep=0pt] at (16.25,21.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (34.50,0.00) rectangle (60.00,25.50);
+\node[align=center, inner sep=0pt] at (47.25,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (34.50,0.00) {2};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (62.00,0.00) rectangle (87.50,25.50);
+\node[align=center, inner sep=0pt] at (74.75,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (62.00,0.00) {3};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (89.50,0.00) rectangle (115.00,25.50);
+\node[align=center, inner sep=0pt] at (102.25,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (89.50,0.00) {4};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (117.00,0.00) rectangle (142.50,25.50);
+\node[align=center, inner sep=0pt] at (129.75,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (117.00,0.00) {5};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (144.50,0.00) rectangle (170.00,25.50);
+\node[align=center, inner sep=0pt] at (157.25,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (144.50,0.00) {6};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (34.50,27.50) rectangle (77.00,60.00);
+\node[align=center, inner sep=0pt] at (55.75,43.75) {\scriptsize 42.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (34.50,27.50) {7};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (79.00,27.50) rectangle (102.50,60.00);
+\node[align=center, inner sep=0pt] at (90.75,43.75) {\scriptsize 23.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (79.00,27.50) {8};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (104.75,27.50) rectangle (147.25,80.00);
+\node[align=center, inner sep=0pt] at (126.00,53.75) {\scriptsize 42.5$\times$52.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (104.75,27.50) {9};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (149.50,27.50) rectangle (170.00,43.00);
+\node[align=center, inner sep=0pt] at (159.75,35.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (149.50,27.50) {10};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (149.50,45.50) rectangle (170.00,61.00);
+\node[align=center, inner sep=0pt] at (159.75,53.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (149.50,45.50) {11};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (0.00,45.75) rectangle (32.50,69.25);
+\node[align=center, inner sep=0pt] at (16.25,57.50) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,45.75) {12};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (149.50,63.50) rectangle (170.00,79.00);
+\node[align=center, inner sep=0pt] at (159.75,71.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (149.50,63.50) {13};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (34.50,64.00) rectangle (67.00,87.50);
+\node[align=center, inner sep=0pt] at (50.75,75.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (34.50,64.00) {14};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (70.00,64.00) rectangle (102.50,87.50);
+\node[align=center, inner sep=0pt] at (86.25,75.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (70.00,64.00) {15};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (0.00,72.50) rectangle (32.50,115.00);
+\node[align=center, inner sep=0pt] at (16.25,93.75) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,72.50) {16};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (149.50,81.50) rectangle (170.00,97.00);
+\node[align=center, inner sep=0pt] at (159.75,89.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (149.50,81.50) {17};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (104.50,82.00) rectangle (125.00,97.50);
+\node[align=center, inner sep=0pt] at (114.75,89.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (104.50,82.00) {18};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (127.00,82.00) rectangle (147.50,97.50);
+\node[align=center, inner sep=0pt] at (137.25,89.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (127.00,82.00) {19};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (34.50,91.50) rectangle (67.00,115.00);
+\node[align=center, inner sep=0pt] at (50.75,103.25) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (34.50,91.50) {20};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (70.00,91.50) rectangle (102.50,115.00);
+\node[align=center, inner sep=0pt] at (86.25,103.25) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (70.00,91.50) {21};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (104.50,99.50) rectangle (125.00,115.00);
+\node[align=center, inner sep=0pt] at (114.75,107.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (104.50,99.50) {22};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (127.00,99.50) rectangle (147.50,115.00);
+\node[align=center, inner sep=0pt] at (137.25,107.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (127.00,99.50) {23};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (149.50,99.50) rectangle (170.00,115.00);
+\node[align=center, inner sep=0pt] at (159.75,107.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (149.50,99.50) {24};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (16.25,44.12) {3.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (50.75,62.00) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (73.50,62.00) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (90.75,62.00) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (159.75,44.25) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (159.75,62.25) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (16.25,70.88) {3.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (159.75,80.25) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (68.50,75.75) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (50.75,89.50) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (86.25,89.50) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (159.75,98.25) {2.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (68.50,103.25) {3.0};
+\draw[Bar-Bar, gray] (0,121.00) -- (170.00,121.00) node[midway, below=1pt, font=\small, text=black] {170.0 cm};
+\draw[Bar-Bar, gray] (176.00,0) -- (176.00,115.00) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {115.0 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 170.0 $\times$ 115.0 cm \\
+Nominal gap & 2 cm \\
+Actual gaps & 2.0 -- 4.0 cm \\
+Max.\ deviation & 2.0 cm \\
+Mean deviation & 0.38 cm \\
+Border notches & left 6 cm \\
+Corners filled & 4 / 4 \\
+Frames used & 24 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 9 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 0 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 0 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 32.5 $\times$ 42.5 & 0.0 & 0.0 \\
+2 & 25.5 $\times$ 25.5 & 34.5 & 0.0 \\
+3 & 25.5 $\times$ 25.5 & 62.0 & 0.0 \\
+4 & 25.5 $\times$ 25.5 & 89.5 & 0.0 \\
+5 & 25.5 $\times$ 25.5 & 117.0 & 0.0 \\
+6 & 25.5 $\times$ 25.5 & 144.5 & 0.0 \\
+7 & 42.5 $\times$ 32.5 & 34.5 & 27.5 \\
+8 & 23.5 $\times$ 32.5 & 79.0 & 27.5 \\
+9 & 42.5 $\times$ 52.5 & 104.8 & 27.5 \\
+10 & 20.5 $\times$ 15.5 & 149.5 & 27.5 \\
+11 & 20.5 $\times$ 15.5 & 149.5 & 45.5 \\
+12 & 32.5 $\times$ 23.5 & 0.0 & 45.8 \\
+13 & 20.5 $\times$ 15.5 & 149.5 & 63.5 \\
+14 & 32.5 $\times$ 23.5 & 34.5 & 64.0 \\
+15 & 32.5 $\times$ 23.5 & 70.0 & 64.0 \\
+16 & 32.5 $\times$ 42.5 & 0.0 & 72.5 \\
+17 & 20.5 $\times$ 15.5 & 149.5 & 81.5 \\
+18 & 20.5 $\times$ 15.5 & 104.5 & 82.0 \\
+19 & 20.5 $\times$ 15.5 & 127.0 & 82.0 \\
+20 & 32.5 $\times$ 23.5 & 34.5 & 91.5 \\
+21 & 32.5 $\times$ 23.5 & 70.0 & 91.5 \\
+22 & 20.5 $\times$ 15.5 & 104.5 & 99.5 \\
+23 & 20.5 $\times$ 15.5 & 127.0 & 99.5 \\
+24 & 20.5 $\times$ 15.5 & 149.5 & 99.5 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 14}\hspace{1.5em}{\large 170.5 $\times$ 117.5 cm \quad gap 2.5 cm \quad 24 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (170.50,117.50);
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (20.50,15.50);
+\node[align=center, inner sep=0pt] at (10.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (23.00,0.00) rectangle (48.50,25.50);
+\node[align=center, inner sep=0pt] at (35.75,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (23.00,0.00) {2};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (51.00,0.00) rectangle (83.50,42.50);
+\node[align=center, inner sep=0pt] at (67.25,21.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (51.00,0.00) {3};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (86.00,0.00) rectangle (106.50,15.50);
+\node[align=center, inner sep=0pt] at (96.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (86.00,0.00) {4};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (109.00,0.00) rectangle (124.50,20.50);
+\node[align=center, inner sep=0pt] at (116.75,10.25) {\scriptsize 15.5$\times$20.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (109.00,0.00) {5};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (127.00,0.00) rectangle (142.50,20.50);
+\node[align=center, inner sep=0pt] at (134.75,10.25) {\scriptsize 15.5$\times$20.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (127.00,0.00) {6};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (145.00,0.00) rectangle (170.50,25.50);
+\node[align=center, inner sep=0pt] at (157.75,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (145.00,0.00) {7};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,19.00) rectangle (20.50,34.50);
+\node[align=center, inner sep=0pt] at (10.25,26.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,19.00) {8};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (86.00,19.00) rectangle (106.50,34.50);
+\node[align=center, inner sep=0pt] at (96.25,26.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (86.00,19.00) {9};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (109.50,23.00) rectangle (142.00,46.50);
+\node[align=center, inner sep=0pt] at (125.75,34.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (109.50,23.00) {10};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (25.50,28.00) rectangle (46.00,43.50);
+\node[align=center, inner sep=0pt] at (35.75,35.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (25.50,28.00) {11};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (147.00,28.33) rectangle (170.50,60.83);
+\node[align=center, inner sep=0pt] at (158.75,44.58) {\scriptsize 23.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (147.00,28.33) {12};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,38.00) rectangle (20.50,53.50);
+\node[align=center, inner sep=0pt] at (10.25,45.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,38.00) {13};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (86.00,38.00) rectangle (106.50,53.50);
+\node[align=center, inner sep=0pt] at (96.25,45.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (86.00,38.00) {14};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (23.00,47.00) rectangle (48.50,72.50);
+\node[align=center, inner sep=0pt] at (35.75,59.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (23.00,47.00) {15};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (51.00,48.00) rectangle (83.50,71.50);
+\node[align=center, inner sep=0pt] at (67.25,59.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (51.00,48.00) {16};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (109.50,49.00) rectangle (142.00,72.50);
+\node[align=center, inner sep=0pt] at (125.75,60.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (109.50,49.00) {17};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (0.00,57.00) rectangle (20.50,72.50);
+\node[align=center, inner sep=0pt] at (10.25,64.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,57.00) {18};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (86.00,57.00) rectangle (106.50,72.50);
+\node[align=center, inner sep=0pt] at (96.25,64.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (86.00,57.00) {19};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (145.00,63.67) rectangle (170.50,89.17);
+\node[align=center, inner sep=0pt] at (157.75,76.42) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (145.00,63.67) {20};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (0.00,75.00) rectangle (52.50,117.50);
+\node[align=center, inner sep=0pt] at (26.25,96.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,75.00) {21};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (55.00,75.00) rectangle (87.50,117.50);
+\node[align=center, inner sep=0pt] at (71.25,96.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (55.00,75.00) {22};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (90.00,75.00) rectangle (142.50,117.50);
+\node[align=center, inner sep=0pt] at (116.25,96.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (90.00,75.00) {23};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (145.00,92.00) rectangle (170.50,117.50);
+\node[align=center, inner sep=0pt] at (157.75,104.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (145.00,92.00) {24};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (10.25,17.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (67.25,45.25) {5.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (96.25,17.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (158.75,26.92) {2.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (23.00,31.25) {5.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (10.25,36.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (108.00,28.75) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (96.25,36.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (144.50,37.42) {5.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (48.50,35.25) {5.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (35.75,45.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (158.75,62.25) {2.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (23.00,40.75) {5.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (10.25,55.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (108.00,42.25) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (96.25,55.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (69.25,73.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (144.50,54.92) {5.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (143.50,68.08) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (108.00,64.75) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (157.75,90.58) {2.8};
+\draw[Bar-Bar, gray] (0,123.50) -- (170.50,123.50) node[midway, below=1pt, font=\small, text=black] {170.5 cm};
+\draw[Bar-Bar, gray] (176.50,0) -- (176.50,117.50) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {117.5 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 170.5 $\times$ 117.5 cm \\
+Nominal gap & 2.5 cm \\
+Actual gaps & 2.5 -- 5.5 cm \\
+Max.\ deviation & 3.0 cm \\
+Mean deviation & 0.58 cm \\
+Border notches & none \\
+Corners filled & 4 / 4 \\
+Frames used & 24 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 9 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 0 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 3 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 0 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 2 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 20.5 $\times$ 15.5 & 0.0 & 0.0 \\
+2 & 25.5 $\times$ 25.5 & 23.0 & 0.0 \\
+3 & 32.5 $\times$ 42.5 & 51.0 & 0.0 \\
+4 & 20.5 $\times$ 15.5 & 86.0 & 0.0 \\
+5 & 15.5 $\times$ 20.5 & 109.0 & 0.0 \\
+6 & 15.5 $\times$ 20.5 & 127.0 & 0.0 \\
+7 & 25.5 $\times$ 25.5 & 145.0 & 0.0 \\
+8 & 20.5 $\times$ 15.5 & 0.0 & 19.0 \\
+9 & 20.5 $\times$ 15.5 & 86.0 & 19.0 \\
+10 & 32.5 $\times$ 23.5 & 109.5 & 23.0 \\
+11 & 20.5 $\times$ 15.5 & 25.5 & 28.0 \\
+12 & 23.5 $\times$ 32.5 & 147.0 & 28.3 \\
+13 & 20.5 $\times$ 15.5 & 0.0 & 38.0 \\
+14 & 20.5 $\times$ 15.5 & 86.0 & 38.0 \\
+15 & 25.5 $\times$ 25.5 & 23.0 & 47.0 \\
+16 & 32.5 $\times$ 23.5 & 51.0 & 48.0 \\
+17 & 32.5 $\times$ 23.5 & 109.5 & 49.0 \\
+18 & 20.5 $\times$ 15.5 & 0.0 & 57.0 \\
+19 & 20.5 $\times$ 15.5 & 86.0 & 57.0 \\
+20 & 25.5 $\times$ 25.5 & 145.0 & 63.7 \\
+21 & 52.5 $\times$ 42.5 & 0.0 & 75.0 \\
+22 & 32.5 $\times$ 42.5 & 55.0 & 75.0 \\
+23 & 52.5 $\times$ 42.5 & 90.0 & 75.0 \\
+24 & 25.5 $\times$ 25.5 & 145.0 & 92.0 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 15}\hspace{1.5em}{\large 189.5 $\times$ 110.5 cm \quad gap 3.5 cm \quad 24 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (189.50,110.50);
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (42.50,52.50);
+\node[align=center, inner sep=0pt] at (21.25,26.25) {\scriptsize 42.5$\times$52.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (46.00,0.00) rectangle (66.50,15.50);
+\node[align=center, inner sep=0pt] at (56.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (46.00,0.00) {2};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (70.00,0.00) rectangle (90.50,15.50);
+\node[align=center, inner sep=0pt] at (80.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (70.00,0.00) {3};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (94.00,0.00) rectangle (117.50,32.50);
+\node[align=center, inner sep=0pt] at (105.75,16.25) {\scriptsize 23.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (94.00,0.00) {4};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (121.00,0.00) rectangle (141.50,15.50);
+\node[align=center, inner sep=0pt] at (131.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (121.00,0.00) {5};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (145.00,0.00) rectangle (165.50,15.50);
+\node[align=center, inner sep=0pt] at (155.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (145.00,0.00) {6};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (169.00,0.00) rectangle (189.50,15.50);
+\node[align=center, inner sep=0pt] at (179.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (169.00,0.00) {7};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (121.00,19.50) rectangle (141.50,35.00);
+\node[align=center, inner sep=0pt] at (131.25,27.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (121.00,19.50) {8};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (145.00,19.50) rectangle (165.50,35.00);
+\node[align=center, inner sep=0pt] at (155.25,27.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (145.00,19.50) {9};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (169.00,19.50) rectangle (189.50,35.00);
+\node[align=center, inner sep=0pt] at (179.25,27.25) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (169.00,19.50) {10};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (47.00,20.00) rectangle (89.50,52.50);
+\node[align=center, inner sep=0pt] at (68.25,36.25) {\scriptsize 42.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (47.00,20.00) {11};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (95.50,37.00) rectangle (116.00,52.50);
+\node[align=center, inner sep=0pt] at (105.75,44.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (95.50,37.00) {12};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (121.00,39.00) rectangle (153.50,81.50);
+\node[align=center, inner sep=0pt] at (137.25,60.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (121.00,39.00) {13};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (157.00,39.00) rectangle (189.50,81.50);
+\node[align=center, inner sep=0pt] at (173.25,60.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (157.00,39.00) {14};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (0.00,56.00) rectangle (25.50,81.50);
+\node[align=center, inner sep=0pt] at (12.75,68.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,56.00) {15};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (48.67,57.00) rectangle (81.17,80.50);
+\node[align=center, inner sep=0pt] at (64.92,68.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (48.67,57.00) {16};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (85.00,57.00) rectangle (117.50,80.50);
+\node[align=center, inner sep=0pt] at (101.25,68.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (85.00,57.00) {17};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (29.33,58.50) rectangle (44.83,79.00);
+\node[align=center, inner sep=0pt] at (37.08,68.75) {\scriptsize 15.5$\times$20.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (29.33,58.50) {18};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (0.00,85.00) rectangle (25.50,110.50);
+\node[align=center, inner sep=0pt] at (12.75,97.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,85.00) {19};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (30.00,85.00) rectangle (55.50,110.50);
+\node[align=center, inner sep=0pt] at (42.75,97.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (30.00,85.00) {20};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (97.00,85.00) rectangle (122.50,110.50);
+\node[align=center, inner sep=0pt] at (109.75,97.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (97.00,85.00) {21};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (164.00,85.00) rectangle (189.50,110.50);
+\node[align=center, inner sep=0pt] at (176.75,97.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (164.00,85.00) {22};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (60.00,87.00) rectangle (92.50,110.50);
+\node[align=center, inner sep=0pt] at (76.25,98.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (60.00,87.00) {23};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (127.00,87.00) rectangle (159.50,110.50);
+\node[align=center, inner sep=0pt] at (143.25,98.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (127.00,87.00) {24};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (44.75,36.25) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (35.92,55.50) {6.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (56.75,17.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (79.75,17.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (105.75,34.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (131.25,17.50) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (155.25,17.50) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (179.25,17.50) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (131.25,37.00) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (149.25,37.00) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (161.25,37.00) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (179.25,37.00) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (91.75,26.25) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (92.50,44.75) {6.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (64.92,54.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (118.50,45.75) {5.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (105.75,54.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (140.25,84.25) {5.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (27.42,68.75) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (83.08,68.75) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (52.08,82.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (70.58,83.75) {6.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (107.25,82.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (88.75,83.75) {6.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (46.75,68.75) {3.8};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (37.42,82.00) {6.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (27.75,97.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (57.75,98.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (124.75,98.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (94.75,98.75) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (161.75,98.75) {4.5};
+\draw[Bar-Bar, gray] (0,116.50) -- (189.50,116.50) node[midway, below=1pt, font=\small, text=black] {189.5 cm};
+\draw[Bar-Bar, gray] (195.50,0) -- (195.50,110.50) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {110.5 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 189.5 $\times$ 110.5 cm \\
+Nominal gap & 3.5 cm \\
+Actual gaps & 3.5 -- 6.5 cm \\
+Max.\ deviation & 3.0 cm \\
+Mean deviation & 0.79 cm \\
+Border notches & none \\
+Corners filled & 4 / 4 \\
+Frames used & 24 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 9 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 1 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 4 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 0 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 42.5 $\times$ 52.5 & 0.0 & 0.0 \\
+2 & 20.5 $\times$ 15.5 & 46.0 & 0.0 \\
+3 & 20.5 $\times$ 15.5 & 70.0 & 0.0 \\
+4 & 23.5 $\times$ 32.5 & 94.0 & 0.0 \\
+5 & 20.5 $\times$ 15.5 & 121.0 & 0.0 \\
+6 & 20.5 $\times$ 15.5 & 145.0 & 0.0 \\
+7 & 20.5 $\times$ 15.5 & 169.0 & 0.0 \\
+8 & 20.5 $\times$ 15.5 & 121.0 & 19.5 \\
+9 & 20.5 $\times$ 15.5 & 145.0 & 19.5 \\
+10 & 20.5 $\times$ 15.5 & 169.0 & 19.5 \\
+11 & 42.5 $\times$ 32.5 & 47.0 & 20.0 \\
+12 & 20.5 $\times$ 15.5 & 95.5 & 37.0 \\
+13 & 32.5 $\times$ 42.5 & 121.0 & 39.0 \\
+14 & 32.5 $\times$ 42.5 & 157.0 & 39.0 \\
+15 & 25.5 $\times$ 25.5 & 0.0 & 56.0 \\
+16 & 32.5 $\times$ 23.5 & 48.7 & 57.0 \\
+17 & 32.5 $\times$ 23.5 & 85.0 & 57.0 \\
+18 & 15.5 $\times$ 20.5 & 29.3 & 58.5 \\
+19 & 25.5 $\times$ 25.5 & 0.0 & 85.0 \\
+20 & 25.5 $\times$ 25.5 & 30.0 & 85.0 \\
+21 & 25.5 $\times$ 25.5 & 97.0 & 85.0 \\
+22 & 25.5 $\times$ 25.5 & 164.0 & 85.0 \\
+23 & 32.5 $\times$ 23.5 & 60.0 & 87.0 \\
+24 & 32.5 $\times$ 23.5 & 127.0 & 87.0 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\begin{minipage}[t]{0.74\textwidth}\vspace{0pt}
+{\LARGE\bfseries Layout 16}\hspace{1.5em}{\large 186.5 $\times$ 116.5 cm \quad gap 2.5 cm \quad 23 frames}\\[8pt]
+\begin{tikzpicture}[x=1mm, y=-1mm]
+\draw[gray!70, dashed, line width=0.4pt] (0,0) rectangle (186.50,116.50);
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (0.00,0.00) rectangle (25.50,25.50);
+\node[align=center, inner sep=0pt] at (12.75,12.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,0.00) {1};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (28.00,0.00) rectangle (80.50,42.50);
+\node[align=center, inner sep=0pt] at (54.25,21.25) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (28.00,0.00) {2};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (84.00,0.00) rectangle (116.50,42.50);
+\node[align=center, inner sep=0pt] at (100.25,21.25) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (84.00,0.00) {3};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (119.00,0.00) rectangle (139.50,15.50);
+\node[align=center, inner sep=0pt] at (129.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (119.00,0.00) {4};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (142.50,0.00) rectangle (163.00,15.50);
+\node[align=center, inner sep=0pt] at (152.75,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (142.50,0.00) {5};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (166.00,0.00) rectangle (186.50,15.50);
+\node[align=center, inner sep=0pt] at (176.25,7.75) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (166.00,0.00) {6};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (119.00,18.67) rectangle (139.50,34.17);
+\node[align=center, inner sep=0pt] at (129.25,26.42) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (119.00,18.67) {7};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (142.00,18.67) rectangle (162.50,34.17);
+\node[align=center, inner sep=0pt] at (152.25,26.42) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (142.00,18.67) {8};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (166.00,18.67) rectangle (186.50,34.17);
+\node[align=center, inner sep=0pt] at (176.25,26.42) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (166.00,18.67) {9};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (0.00,28.00) rectangle (25.50,53.50);
+\node[align=center, inner sep=0pt] at (12.75,40.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,28.00) {10};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (166.00,37.22) rectangle (186.50,52.72);
+\node[align=center, inner sep=0pt] at (176.25,44.97) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (166.00,37.22) {11};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (119.50,37.33) rectangle (162.00,89.83);
+\node[align=center, inner sep=0pt] at (140.75,63.58) {\scriptsize 42.5$\times$52.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (119.50,37.33) {12};
+\filldraw[fill=ft3, draw=black!80, line width=0.5pt] (28.00,45.50) rectangle (60.50,88.00);
+\node[align=center, inner sep=0pt] at (44.25,66.75) {\scriptsize 32.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (28.00,45.50) {13};
+\filldraw[fill=ft4, draw=black!80, line width=0.5pt] (64.00,45.50) rectangle (116.50,88.00);
+\node[align=center, inner sep=0pt] at (90.25,66.75) {\scriptsize 52.5$\times$42.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (64.00,45.50) {14};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (166.00,55.78) rectangle (186.50,71.28);
+\node[align=center, inner sep=0pt] at (176.25,63.53) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (166.00,55.78) {15};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (0.00,56.00) rectangle (23.50,88.50);
+\node[align=center, inner sep=0pt] at (11.75,72.25) {\scriptsize 23.5$\times$32.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,56.00) {16};
+\filldraw[fill=ft0, draw=black!80, line width=0.5pt] (166.00,74.33) rectangle (186.50,89.83);
+\node[align=center, inner sep=0pt] at (176.25,82.08) {\scriptsize 20.5$\times$15.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (166.00,74.33) {17};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (0.00,91.00) rectangle (25.50,116.50);
+\node[align=center, inner sep=0pt] at (12.75,103.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (0.00,91.00) {18};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (28.00,91.00) rectangle (53.50,116.50);
+\node[align=center, inner sep=0pt] at (40.75,103.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (28.00,91.00) {19};
+\filldraw[fill=ft2, draw=black!80, line width=0.5pt] (56.00,91.00) rectangle (81.50,116.50);
+\node[align=center, inner sep=0pt] at (68.75,103.75) {\scriptsize 25.5$\times$25.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (56.00,91.00) {20};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (84.00,93.00) rectangle (116.50,116.50);
+\node[align=center, inner sep=0pt] at (100.25,104.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (84.00,93.00) {21};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (119.00,93.00) rectangle (151.50,116.50);
+\node[align=center, inner sep=0pt] at (135.25,104.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (119.00,93.00) {22};
+\filldraw[fill=ft1, draw=black!80, line width=0.5pt] (154.00,93.00) rectangle (186.50,116.50);
+\node[align=center, inner sep=0pt] at (170.25,104.75) {\scriptsize 32.5$\times$23.5};
+\node[anchor=north west, inner sep=1.2pt, font=\tiny, text=black!60] at (154.00,93.00) {23};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (82.25,21.25) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (44.25,44.00) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (72.25,44.00) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (118.00,39.92) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (100.25,44.00) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (141.00,7.75) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (129.25,17.08) {3.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (164.50,7.75) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (152.50,17.08) {3.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (176.25,17.08) {3.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (129.50,35.75) {3.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (164.25,26.42) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (152.00,35.75) {3.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (176.25,35.69) {3.1};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (176.25,54.25) {3.1};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (164.00,45.03) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (164.00,63.53) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (164.00,82.08) {4.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (135.50,91.42) {3.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (158.00,91.42) {3.2};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (62.25,66.75) {3.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (40.75,89.50) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (118.00,66.75) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (72.75,89.50) {3.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (100.25,90.50) {5.0};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (176.25,72.81) {3.1};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt, rotate=90] at (25.75,72.00) {4.5};
+\node[font=\tiny, text=red, fill=white, inner sep=0.3pt] at (176.25,91.42) {3.2};
+\draw[Bar-Bar, gray] (0,122.50) -- (186.50,122.50) node[midway, below=1pt, font=\small, text=black] {186.5 cm};
+\draw[Bar-Bar, gray] (192.50,0) -- (192.50,116.50) node[midway, right=1pt, font=\small, text=black, rotate=-90, anchor=north] {116.5 cm};
+\end{tikzpicture}\\[4pt]
+{\scriptsize Scale 1:10 (1 mm = 1 cm). Red numbers mark gaps that deviate from the nominal gap by more than 0.25 cm. Small grey numbers index the coordinate table.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.25\textwidth}\vspace{0pt}
+\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Outer size & 186.5 $\times$ 116.5 cm \\
+Nominal gap & 2.5 cm \\
+Actual gaps & 2.5 -- 5.0 cm \\
+Max.\ deviation & 2.5 cm \\
+Mean deviation & 0.56 cm \\
+Border notches & none \\
+Corners filled & 4 / 4 \\
+Frames used & 23 of 28 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\scriptsize
+\begin{tabular}{@{}c l l r r@{}}
+\toprule
+ & outer w $\times$ h (cm) & & used & have \\
+\midrule
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 20.5$\times$15.5 & L & 9 & 9 \\
+\tikz[baseline=-0.6ex]\fill[ft0,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 15.5$\times$20.5 & P & 0 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$42.5 & P & 2 & 2 \\
+\tikz[baseline=-0.6ex]\fill[ft3,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$32.5 & L & 0 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 32.5$\times$23.5 & L & 3 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft1,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 23.5$\times$32.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft2,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 25.5$\times$25.5 &  & 5 & 5 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 42.5$\times$52.5 & P & 1 & 1 \\
+\tikz[baseline=-0.6ex]\fill[ft4,draw=black!60] (0,0) rectangle (1.2ex,1.2ex); & 52.5$\times$42.5 & L & 2 & 2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\bfseries Positions} (top-left corner, cm)\\[2pt]
+\tiny
+\begin{tabular}{@{}r l r r@{}}
+\toprule
+\# & frame w $\times$ h & x & y \\
+\midrule
+1 & 25.5 $\times$ 25.5 & 0.0 & 0.0 \\
+2 & 52.5 $\times$ 42.5 & 28.0 & 0.0 \\
+3 & 32.5 $\times$ 42.5 & 84.0 & 0.0 \\
+4 & 20.5 $\times$ 15.5 & 119.0 & 0.0 \\
+5 & 20.5 $\times$ 15.5 & 142.5 & 0.0 \\
+6 & 20.5 $\times$ 15.5 & 166.0 & 0.0 \\
+7 & 20.5 $\times$ 15.5 & 119.0 & 18.7 \\
+8 & 20.5 $\times$ 15.5 & 142.0 & 18.7 \\
+9 & 20.5 $\times$ 15.5 & 166.0 & 18.7 \\
+10 & 25.5 $\times$ 25.5 & 0.0 & 28.0 \\
+11 & 20.5 $\times$ 15.5 & 166.0 & 37.2 \\
+12 & 42.5 $\times$ 52.5 & 119.5 & 37.3 \\
+13 & 32.5 $\times$ 42.5 & 28.0 & 45.5 \\
+14 & 52.5 $\times$ 42.5 & 64.0 & 45.5 \\
+15 & 20.5 $\times$ 15.5 & 166.0 & 55.8 \\
+16 & 23.5 $\times$ 32.5 & 0.0 & 56.0 \\
+17 & 20.5 $\times$ 15.5 & 166.0 & 74.3 \\
+18 & 25.5 $\times$ 25.5 & 0.0 & 91.0 \\
+19 & 25.5 $\times$ 25.5 & 28.0 & 91.0 \\
+20 & 25.5 $\times$ 25.5 & 56.0 & 91.0 \\
+21 & 32.5 $\times$ 23.5 & 84.0 & 93.0 \\
+22 & 32.5 $\times$ 23.5 & 119.0 & 93.0 \\
+23 & 32.5 $\times$ 23.5 & 154.0 & 93.0 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\clearpage
+
+\end{document}
